@@ -108,6 +108,7 @@ from traceforge.visualization import (
     VisualizationConfig,
     VisualizationEngine,
 )
+from traceforge.gateway import create_app
 from traceforge.service import (
     ServiceConfig,
     TraceForgeApiService,
@@ -195,6 +196,8 @@ __all__ = [
     # Phase 12 API Service Layer
     "TraceForgeApiService",
     "ServiceConfig",
+    # Phase 13 HTTP Gateway Layer
+    "create_app",
     # core
     "Clock",
     "ContextManager",
