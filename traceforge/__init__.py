@@ -86,6 +86,17 @@ from traceforge.plugins import (
     PluginRegistry,
 )
 from traceforge.pipeline import ExecutionConsumer, ExecutionPipeline
+from traceforge.query import (
+    ActivityQuery,
+    GraphQuery,
+    NodeQuery,
+    Pagination,
+    QueryEngine,
+    QueryFilter,
+    RawEventQuery,
+    RelationshipQuery,
+    SessionQuery,
+)
 from traceforge.runtime import (
     BackendType,
     ProfileType,
@@ -113,6 +124,16 @@ __all__ = [
     # Phase 5.5 Execution Pipeline
     "ExecutionConsumer",
     "ExecutionPipeline",
+    # Phase 7 Query Engine
+    "QueryEngine",
+    "QueryFilter",
+    "Pagination",
+    "SessionQuery",
+    "ActivityQuery",
+    "GraphQuery",
+    "NodeQuery",
+    "RelationshipQuery",
+    "RawEventQuery",
     # core
     "Clock",
     "ContextManager",
