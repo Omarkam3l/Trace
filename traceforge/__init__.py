@@ -91,6 +91,15 @@ from traceforge.diff import (
     ExecutionDiffEngine,
     ExecutionDiffReport,
 )
+from traceforge.export import (
+    ExportConfig,
+    ExportEngine,
+    ExportFormat,
+    HtmlExporter,
+    JsonExporter,
+    MarkdownExporter,
+    MermaidExporter,
+)
 from traceforge.pipeline import ExecutionConsumer, ExecutionPipeline
 from traceforge.query import (
     ActivityQuery,
@@ -156,6 +165,14 @@ __all__ = [
     "ExecutionDiffReport",
     "DiffConfig",
     "DiffCategory",
+    # Phase 10 Export & Artifact System
+    "ExportEngine",
+    "ExportConfig",
+    "ExportFormat",
+    "JsonExporter",
+    "MermaidExporter",
+    "HtmlExporter",
+    "MarkdownExporter",
     # core
     "Clock",
     "ContextManager",
