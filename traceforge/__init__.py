@@ -85,6 +85,12 @@ from traceforge.plugins import (
     PluginMetadata,
     PluginRegistry,
 )
+from traceforge.diff import (
+    DiffCategory,
+    DiffConfig,
+    ExecutionDiffEngine,
+    ExecutionDiffReport,
+)
 from traceforge.pipeline import ExecutionConsumer, ExecutionPipeline
 from traceforge.query import (
     ActivityQuery,
@@ -96,6 +102,12 @@ from traceforge.query import (
     RawEventQuery,
     RelationshipQuery,
     SessionQuery,
+)
+from traceforge.replay import (
+    ReplayConfig,
+    ReplayEngine,
+    ReplayMode,
+    ReplaySession,
 )
 from traceforge.runtime import (
     BackendType,
@@ -134,6 +146,16 @@ __all__ = [
     "NodeQuery",
     "RelationshipQuery",
     "RawEventQuery",
+    # Phase 8 Replay Engine
+    "ReplayEngine",
+    "ReplayConfig",
+    "ReplayMode",
+    "ReplaySession",
+    # Phase 9 Execution Diff Engine
+    "ExecutionDiffEngine",
+    "ExecutionDiffReport",
+    "DiffConfig",
+    "DiffCategory",
     # core
     "Clock",
     "ContextManager",
