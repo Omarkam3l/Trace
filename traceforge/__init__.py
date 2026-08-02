@@ -108,6 +108,10 @@ from traceforge.visualization import (
     VisualizationConfig,
     VisualizationEngine,
 )
+from traceforge.service import (
+    ServiceConfig,
+    TraceForgeApiService,
+)
 from traceforge.pipeline import ExecutionConsumer, ExecutionPipeline
 from traceforge.query import (
     ActivityQuery,
@@ -188,6 +192,9 @@ __all__ = [
     "TimelineViewModel",
     "FlamegraphViewModel",
     "DiffViewModel",
+    # Phase 12 API Service Layer
+    "TraceForgeApiService",
+    "ServiceConfig",
     # core
     "Clock",
     "ContextManager",
