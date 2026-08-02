@@ -100,6 +100,14 @@ from traceforge.export import (
     MarkdownExporter,
     MermaidExporter,
 )
+from traceforge.visualization import (
+    DiffViewModel,
+    FlamegraphViewModel,
+    GraphViewModel,
+    TimelineViewModel,
+    VisualizationConfig,
+    VisualizationEngine,
+)
 from traceforge.pipeline import ExecutionConsumer, ExecutionPipeline
 from traceforge.query import (
     ActivityQuery,
@@ -173,6 +181,13 @@ __all__ = [
     "MermaidExporter",
     "HtmlExporter",
     "MarkdownExporter",
+    # Phase 11 Visualization Data Adapter Layer
+    "VisualizationEngine",
+    "VisualizationConfig",
+    "GraphViewModel",
+    "TimelineViewModel",
+    "FlamegraphViewModel",
+    "DiffViewModel",
     # core
     "Clock",
     "ContextManager",
