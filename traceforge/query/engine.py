@@ -34,7 +34,14 @@ if TYPE_CHECKING:
 
 
 class QueryEngine:
-    """Read facade executing immutable query objects and graph traversal over storage repositories."""
+    """Read facade executing immutable query objects and graph traversal over storage repositories.
+
+    Note:
+        QueryEngine operates over a relational schema using a raw ``sqlite3.Connection``
+        (or connection pool). It is designed to query databases managed by ``SQLiteStorage`` /
+        ``SQLiteStorageDriver``. Append-only or non-relational storage adapters (such as
+        ``JSONLStorage`` or ``MemoryStorage``) do not expose a relational connection interface.
+    """
 
     def __init__(self, connection: sqlite3.Connection) -> None:
         self._conn = connection
