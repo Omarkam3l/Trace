@@ -2,24 +2,26 @@
 
 from __future__ import annotations
 
+import os
 from typing import TYPE_CHECKING
 
 from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 
 from traceforge.gateway.exceptions import register_exception_handlers
 from traceforge.gateway.router import router
 
 if TYPE_CHECKING:
+    from traceforge.security.config import SecurityConfig
     from traceforge.service.service import TraceForgeApiService
 
 
-import os
-
-from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
-
-
-def create_app(service: TraceForgeApiService) -> FastAPI:
+def create_app(
+    service: TraceForgeApiService,
+    security_config: SecurityConfig | None = None,
+    security_enabled: bool = True,
+) -> FastAPI:
     """Create and configure a production FastAPI gateway application."""
     app = FastAPI(
         title="TraceForge API Gateway",
@@ -28,6 +30,14 @@ def create_app(service: TraceForgeApiService) -> FastAPI:
     )
     app.state.service = service
     register_exception_handlers(app)
+
+    if security_enabled and security_config is not None:
+        from traceforge.security.auth.provider import AuthProvider
+        from traceforge.security.middleware.authentication import AuthenticationMiddleware
+
+        auth_provider = AuthProvider(security_config)
+        app.add_middleware(AuthenticationMiddleware, auth_provider=auth_provider)
+
     app.include_router(router)
 
     static_dir = os.path.join(os.path.dirname(__file__), "static")

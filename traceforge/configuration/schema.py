@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
+
+from traceforge.security.config import DEFAULT_JWT_SECRET, SecurityConfig, validate_jwt_secret_value
 
 
 class ServerConfig(BaseModel):
@@ -27,16 +29,38 @@ class StorageConfig(BaseModel):
 
 
 class SecurityConfigSchema(BaseModel):
-    """Security configuration schema."""
+    """Security configuration schema.
+
+    Mirrors traceforge.security.config.SecurityConfig's fields (plus
+    `enabled`, which controls whether the auth middleware is attached to the
+    gateway at all). The default and validation rules are imported from that
+    module rather than redefined here, so the two configs can't drift apart
+    the way they previously did.
+    """
 
     model_config = ConfigDict(frozen=True, validate_default=True)
 
     enabled: bool = True
-    jwt_secret: str = "traceforge-production-secret-key-change-me"
+    jwt_secret: str = DEFAULT_JWT_SECRET
     jwt_algorithm: str = "HS256"
     token_expiration_minutes: int = 60
     enable_api_keys: bool = True
     rate_limit_requests: int = 100
+
+    @field_validator("jwt_secret")
+    @classmethod
+    def validate_jwt_secret(cls, v: str) -> str:
+        return validate_jwt_secret_value(v)
+
+    def to_security_config(self) -> SecurityConfig:
+        """Convert to the SecurityConfig used by AuthProvider/JwtProvider."""
+        return SecurityConfig(
+            jwt_secret=self.jwt_secret,
+            jwt_algorithm=self.jwt_algorithm,
+            token_expiration_minutes=self.token_expiration_minutes,
+            enable_api_keys=self.enable_api_keys,
+            rate_limit_requests=self.rate_limit_requests,
+        )
 
 
 class ExportConfigSchema(BaseModel):

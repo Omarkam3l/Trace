@@ -79,5 +79,5 @@ def test_jwt_secret_length_validation():
 
 
 def test_jwt_default_secret_warning():
-    with pytest.warns(UserWarning, match="Security Warning: Using default jwt_secret"):
+    with pytest.warns(UserWarning, match="Security Warning: Using the default TraceForge jwt_secret"):
         SecurityConfig()  # Zero arguments -> default value triggers warning due to validate_default=True

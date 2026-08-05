@@ -6,6 +6,7 @@ import argparse
 
 from traceforge.configuration.loader import ConfigurationLoader
 from traceforge.gateway.server import create_app
+from traceforge.security.config import DEFAULT_JWT_SECRET
 from traceforge.service.service import TraceForgeApiService
 from traceforge.storage.drivers.sqlite import SQLiteStorageDriver
 
@@ -29,13 +30,24 @@ def execute(args: argparse.Namespace) -> int:
 
     config = ConfigurationLoader().load_config(config_path=args.config, cli_overrides=cli_overrides)
 
-    jwt_secret_env = config.security.jwt_secret
-    if jwt_secret_env in {
-        "traceforge-default-secret-change-in-production",
-        "traceforge-production-secret-key-change-me",
-    }:
-        print("[!] SECURITY WARNING: Server is using a default unsecure JWT secret!")
-        print("    Set TRACEFORGE_JWT_SECRET environment variable for production deployments.")
+    # config.security.jwt_secret is validated on construction: the
+    # SecurityConfigSchema field_validator (shared with SecurityConfig) already
+    # warns via the `warnings` module if it's still the default. This check
+    # additionally prints a hard-to-miss, unsuppressible message on the
+    # server's own stdout, since `warnings` output can be filtered/hidden by
+    # the environment uvicorn runs in.
+    if config.security.jwt_secret == DEFAULT_JWT_SECRET:
+        print("=" * 70)
+        print("[!] SECURITY WARNING: Server is using the DEFAULT JWT secret.")
+        print("    Anyone who has read this open-source repository knows this")
+        print("    value and can forge valid, admin-role auth tokens.")
+        print("    Set TRACEFORGE_JWT_SECRET to a random 32+ character value")
+        print("    before exposing this server outside localhost.")
+        print("=" * 70)
+
+    if not config.security.enabled:
+        print("[!] WARNING: Security layer is DISABLED (TRACEFORGE_SECURITY_ENABLED=false).")
+        print("    All endpoints are reachable without authentication.")
 
     print("Starting TraceForge HTTP Gateway Server v1.0.0...")
     print(f"Binding to http://{config.server.host}:{config.server.port}")
@@ -44,7 +56,11 @@ def execute(args: argparse.Namespace) -> int:
     driver = SQLiteStorageDriver(config.storage.database_uri)
     conn = driver.connection_manager.get_connection()
     service = TraceForgeApiService(conn)
-    app = create_app(service)
+    app = create_app(
+        service,
+        security_config=config.security.to_security_config(),
+        security_enabled=config.security.enabled,
+    )
 
     try:
         import uvicorn
