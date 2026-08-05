@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "traceforge"
-version = "0.15.0"
+version = "1.0.0"
 description = "Framework-Agnostic Execution Replay & Analysis Platform: traces, spans, events, replay engine, diff analysis, exporters, and HTTP gateway."
 readme = "README.md"
 license = { text = "MIT" }

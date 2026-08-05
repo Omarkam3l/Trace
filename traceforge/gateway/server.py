@@ -23,7 +23,7 @@ def create_app(service: TraceForgeApiService) -> FastAPI:
     app = FastAPI(
         title="TraceForge API Gateway",
         description="Production read-only REST API gateway for TraceForge execution tracing.",
-        version="0.15.0",
+        version="1.0.0",
     )
     app.state.service = service
     register_exception_handlers(app)
@@ -55,7 +55,7 @@ def create_app(service: TraceForgeApiService) -> FastAPI:
 </head>
 <body>
     <div class="card">
-        <h1>TraceForge Platform Dashboard <span class="badge">v0.15.0</span></h1>
+        <h1>TraceForge Platform Dashboard <span class="badge">v1.0.0</span></h1>
         <p>Production Execution Replay & Analysis Platform running cleanly.</p>
         <h2>Available API Endpoints:</h2>
         <ul>

@@ -13,7 +13,7 @@ def build_parser() -> argparse.ArgumentParser:
         prog="traceforge",
         description="TraceForge: Framework-Agnostic Execution Replay & Analysis Platform.",
     )
-    parser.add_argument("--version", action="version", version="TraceForge 0.15.0")
+    parser.add_argument("--version", action="version", version="TraceForge 1.0.0")
     subparsers = parser.add_subparsers(dest="command", help="Available subcommands")
 
     for mod in COMMAND_MODULES:

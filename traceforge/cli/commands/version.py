@@ -13,7 +13,7 @@ def register_parser(subparsers: argparse._SubParsersAction) -> None:
 
 
 def execute(args: argparse.Namespace) -> int:
-    print(f"TraceForge v0.15.0")
+    print(f"TraceForge v1.0.0")
     print(f"Python: {platform.python_version()} ({sys.executable})")
     print(f"OS: {platform.system()} {platform.release()} ({platform.machine()})")
     return 0

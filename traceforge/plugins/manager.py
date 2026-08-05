@@ -96,6 +96,30 @@ class PluginManager:
                 if plugin.is_enabled:
                     self.disable_plugin(plugin)
 
+    def initialize_plugin(self, plugin: Any, context: Any = None) -> bool:
+        """Initialize a plugin implementing TraceForgePluginInterface safely."""
+        with self._lock:
+            try:
+                if hasattr(plugin, "initialize"):
+                    plugin.initialize(context)
+                return True
+            except Exception as exc:
+                name = plugin.metadata().name if hasattr(plugin, "metadata") else "unknown"
+                self._emit_plugin_failure(name, "initialize", exc)
+                return False
+
+    def shutdown_plugin(self, plugin: Any) -> bool:
+        """Shutdown a plugin implementing TraceForgePluginInterface safely."""
+        with self._lock:
+            try:
+                if hasattr(plugin, "shutdown"):
+                    plugin.shutdown()
+                return True
+            except Exception as exc:
+                name = plugin.metadata().name if hasattr(plugin, "metadata") else "unknown"
+                self._emit_plugin_failure(name, "shutdown", exc)
+                return False
+
     def _emit_plugin_failure(self, plugin_name: str, phase: str, exception: Exception) -> None:
         """Emit a PluginFailure RawEvent to record isolated plugin failures."""
         try:

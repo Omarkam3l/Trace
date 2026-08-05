@@ -30,7 +30,7 @@ def execute(args: argparse.Namespace) -> int:
 
     config = ConfigurationLoader().load_config(config_path=args.config, cli_overrides=cli_overrides)
 
-    print(f"Starting TraceForge HTTP Gateway Server v0.15.0...")
+    print(f"Starting TraceForge HTTP Gateway Server v1.0.0...")
     print(f"Binding to http://{config.server.host}:{config.server.port}")
     print(f"Database URI: {config.storage.database_uri}")
 

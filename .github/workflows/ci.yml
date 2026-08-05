@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: Production CI Pipeline
 
 on:
   push:
@@ -26,23 +26,37 @@ jobs:
           python -m pip install --upgrade pip
           pip install .[dev]
 
-      - name: Run Ruff Linter
+      - name: Stage 1 - Ruff Linter Check
         run: |
           ruff check traceforge/
 
-      - name: Run Mypy Type Checker
+      - name: Stage 2 - Formatter Check
+        run: |
+          ruff format --check traceforge/
+
+      - name: Stage 3 - MyPy Type Checker
         run: |
           mypy traceforge/
 
-      - name: Run Pytest Suite
+      - name: Stage 4 - Pytest Suite
         run: |
           pytest --cov=traceforge
 
-      - name: Build Wheel & Package
+      - name: Stage 5 - Frontend Build Verification
+        run: |
+          test -f traceforge/gateway/static/index.html
+
+      - name: Stage 6 - Python Package Build
         run: |
           python -m pip install build
           python -m build
 
-      - name: Build Docker Image
+      - name: Stage 7 - Docker Image Build
         run: |
-          docker build -t traceforge:test .
+          docker build -t traceforge:v1.0.0 .
+
+      - name: Stage 8 - Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: traceforge-dist
+          path: dist/

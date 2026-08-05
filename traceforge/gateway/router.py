@@ -58,7 +58,7 @@ def readiness_check() -> dict[str, str]:
 @router.get("/version")
 def version_info() -> dict[str, str]:
     """Version info endpoint."""
-    return {"version": "0.15.0", "name": "TraceForge"}
+    return {"version": "1.0.0", "name": "TraceForge"}
 
 
 @router.get("/status")
