@@ -6,10 +6,14 @@
   </p>
   <p align="center">
     <a href="https://github.com/Omarkam3l/Trace/actions"><img src="https://img.shields.io/badge/build-passing-brightgreen.svg" alt="Build Status"/></a>
-    <a href="https://pypi.org/project/traceforge"><img src="https://img.shields.io/badge/version-1.0.0-blue.svg" alt="Version"/></a>
+    <a href="https://github.com/Omarkam3l/Trace/releases/tag/v1.0.0"><img src="https://img.shields.io/badge/release-v1.0.0-blue.svg" alt="Release v1.0.0"/></a>
     <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.12+-blue.svg" alt="Python Version"/></a>
     <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License"/></a>
   </p>
+</p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Omarkam3l/Trace/main/assets/dashboard.png" alt="TraceForge Web Dashboard" width="850"/>
 </p>
 
 ---
@@ -25,6 +29,12 @@ TraceForge provides an end-to-end ecosystem comprising:
 - **FastAPI HTTP Gateway & Web Dashboard**: Production-grade REST API, JWT authentication, Prometheus `/metrics`, and embedded Web UI.
 - **Command-Line Interface (`traceforge`)**: Modular CLI for server lifecycle, replay analysis, visualization export, and project bootstrap.
 - **Plugin Subsystem**: Dynamic plugin loading, registration, and isolated lifecycle execution.
+
+---
+
+## 💡 Why TraceForge?
+
+Most Python observability tools are either heavy APM platforms (requiring external SaaS collectors, agents, and complex cloud infrastructure) or simple logging libraries that lack execution graph awareness. TraceForge bridges this gap as a lightweight, **SQLite-native** platform with **zero external infrastructure dependencies**. Unlike standard OpenTelemetry setups, TraceForge includes a built-in **execution replay** engine to reconstruct historical function trees offline and a **structural diff engine** to compare execution paths and latency regressions across runs. It installs in seconds via `pip` and runs entirely within your local or self-hosted environment.
 
 ---
 
