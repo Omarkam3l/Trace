@@ -6,15 +6,18 @@ import warnings
 
 from pydantic import BaseModel, ConfigDict, field_validator
 
-DEFAULT_JWT_SECRET = "traceforge-default-secret-change-in-production"
+DEFAULT_JWT_SECRETS = {
+    "traceforge-default-secret-change-in-production",
+    "traceforge-production-secret-key-change-me",
+}
 
 
 class SecurityConfig(BaseModel):
     """Immutable configuration for TraceForge security layer."""
 
-    model_config = ConfigDict(frozen=True)
+    model_config = ConfigDict(frozen=True, validate_default=True)
 
-    jwt_secret: str = DEFAULT_JWT_SECRET
+    jwt_secret: str = "traceforge-production-secret-key-change-me"
     jwt_algorithm: str = "HS256"
     token_expiration_minutes: int = 60
     enable_api_keys: bool = True
@@ -23,7 +26,7 @@ class SecurityConfig(BaseModel):
     @field_validator("jwt_secret")
     @classmethod
     def validate_jwt_secret(cls, v: str) -> str:
-        if v == DEFAULT_JWT_SECRET:
+        if v in DEFAULT_JWT_SECRETS:
             warnings.warn(
                 "Security Warning: Using default jwt_secret in SecurityConfig! Set TRACEFORGE_JWT_SECRET in production.",
                 UserWarning,

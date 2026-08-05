@@ -29,7 +29,7 @@ class StorageConfig(BaseModel):
 class SecurityConfigSchema(BaseModel):
     """Security configuration schema."""
 
-    model_config = ConfigDict(frozen=True)
+    model_config = ConfigDict(frozen=True, validate_default=True)
 
     enabled: bool = True
     jwt_secret: str = "traceforge-production-secret-key-change-me"

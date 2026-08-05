@@ -76,3 +76,8 @@ def test_jwt_invalid_token_string():
 def test_jwt_secret_length_validation():
     with pytest.raises(ValueError, match="Insecure JWT secret key length"):
         SecurityConfig(jwt_secret="too-short")
+
+
+def test_jwt_default_secret_warning():
+    with pytest.warns(UserWarning, match="Security Warning: Using default jwt_secret"):
+        SecurityConfig()  # Zero arguments -> default value triggers warning due to validate_default=True
