@@ -6,7 +6,7 @@ import pytest
 
 from traceforge.security.auth.api_key import ApiKeyProvider
 from traceforge.security.exceptions import InvalidTokenError
-from traceforge.security.models.permissions import Permission, Role
+from traceforge.security.models.permissions import Role
 from traceforge.security.models.user import User
 
 

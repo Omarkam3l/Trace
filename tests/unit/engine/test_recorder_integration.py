@@ -20,7 +20,7 @@ def test_full_recording_session_and_activity_lifecycle(frozen_clock):
     assert recorder.current_session() is not None
     assert session.status == SessionStatus.RECORDING
 
-    act_id = recorder.start_activity("User Checkout")
+    recorder.start_activity("User Checkout")
     assert recorder.current_activity().name == "User Checkout"
 
     t0 = frozen_clock.now()

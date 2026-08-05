@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 
-import pytest
 
 from traceforge.models.enums import SpanKind, SpanStatus
 from traceforge.models.span import SpanModel

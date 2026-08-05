@@ -66,9 +66,9 @@ def test_session_repository_append_only():
     s_rec = repo.append_session(session)
     assert isinstance(s_rec, SessionRecord)
 
-    a_rec = repo.append_activity(activity)
-    g_rec = repo.append_graph(graph)
-    n_rec = repo.append_node(node)
+    repo.append_activity(activity)
+    repo.append_graph(graph)
+    repo.append_node(node)
 
     assert len(driver.written_records) == 4
 

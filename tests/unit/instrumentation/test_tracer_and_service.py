@@ -12,7 +12,7 @@ def test_tracer_session_activity_and_events():
     assert tracer.is_recording()
     assert tracer.current_session()["session_id"] == session.id
 
-    act_id = tracer.start_activity("Database Query")
+    tracer.start_activity("Database Query")
     assert tracer.current_activity().name == "Database Query"
 
     tracer.event("Cache hit", metadata={"key": "user_123"})

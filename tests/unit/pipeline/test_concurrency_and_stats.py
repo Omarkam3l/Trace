@@ -8,6 +8,7 @@ from datetime import datetime, timezone
 from traceforge.domain.activity import Activity
 from traceforge.domain.enums import SessionStatus
 from traceforge.domain.environment import Environment
+from traceforge.domain.graph import ExecutionGraph
 from traceforge.domain.profile import RecordingProfile
 from traceforge.domain.session import RecordingSession
 from traceforge.pipeline.consumer import ExecutionConsumer

@@ -3,14 +3,12 @@
 from __future__ import annotations
 
 import concurrent.futures
-import time
 
 import pytest
 
-from traceforge.core.clock import FrozenClock
 from traceforge.core.tracer import Tracer
 from traceforge.exceptions import SpanNotActiveError, TraceForgeError
-from traceforge.models.enums import EventLevel, SpanStatus, Status
+from traceforge.models.enums import SpanStatus, Status
 from traceforge.storage.memory import MemoryStorage
 
 

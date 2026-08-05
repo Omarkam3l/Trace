@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from typing import Any
 
-import pytest
 
 from traceforge.storage.drivers.base import StorageDriver
 

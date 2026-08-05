@@ -11,13 +11,11 @@ from traceforge.query.filters import QueryFilter
 from traceforge.query.pagination import Pagination
 from traceforge.storage.drivers.sqlite import SQLiteStorageDriver
 from traceforge.storage.records.session_record import SessionRecord
-from traceforge.storage.repositories.session_repository import SessionRepository
 
 
 def test_session_read_repository():
     driver = SQLiteStorageDriver(":memory:")
     conn = driver.connection_manager.get_connection()
-    write_repo = SessionRepository(driver)
 
     now = datetime.now(timezone.utc)
     s1 = SessionRecord(

@@ -2,13 +2,11 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
 
 from fastapi import Depends, FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.testclient import TestClient
 
-from traceforge.security.auth.jwt import JwtProvider
 from traceforge.security.config import SecurityConfig
 from traceforge.security.dependencies import get_current_user, require_permission
 from traceforge.security.exceptions import PermissionDeniedError

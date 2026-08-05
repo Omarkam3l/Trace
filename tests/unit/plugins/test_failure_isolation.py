@@ -38,5 +38,4 @@ def test_failure_isolation_on_enable_and_disable():
     graph = session.activities[0].graph
 
     # Verify a PluginFailure RawEvent was recorded safely
-    failure_nodes = [n for n in graph.nodes.values() if n.name == "Malformed:PluginFailure" or "PluginFailure" in n.metadata.get("original_event_type", "PluginFailure")]
     assert len(graph.nodes) >= 1  # Recording session completed safely

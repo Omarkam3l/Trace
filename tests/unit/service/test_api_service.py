@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 
 from traceforge.service.service import TraceForgeApiService
 from traceforge.storage.drivers.sqlite import SQLiteStorageDriver
-from traceforge.storage.records import ActivityRecord, GraphRecord, NodeRecord, RawEventRecord, SessionRecord, SnapshotRecord
+from traceforge.storage.records import ActivityRecord, GraphRecord, NodeRecord, SessionRecord
 
 
 def test_api_service_full_workflow():
