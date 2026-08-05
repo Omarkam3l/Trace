@@ -27,7 +27,7 @@ def test_time_flush_policy():
     assert not policy.should_flush(buf)  # Empty buffer does not flush
 
     buf.append("r1")
-    time.sleep(0.06)
+    time.sleep(0.12)
     assert policy.should_flush(buf)
 
 

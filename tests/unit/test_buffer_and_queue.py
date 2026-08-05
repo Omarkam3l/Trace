@@ -24,7 +24,7 @@ def test_buffer_flushes_after_interval():
     buf = BatchBuffer(batch_size=1000, flush_interval=0.05)
     buf.add(1)
     assert not buf.should_flush()
-    time.sleep(0.06)
+    time.sleep(0.12)
     assert buf.should_flush()
 
 

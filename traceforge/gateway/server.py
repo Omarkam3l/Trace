@@ -35,6 +35,7 @@ def create_app(service: TraceForgeApiService) -> FastAPI:
         app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
     @app.get("/", response_class=HTMLResponse)
+    @app.get("/dashboard", response_class=HTMLResponse)
     def index():
         index_path = os.path.join(static_dir, "index.html") if os.path.exists(static_dir) else None
         if index_path and os.path.exists(index_path):
