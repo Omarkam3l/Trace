@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="traceforge/gateway/static/logo.svg" alt="TraceForge Logo" width="120" onerror="this.style.display='none'"/>
+  <img src="https://raw.githubusercontent.com/Omarkam3l/Trace/main/assets/logo.png" alt="TraceForge Logo" width="180"/>
   <h1 align="center">TraceForge</h1>
   <p align="center">
     <b>Framework-Agnostic Execution Replay & Analysis Platform</b>
