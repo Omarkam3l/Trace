@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
+import time
 from typing import Any
 
-from fastapi import APIRouter, Depends, Query, Request, Response, status
+from fastapi import APIRouter, Depends, Query, Request, Response
 from fastapi.responses import PlainTextResponse
 from pydantic import BaseModel
 
@@ -22,8 +23,6 @@ class DiffExportRequest(BaseModel):
     target_id: str
     format: str = "json"
 
-
-import time
 
 _start_time = time.time()
 _metrics = {

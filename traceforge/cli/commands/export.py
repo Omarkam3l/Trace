@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import sys
 
 from traceforge.configuration.loader import ConfigurationLoader
 from traceforge.export.config import ExportConfig, ExportFormat

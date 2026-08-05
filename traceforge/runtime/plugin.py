@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import threading
-from typing import Any
 
 from traceforge.plugins.base import Plugin
 from traceforge.plugins.context import PluginContext

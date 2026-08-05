@@ -18,7 +18,6 @@ from typing import Any
 
 from traceforge.models.enums import EventLevel, SpanKind, SpanStatus
 from traceforge.models.metadata import Attributes
-from traceforge.models.span import SpanModel
 from traceforge.models.trace import TraceModel
 
 

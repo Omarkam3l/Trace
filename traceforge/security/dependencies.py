@@ -6,7 +6,7 @@ from typing import Callable
 
 from fastapi import Depends, Request
 
-from traceforge.security.exceptions import AuthenticationError, PermissionDeniedError
+from traceforge.security.exceptions import AuthenticationError
 from traceforge.security.middleware.authorization import check_permission
 from traceforge.security.models.permissions import Permission
 from traceforge.security.models.user import User

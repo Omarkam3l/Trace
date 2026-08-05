@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import threading
 from collections.abc import Callable
-from typing import Any
 
 from traceforge.engine.raw_event import RawEvent
 

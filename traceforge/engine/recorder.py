@@ -3,11 +3,10 @@
 from __future__ import annotations
 
 import threading
-import uuid
-from datetime import datetime, timezone
+from typing import Any
 
 from traceforge.domain.activity import Activity
-from traceforge.domain.enums import ActivityStatus, RelationshipType, SessionStatus
+from traceforge.domain.enums import RelationshipType, SessionStatus
 from traceforge.domain.environment import Environment
 from traceforge.domain.profile import RecordingProfile
 from traceforge.domain.session import RecordingSession
@@ -191,6 +190,6 @@ class Recorder:
 
                 self._last_node_id_per_activity[act_rec.activity_id] = node.node_id
 
-            except Exception as exc:
+            except Exception:
                 # Recorder error isolation - error event recorded without crashing
                 pass

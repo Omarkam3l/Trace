@@ -27,7 +27,7 @@ def execute(args: argparse.Namespace) -> int:
         service = TraceForgeApiService(conn)
 
         diff_report = service.compare_sessions(args.baseline_id, args.target_id)
-        print(f"=== Execution Diff Report ===")
+        print("=== Execution Diff Report ===")
         print(f"Baseline Session: {diff_report.baseline_session_id}")
         print(f"Target Session: {diff_report.target_session_id}")
         if diff_report.graph_diff:

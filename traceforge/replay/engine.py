@@ -15,7 +15,6 @@ from traceforge.replay.validator import ReplayValidator
 if TYPE_CHECKING:
     from traceforge.query.engine import QueryEngine
     from traceforge.storage.records import (
-        ActivityRecord,
         GraphRecord,
         NodeRecord,
         RawEventRecord,

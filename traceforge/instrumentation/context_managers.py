@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from traceforge.domain.activity import Activity
     from traceforge.domain.environment import Environment
     from traceforge.domain.session import RecordingSession
     from traceforge.instrumentation.service import InstrumentationService

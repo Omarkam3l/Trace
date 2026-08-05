@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import time
 from types import TracebackType
+from typing import Self
 
 
 class Stopwatch:
@@ -20,7 +21,7 @@ class Stopwatch:
         self._start = 0.0
         self.elapsed_ms: float = 0.0
 
-    def __enter__(self) -> Stopwatch:
+    def __enter__(self) -> Self:
         self._start = time.perf_counter()
         return self
 

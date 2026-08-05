@@ -77,7 +77,7 @@ from traceforge.models import (
 from traceforge.recorder import Recorder
 from traceforge.storage import JSONLStorage, MemoryStorage, SQLiteStorage, StorageAdapter
 
-from traceforge.instrumentation import InstrumentationConfig, Tracer, trace
+from traceforge.instrumentation import InstrumentationConfig, trace
 from traceforge.plugins import (
     Plugin,
     PluginContext,

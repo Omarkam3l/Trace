@@ -3,8 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import json
-import sys
 
 from traceforge.configuration.loader import ConfigurationLoader
 from traceforge.service.service import TraceForgeApiService

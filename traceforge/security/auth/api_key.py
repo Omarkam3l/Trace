@@ -6,7 +6,6 @@ import secrets
 import threading
 
 from traceforge.security.exceptions import InvalidTokenError
-from traceforge.security.models.permissions import Permission, Role
 from traceforge.security.models.user import User
 
 

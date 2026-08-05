@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import sqlite3
 import threading
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 from traceforge.query.exceptions import InvalidQueryError
 from traceforge.query.queries import (

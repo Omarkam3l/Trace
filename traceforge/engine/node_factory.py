@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Any
 
 from traceforge.domain.enums import NodeStatus, NodeType, SourceType
 from traceforge.domain.metadata import Metadata

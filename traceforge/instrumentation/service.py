@@ -8,7 +8,6 @@ from typing import Any
 
 from traceforge.api.exceptions import ConfigurationFreezeError
 from traceforge.domain.activity import Activity
-from traceforge.domain.enums import SessionStatus
 from traceforge.domain.environment import Environment
 from traceforge.domain.session import RecordingSession
 from traceforge.engine.raw_event import RawEvent

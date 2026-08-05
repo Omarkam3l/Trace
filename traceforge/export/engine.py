@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import threading
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 from traceforge.export.config import ExportConfig, ExportFormat
 from traceforge.export.exceptions import ExporterNotFoundError

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import sys
 
 from traceforge.configuration.loader import ConfigurationLoader
 from traceforge.gateway.server import create_app
@@ -30,7 +29,7 @@ def execute(args: argparse.Namespace) -> int:
 
     config = ConfigurationLoader().load_config(config_path=args.config, cli_overrides=cli_overrides)
 
-    print(f"Starting TraceForge HTTP Gateway Server v1.0.0...")
+    print("Starting TraceForge HTTP Gateway Server v1.0.0...")
     print(f"Binding to http://{config.server.host}:{config.server.port}")
     print(f"Database URI: {config.storage.database_uri}")
 

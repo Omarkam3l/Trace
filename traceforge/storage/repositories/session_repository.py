@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 import threading
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 from traceforge.storage.records.activity_record import ActivityRecord
 from traceforge.storage.records.graph_record import GraphRecord
