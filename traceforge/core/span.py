@@ -98,6 +98,12 @@ class Span:
         with self._lock:
             return list(self._model.children)
 
+    @property
+    def attributes(self) -> Attributes:
+        with self._lock:
+            return dict(self._model.attributes)
+
+
     # -- nested span creation ------------------------------------------
     def start_span(
         self,

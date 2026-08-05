@@ -120,3 +120,13 @@ def test_concurrent_attribute_writes_are_thread_safe(frozen_clock):
 
     attrs = span.snapshot().attributes
     assert len(attrs) == 8  # one key per thread, no corrupted/lost writes
+
+
+def test_live_span_attributes_property(frozen_clock):
+    span = make_span(frozen_clock)
+    assert span.attributes == {}
+    span.set_attribute("env", "prod")
+    assert span.attributes == {"env": "prod"}
+    span.set_attributes({"tier": "api", "v": 1})
+    assert span.attributes == {"env": "prod", "tier": "api", "v": 1}
+

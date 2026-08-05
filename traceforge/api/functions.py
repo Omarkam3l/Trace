@@ -11,7 +11,9 @@ nothing in ``traceforge.core`` depends on it.
 from __future__ import annotations
 
 import threading
+from typing import Any
 from contextvars import Token
+
 
 from traceforge.api.exceptions import TracerNotConfiguredError
 from traceforge.core.context import ContextManager, ExecutionContext
@@ -22,11 +24,39 @@ _default_tracer: Tracer | None = None
 _lock = threading.Lock()
 
 
-def configure(tracer: Tracer) -> None:
-    """Register ``tracer`` as the process-wide default."""
+def configure(
+    tracer: Tracer | str | None = None,
+    *,
+    service_name: str | None = None,
+    **kwargs: Any,
+) -> Tracer:
+    """Register process-wide default Tracer.
+
+    Can be called with an existing ``Tracer`` instance, or with keyword arguments /
+    service name string to construct a new ``Tracer``.
+
+    Examples:
+        traceforge.configure(service_name="my-service")
+        traceforge.configure("my-service")
+        traceforge.configure(tracer)
+        traceforge.configure(tracer=tracer)
+    """
     global _default_tracer
+    if isinstance(tracer, Tracer):
+        inst = tracer
+    elif isinstance(tracer, str):
+        inst = Tracer(service_name=tracer, **kwargs)
+    elif service_name is not None:
+        inst = Tracer(service_name=service_name, **kwargs)
+    elif tracer is None:
+        inst = Tracer(service_name="default", **kwargs)
+    else:
+        raise TypeError(f"Invalid argument type for configure: {type(tracer).__name__}")
+
     with _lock:
-        _default_tracer = tracer
+        _default_tracer = inst
+    return inst
+
 
 
 def get_tracer() -> Tracer:

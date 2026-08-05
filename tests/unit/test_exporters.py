@@ -43,6 +43,29 @@ async def test_console_exporter_indents_child_spans():
     assert line.startswith("  ")
 
 
+async def test_console_exporter_prints_in_start_time_execution_order():
+    stream = io.StringIO()
+    exporter = ConsoleExporter(stream=stream, colorize=False)
+
+    t0 = datetime(2026, 1, 1, 12, 0, 0, tzinfo=timezone.utc)
+    t1 = datetime(2026, 1, 1, 12, 0, 1, tzinfo=timezone.utc)
+    t2 = datetime(2026, 1, 1, 12, 0, 2, tzinfo=timezone.utc)
+
+    parent = make_span(id="p", trace_id="tr1", name="parent-span", start_time=t0, parent_span_id=None)
+    child1 = make_span(id="c1", trace_id="tr1", name="child-span-1", start_time=t1, parent_span_id="p")
+    child2 = make_span(id="c2", trace_id="tr1", name="child-span-2", start_time=t2, parent_span_id="p")
+
+    # Pass in finish order: children first, parent last
+    await exporter.export([child1, child2, parent])
+    lines = stream.getvalue().strip().splitlines()
+
+    assert len(lines) == 3
+    assert "parent-span" in lines[0]
+    assert "child-span-1" in lines[1]
+    assert "child-span-2" in lines[2]
+
+
+
 async def test_json_exporter_requires_exactly_one_target():
     import pytest
 

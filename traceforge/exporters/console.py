@@ -21,15 +21,41 @@ _STATUS_MARKS = {
 
 
 class ConsoleExporter:
-    """Writes a human-readable one-liner per span to a text stream."""
+    """Writes a human-readable one-liner per span to a text stream in execution order."""
 
     def __init__(self, stream: TextIO | None = None, *, colorize: bool = True) -> None:
         self._stream = stream or sys.stdout
         self._colorize = colorize and self._stream.isatty()
+        self._trace_buffers: dict[str, list[SpanModel]] = {}
 
     async def export(self, spans: Sequence[SpanModel]) -> None:
+        if not spans:
+            return
+
         for span in spans:
+            self._trace_buffers.setdefault(span.trace_id, []).append(span)
+
+        traces_to_flush = [
+            t_id for t_id, buf in self._trace_buffers.items()
+            if any(s.parent_span_id is None for s in buf)
+        ]
+
+        if not traces_to_flush:
+            traces_to_flush = list(self._trace_buffers.keys())
+
+        for t_id in traces_to_flush:
+            self._flush_trace(t_id)
+
+        self._stream.flush()
+
+    def _flush_trace(self, trace_id: str) -> None:
+        spans = self._trace_buffers.pop(trace_id, [])
+        for span in sorted(spans, key=lambda s: s.start_time):
             self._stream.write(self._format(span) + "\n")
+
+    def flush(self) -> None:
+        for t_id in list(self._trace_buffers.keys()):
+            self._flush_trace(t_id)
         self._stream.flush()
 
     def _format(self, span: SpanModel) -> str:
@@ -42,4 +68,5 @@ class ConsoleExporter:
         return line
 
     async def shutdown(self) -> None:
-        return None
+        self.flush()
+

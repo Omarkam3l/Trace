@@ -25,6 +25,7 @@ def traced(
     tracer: Tracer | None = None,
     kind: SpanKind = SpanKind.INTERNAL,
     attributes: Attributes | None = None,
+    capture_return: bool = True,
 ) -> Callable[[F], F]:
     """Wrap a function (sync or async) so every call is captured as a span.
 
@@ -35,6 +36,8 @@ def traced(
         kind: The span's role (internal/client/server/...).
         attributes: Static attributes attached to every span this
             decorator creates.
+        capture_return: If True (default), automatically records the return
+            value as a ``result`` attribute on the span.
     """
 
     def decorator(func: F) -> F:
@@ -48,16 +51,23 @@ def traced(
             @functools.wraps(func)
             async def async_wrapper(*args: Any, **kwargs: Any) -> Any:
                 span_ctx = _resolve_tracer().start_span(span_name, kind=kind, attributes=attributes)
-                async with span_ctx:
-                    return await func(*args, **kwargs)
+                async with span_ctx as span:
+                    res = await func(*args, **kwargs)
+                    if capture_return:
+                        span.set_attribute("result", res)
+                    return res
 
             return async_wrapper  # type: ignore[return-value]
 
         @functools.wraps(func)
         def sync_wrapper(*args: Any, **kwargs: Any) -> Any:
-            with _resolve_tracer().start_span(span_name, kind=kind, attributes=attributes):
-                return func(*args, **kwargs)
+            with _resolve_tracer().start_span(span_name, kind=kind, attributes=attributes) as span:
+                res = func(*args, **kwargs)
+                if capture_return:
+                    span.set_attribute("result", res)
+                return res
 
         return sync_wrapper  # type: ignore[return-value]
 
     return decorator
+

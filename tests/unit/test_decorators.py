@@ -82,3 +82,41 @@ def test_traced_uses_default_tracer_when_none_given(tracer):
 
     assert work() == "ok"
     assert len(hook.ended) == 1
+
+
+def test_traced_captures_return_value(tracer):
+    hook = RecordingHook()
+    tracer.add_hook(hook)
+
+    @traced(tracer=tracer)
+    def multiply(a, b):
+        return a * b
+
+    assert multiply(3, 4) == 12
+    assert hook.ended[0].attributes.get("result") == 12
+
+
+async def test_traced_async_captures_return_value(tracer):
+    hook = RecordingHook()
+    tracer.add_hook(hook)
+
+    @traced(tracer=tracer)
+    async def get_data():
+        return {"status": "ok"}
+
+    res = await get_data()
+    assert res == {"status": "ok"}
+    assert hook.ended[0].attributes.get("result") == {"status": "ok"}
+
+
+def test_traced_can_disable_return_value_capture(tracer):
+    hook = RecordingHook()
+    tracer.add_hook(hook)
+
+    @traced(tracer=tracer, capture_return=False)
+    def secret():
+        return "sensitive"
+
+    assert secret() == "sensitive"
+    assert "result" not in hook.ended[0].attributes
+

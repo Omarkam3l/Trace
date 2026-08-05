@@ -48,3 +48,21 @@ def test_is_configured_reflects_state(tracer):
     assert traceforge.is_configured() is True
     traceforge.reset_default_tracer()
     assert traceforge.is_configured() is False
+
+
+def test_configure_with_service_name_kwargs():
+    traceforge.reset_default_tracer()
+    t = traceforge.configure(service_name="my-app")
+    assert traceforge.is_configured()
+    assert t.service_name == "my-app"
+    assert traceforge.get_tracer() is t
+    traceforge.reset_default_tracer()
+
+
+def test_configure_with_service_name_positional_string():
+    traceforge.reset_default_tracer()
+    t = traceforge.configure("payment-service")
+    assert traceforge.is_configured()
+    assert t.service_name == "payment-service"
+    traceforge.reset_default_tracer()
+
