@@ -23,12 +23,64 @@ class DiffExportRequest(BaseModel):
     format: str = "json"
 
 
+import time
+
+_start_time = time.time()
+_metrics = {
+    "request_count": 0,
+    "replay_count": 0,
+    "diff_count": 0,
+    "export_count": 0,
+    "visualization_count": 0,
+}
+
+
 def get_service(request: Request) -> TraceForgeApiService:
     """Dependency injecting TraceForgeApiService from app state."""
     return request.app.state.service
 
 
 router = APIRouter(prefix="/api/v1", tags=["traceforge"])
+
+
+@router.get("/health")
+def health_check() -> dict[str, str]:
+    """Health check endpoint."""
+    return {"status": "healthy"}
+
+
+@router.get("/ready")
+def readiness_check() -> dict[str, str]:
+    """Readiness check endpoint."""
+    return {"status": "ready"}
+
+
+@router.get("/version")
+def version_info() -> dict[str, str]:
+    """Version info endpoint."""
+    return {"version": "0.15.0", "name": "TraceForge"}
+
+
+@router.get("/status")
+def status_info() -> dict[str, Any]:
+    """Status info endpoint."""
+    return {
+        "status": "running",
+        "uptime_seconds": round(time.time() - _start_time, 2),
+    }
+
+
+@router.get("/metrics")
+def get_metrics() -> dict[str, Any]:
+    """Metrics JSON endpoint."""
+    return {
+        "uptime": round(time.time() - _start_time, 2),
+        "request_count": _metrics["request_count"],
+        "replay_count": _metrics["replay_count"],
+        "diff_count": _metrics["diff_count"],
+        "export_count": _metrics["export_count"],
+        "visualization_count": _metrics["visualization_count"],
+    }
 
 
 @router.get("/sessions")

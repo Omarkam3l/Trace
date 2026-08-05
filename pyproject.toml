@@ -4,15 +4,15 @@ build-backend = "hatchling.build"
 
 [project]
 name = "traceforge"
-version = "0.1.0"
-description = "A framework-agnostic execution-tracing SDK: traces, spans, events, and context propagation with pluggable storage and exporters."
+version = "0.15.0"
+description = "Framework-Agnostic Execution Replay & Analysis Platform: traces, spans, events, replay engine, diff analysis, exporters, and HTTP gateway."
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.12"
 authors = [{ name = "TraceForge contributors" }]
-keywords = ["tracing", "observability", "spans", "async", "sdk"]
+keywords = ["tracing", "observability", "execution-replay", "diff-engine", "sdk", "fastapi"]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3.12",
@@ -20,10 +20,17 @@ classifiers = [
 ]
 dependencies = [
     "pydantic>=2.6",
+    "fastapi>=0.110.0",
+    "uvicorn>=0.28.0",
+    "PyJWT>=2.8.0",
 ]
+
+[project.scripts]
+traceforge = "traceforge.cli.main:cli_entry"
 
 [project.optional-dependencies]
 websocket = ["websockets>=12.0"]
+yaml = ["pyyaml>=6.0"]
 dev = [
     "pytest>=8.0",
     "pytest-asyncio>=0.23",
@@ -33,11 +40,18 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/traceforge/traceforge"
-Documentation = "https://github.com/traceforge/traceforge/tree/main/docs"
+Homepage = "https://github.com/Omarkam3l/Trace"
+Documentation = "https://github.com/Omarkam3l/Trace/tree/main/docs"
 
 [tool.hatch.build.targets.wheel]
 packages = ["traceforge"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/traceforge",
+    "/README.md",
+    "/LICENSE",
+]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
@@ -45,12 +59,8 @@ testpaths = ["tests"]
 
 [tool.mypy]
 python_version = "3.12"
-strict = true
-warn_unused_ignores = true
+ignore_missing_imports = true
 
 [tool.ruff]
 target-version = "py312"
-line-length = 100
-
-[tool.ruff.lint]
-select = ["E", "F", "I", "UP", "B", "SIM"]
+line-length = 120

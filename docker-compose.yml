@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  traceforge:
+    build: .
+    container_name: traceforge_platform
+    ports:
+      - "8000:8000"
+    environment:
+      - TRACEFORGE_ENV=production
+      - TRACEFORGE_HOST=0.0.0.0
+      - TRACEFORGE_PORT=8000
+      - TRACEFORGE_DB_URI=/data/traceforge.db
+    volumes:
+      - traceforge_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/health')\""]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  traceforge_data:

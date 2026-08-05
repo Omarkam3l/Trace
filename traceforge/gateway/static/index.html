@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TraceForge Platform Dashboard</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --border-color: #334155;
+        }
+        body {
+            font-family: Inter, system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+        main {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+        }
+        .metric-val {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-top: 0.5rem;
+        }
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">⚡ TraceForge Platform</div>
+        <div><a href="/docs" target="_blank">API Docs</a></div>
+    </header>
+    <main>
+        <h2>Execution Analysis & Replay Platform</h2>
+        <div class="grid">
+            <div class="card">
+                <div>Recorded Sessions</div>
+                <div class="metric-val" id="sess-count">--</div>
+            </div>
+            <div class="card">
+                <div>System Status</div>
+                <div class="metric-val" style="color: #4ade80;">Active</div>
+            </div>
+            <div class="card">
+                <div>API Gateway</div>
+                <div class="metric-val">v0.15.0</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Quick Links & API Endpoints</h3>
+            <ul>
+                <li><a href="/api/v1/sessions">List Sessions (/api/v1/sessions)</a></li>
+                <li><a href="/api/v1/health">Health Check (/api/v1/health)</a></li>
+                <li><a href="/api/v1/metrics">JSON Metrics (/api/v1/metrics)</a></li>
+                <li><a href="/docs">Interactive OpenAPI Swagger UI (/docs)</a></li>
+            </ul>
+        </div>
+    </main>
+    <script>
+        fetch('/api/v1/sessions')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('sess-count').innerText = Array.isArray(data) ? data.length : 0;
+            })
+            .catch(() => {
+                document.getElementById('sess-count').innerText = '0';
+            });
+    </script>
+</body>
+</html>
