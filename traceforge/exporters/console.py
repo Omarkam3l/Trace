@@ -36,8 +36,7 @@ class ConsoleExporter:
             self._trace_buffers.setdefault(span.trace_id, []).append(span)
 
         traces_to_flush = [
-            t_id for t_id, buf in self._trace_buffers.items()
-            if any(s.parent_span_id is None for s in buf)
+            t_id for t_id, buf in self._trace_buffers.items() if any(s.parent_span_id is None for s in buf)
         ]
 
         if not traces_to_flush:
@@ -69,4 +68,3 @@ class ConsoleExporter:
 
     async def shutdown(self) -> None:
         self.flush()
-

@@ -130,9 +130,7 @@ def test_malformed_event_resilience():
     recorder.emit(RawEvent(event_id="e1", timestamp=datetime.now(UTC), type="HTTPRequest"))
 
     # Malformed event with problematic payload
-    recorder.emit(
-        RawEvent(event_id="e_bad", timestamp=datetime.now(UTC), type="Custom", payload={"status": 99999})
-    )
+    recorder.emit(RawEvent(event_id="e_bad", timestamp=datetime.now(UTC), type="Custom", payload={"status": 99999}))
 
     # Normal event after malformed event
     recorder.emit(RawEvent(event_id="e2", timestamp=datetime.now(UTC), type="SQLQuery"))

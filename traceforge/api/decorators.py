@@ -70,4 +70,3 @@ def traced(
         return sync_wrapper  # type: ignore[return-value]
 
     return decorator
-

@@ -17,5 +17,6 @@ def main():
     recorder.stop()
     print("Recorded spans successfully!")
 
+
 if __name__ == "__main__":
     main()

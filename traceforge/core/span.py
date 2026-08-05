@@ -103,7 +103,6 @@ class Span:
         with self._lock:
             return dict(self._model.attributes)
 
-
     # -- nested span creation ------------------------------------------
     def start_span(
         self,

@@ -10,6 +10,7 @@ async def fetch_data(tracer):
         await asyncio.sleep(0.05)
         return {"data": 123}
 
+
 async def main():
     tracer = traceforge.Tracer("async-service")
     storage = traceforge.MemoryStorage()
@@ -21,6 +22,7 @@ async def main():
         print("Fetched:", res)
 
     recorder.stop()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

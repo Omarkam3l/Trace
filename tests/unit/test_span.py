@@ -129,4 +129,3 @@ def test_live_span_attributes_property(frozen_clock):
     assert span.attributes == {"env": "prod"}
     span.set_attributes({"tier": "api", "v": 1})
     assert span.attributes == {"env": "prod", "tier": "api", "v": 1}
-

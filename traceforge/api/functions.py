@@ -57,7 +57,6 @@ def configure(
     return inst
 
 
-
 def get_tracer() -> Tracer:
     """Return the configured default tracer.
 

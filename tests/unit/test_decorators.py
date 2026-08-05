@@ -119,4 +119,3 @@ def test_traced_can_disable_return_value_capture(tracer):
 
     assert secret() == "sensitive"
     assert "result" not in hook.ended[0].attributes
-

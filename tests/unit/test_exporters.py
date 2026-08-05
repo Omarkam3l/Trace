@@ -65,7 +65,6 @@ async def test_console_exporter_prints_in_start_time_execution_order():
     assert "child-span-2" in lines[2]
 
 
-
 async def test_json_exporter_requires_exactly_one_target():
     import pytest
 

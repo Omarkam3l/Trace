@@ -65,4 +65,3 @@ def test_configure_with_service_name_positional_string():
     assert traceforge.is_configured()
     assert t.service_name == "payment-service"
     traceforge.reset_default_tracer()
-
