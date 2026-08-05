@@ -27,13 +27,17 @@ class SnapshotLoader:
             try:
                 conn = self._query_engine.sessions._conn
                 cursor = conn.cursor()
-                cursor.execute("""
+                cursor.execute(
+                    """
                     SELECT snapshot_id, session_id, timestamp, active_activity_id, nodes_count, relationships_count, record_timestamp
                     FROM snapshots WHERE session_id = ?
                     ORDER BY timestamp ASC;
-                """, (session_id,))
+                """,
+                    (session_id,),
+                )
                 rows = cursor.fetchall()
                 from traceforge.storage.records.snapshot_record import SnapshotRecord
+
                 return [
                     SnapshotRecord(
                         snapshot_id=row[0],

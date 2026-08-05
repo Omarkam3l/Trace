@@ -28,7 +28,11 @@ class RuntimeFilter:
         if self._include:
             matched = False
             for pattern in self._include:
-                if fnmatch.fnmatch(mod, pattern) or fnmatch.fnmatch(fname, pattern) or fnmatch.fnmatch(target_str, pattern):
+                if (
+                    fnmatch.fnmatch(mod, pattern)
+                    or fnmatch.fnmatch(fname, pattern)
+                    or fnmatch.fnmatch(target_str, pattern)
+                ):
                     matched = True
                     break
             if not matched:

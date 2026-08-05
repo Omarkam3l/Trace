@@ -31,9 +31,6 @@ class TimelineAdapter:
                 events_by_source[src] = []
             events_by_source[src].append(vm)
 
-        tracks = [
-            TrackViewModel(name=src, events=evts)
-            for src, evts in sorted(events_by_source.items())
-        ]
+        tracks = [TrackViewModel(name=src, events=evts) for src, evts in sorted(events_by_source.items())]
 
         return TimelineViewModel(tracks=tracks)

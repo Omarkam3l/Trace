@@ -14,17 +14,45 @@ def test_api_service_full_workflow():
     conn = driver.connection_manager.get_connection()
 
     now = datetime.now(timezone.utc)
-    s1 = SessionRecord(session_id="s1", started_at=now, status="completed", environment_os="win32", environment_python="3.13", profile_name="standard")
-    s2 = SessionRecord(session_id="s2", started_at=now, status="completed", environment_os="win32", environment_python="3.13", profile_name="standard")
+    s1 = SessionRecord(
+        session_id="s1",
+        started_at=now,
+        status="completed",
+        environment_os="win32",
+        environment_python="3.13",
+        profile_name="standard",
+    )
+    s2 = SessionRecord(
+        session_id="s2",
+        started_at=now,
+        status="completed",
+        environment_os="win32",
+        environment_python="3.13",
+        profile_name="standard",
+    )
 
-    a1 = ActivityRecord(activity_id="act1", session_id="s1", name="Checkout", started_at=now, status="completed", graph_id="g1")
-    a2 = ActivityRecord(activity_id="act2", session_id="s2", name="Checkout", started_at=now, status="completed", graph_id="g2")
+    a1 = ActivityRecord(
+        activity_id="act1", session_id="s1", name="Checkout", started_at=now, status="completed", graph_id="g1"
+    )
+    a2 = ActivityRecord(
+        activity_id="act2", session_id="s2", name="Checkout", started_at=now, status="completed", graph_id="g2"
+    )
 
     g1 = GraphRecord(graph_id="g1", activity_id="act1", node_ids=["n1"], relationship_ids=[])
     g2 = GraphRecord(graph_id="g2", activity_id="act2", node_ids=["n1", "n2"], relationship_ids=[])
 
-    n1 = NodeRecord(node_id="n1", graph_id="g1", type="function", name="main", started_at=now, duration_ms=10.0, status="completed")
-    n2 = NodeRecord(node_id="n2", graph_id="g2", type="function", name="helper", started_at=now, duration_ms=20.0, status="completed")
+    n1 = NodeRecord(
+        node_id="n1", graph_id="g1", type="function", name="main", started_at=now, duration_ms=10.0, status="completed"
+    )
+    n2 = NodeRecord(
+        node_id="n2",
+        graph_id="g2",
+        type="function",
+        name="helper",
+        started_at=now,
+        duration_ms=20.0,
+        status="completed",
+    )
 
     driver.begin_transaction()
     driver.write_batch([s1, s2, a1, a2, g1, g2, n1, n2])

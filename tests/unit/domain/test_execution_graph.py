@@ -34,10 +34,18 @@ def test_valid_dag_execution_graph():
     n3 = _make_node("n3", "child2")
 
     rel1 = Relationship(
-        relationship_id="r1", graph_id="g1", source_node_id="n1", target_node_id="n2", type=RelationshipType.PARENT_CHILD
+        relationship_id="r1",
+        graph_id="g1",
+        source_node_id="n1",
+        target_node_id="n2",
+        type=RelationshipType.PARENT_CHILD,
     )
     rel2 = Relationship(
-        relationship_id="r2", graph_id="g1", source_node_id="n2", target_node_id="n3", type=RelationshipType.PARENT_CHILD
+        relationship_id="r2",
+        graph_id="g1",
+        source_node_id="n2",
+        target_node_id="n3",
+        type=RelationshipType.PARENT_CHILD,
     )
 
     graph = ExecutionGraph(
@@ -56,7 +64,11 @@ def test_valid_dag_execution_graph():
 def test_graph_rejects_missing_node_references():
     n1 = _make_node("n1")
     rel = Relationship(
-        relationship_id="r1", graph_id="g1", source_node_id="n1", target_node_id="non_existent", type=RelationshipType.PARENT_CHILD
+        relationship_id="r1",
+        graph_id="g1",
+        source_node_id="n1",
+        target_node_id="non_existent",
+        type=RelationshipType.PARENT_CHILD,
     )
 
     with pytest.raises(ValidationError) as exc_info:

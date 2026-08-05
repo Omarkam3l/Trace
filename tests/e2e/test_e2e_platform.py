@@ -17,12 +17,36 @@ def test_e2e_session_lifecycle_replay_diff_export_vis():
     conn = driver.connection_manager.get_connection()
 
     now = datetime.now(timezone.utc)
-    s1 = SessionRecord(session_id="e2e_s1", started_at=now, status="completed", environment_os="win32", environment_python="3.12", profile_name="standard")
-    s2 = SessionRecord(session_id="e2e_s2", started_at=now, status="completed", environment_os="win32", environment_python="3.12", profile_name="standard")
+    s1 = SessionRecord(
+        session_id="e2e_s1",
+        started_at=now,
+        status="completed",
+        environment_os="win32",
+        environment_python="3.12",
+        profile_name="standard",
+    )
+    s2 = SessionRecord(
+        session_id="e2e_s2",
+        started_at=now,
+        status="completed",
+        environment_os="win32",
+        environment_python="3.12",
+        profile_name="standard",
+    )
 
-    a1 = ActivityRecord(activity_id="act1", session_id="e2e_s1", name="Checkout", started_at=now, status="completed", graph_id="g1")
+    a1 = ActivityRecord(
+        activity_id="act1", session_id="e2e_s1", name="Checkout", started_at=now, status="completed", graph_id="g1"
+    )
     g1 = GraphRecord(graph_id="g1", activity_id="act1", node_ids=["n1"], relationship_ids=[])
-    n1 = NodeRecord(node_id="n1", graph_id="g1", type="function", name="process_payment", started_at=now, duration_ms=15.5, status="completed")
+    n1 = NodeRecord(
+        node_id="n1",
+        graph_id="g1",
+        type="function",
+        name="process_payment",
+        started_at=now,
+        duration_ms=15.5,
+        status="completed",
+    )
 
     driver.begin_transaction()
     driver.write_batch([s1, s2, a1, g1, n1])

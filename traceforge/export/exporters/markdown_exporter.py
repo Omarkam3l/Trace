@@ -44,19 +44,23 @@ class MarkdownExporter(BaseExporter):
             "",
         ]
         if report.graph_diff:
-            lines.extend([
-                "## Graph Differences",
-                f"- **Added Nodes**: {', '.join(f'`{x}`' for x in report.graph_diff.added_nodes) or 'None'}",
-                f"- **Removed Nodes**: {', '.join(f'`{x}`' for x in report.graph_diff.removed_nodes) or 'None'}",
-                f"- **Modified Nodes**: {', '.join(f'`{x}`' for x in report.graph_diff.modified_nodes) or 'None'}",
-                "",
-            ])
+            lines.extend(
+                [
+                    "## Graph Differences",
+                    f"- **Added Nodes**: {', '.join(f'`{x}`' for x in report.graph_diff.added_nodes) or 'None'}",
+                    f"- **Removed Nodes**: {', '.join(f'`{x}`' for x in report.graph_diff.removed_nodes) or 'None'}",
+                    f"- **Modified Nodes**: {', '.join(f'`{x}`' for x in report.graph_diff.modified_nodes) or 'None'}",
+                    "",
+                ]
+            )
         if report.performance_diff:
-            lines.extend([
-                "## Performance Differences",
-                f"- **Baseline Duration**: `{report.performance_diff.baseline_duration_ms}` ms",
-                f"- **Target Duration**: `{report.performance_diff.target_duration_ms}` ms",
-                f"- **Duration Delta**: `{report.performance_diff.duration_delta_ms}` ms",
-                "",
-            ])
+            lines.extend(
+                [
+                    "## Performance Differences",
+                    f"- **Baseline Duration**: `{report.performance_diff.baseline_duration_ms}` ms",
+                    f"- **Target Duration**: `{report.performance_diff.target_duration_ms}` ms",
+                    f"- **Duration Delta**: `{report.performance_diff.duration_delta_ms}` ms",
+                    "",
+                ]
+            )
         return "\n".join(lines)

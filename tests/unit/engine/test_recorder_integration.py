@@ -44,7 +44,13 @@ def test_replay_determinism():
     t0 = datetime.now(timezone.utc)
 
     raw_events = [
-        RawEvent(event_id="e_start", timestamp=t0, sequence=1, type="ActivityStarted", payload={"name": "Search", "activity_id": "act_search"}),
+        RawEvent(
+            event_id="e_start",
+            timestamp=t0,
+            sequence=1,
+            type="ActivityStarted",
+            payload={"name": "Search", "activity_id": "act_search"},
+        ),
         RawEvent(event_id="e1", timestamp=t0, sequence=2, type="HTTPRequest", payload={"name": "GET /search"}),
         RawEvent(event_id="e2", timestamp=t0, sequence=3, type="SQLQuery", payload={"name": "SELECT * FROM items"}),
         RawEvent(event_id="e_finish", timestamp=t0, sequence=4, type="ActivityFinished"),
@@ -124,7 +130,9 @@ def test_malformed_event_resilience():
     recorder.emit(RawEvent(event_id="e1", timestamp=datetime.now(timezone.utc), type="HTTPRequest"))
 
     # Malformed event with problematic payload
-    recorder.emit(RawEvent(event_id="e_bad", timestamp=datetime.now(timezone.utc), type="Custom", payload={"status": 99999}))
+    recorder.emit(
+        RawEvent(event_id="e_bad", timestamp=datetime.now(timezone.utc), type="Custom", payload={"status": 99999})
+    )
 
     # Normal event after malformed event
     recorder.emit(RawEvent(event_id="e2", timestamp=datetime.now(timezone.utc), type="SQLQuery"))

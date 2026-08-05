@@ -9,9 +9,7 @@ from traceforge.models.span import SpanModel
 
 
 def make_span(**overrides) -> SpanModel:
-    defaults = dict(
-        id="s1", trace_id="t1", name="x", start_time=datetime.now(timezone.utc)
-    )
+    defaults = dict(id="s1", trace_id="t1", name="x", start_time=datetime.now(timezone.utc))
     defaults.update(overrides)
     return SpanModel(**defaults)
 

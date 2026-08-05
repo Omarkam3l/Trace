@@ -66,7 +66,7 @@ def test_nested_spans_tree_hierarchy(frozen_clock):
     tracer = Tracer("order-service", clock=frozen_clock)
 
     trace = tracer.start_trace("Checkout")
-    
+
     with trace.start_span("Payment") as payment:
         payment.add_event("Processing Payment")
         with payment.start_span("Stripe Request") as stripe_req:

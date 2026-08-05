@@ -23,10 +23,13 @@ class GraphRepository:
         with self._lock:
             try:
                 cursor = self._conn.cursor()
-                cursor.execute("""
+                cursor.execute(
+                    """
                     SELECT graph_id, activity_id, node_ids_json, relationship_ids_json, record_timestamp
                     FROM graphs WHERE graph_id = ?;
-                """, (graph_id,))
+                """,
+                    (graph_id,),
+                )
                 row = cursor.fetchone()
                 if not row:
                     raise NotFoundError(f"Graph with ID {graph_id!r} not found")
@@ -39,10 +42,13 @@ class GraphRepository:
         with self._lock:
             try:
                 cursor = self._conn.cursor()
-                cursor.execute("""
+                cursor.execute(
+                    """
                     SELECT graph_id, activity_id, node_ids_json, relationship_ids_json, record_timestamp
                     FROM graphs WHERE activity_id = ? ORDER BY graph_id ASC;
-                """, (activity_id,))
+                """,
+                    (activity_id,),
+                )
                 return [self._row_to_record(row) for row in cursor.fetchall()]
             except sqlite3.Error as err:
                 raise RepositoryError(f"Failed to list graphs for activity {activity_id!r}: {err}") from err

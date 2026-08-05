@@ -101,9 +101,7 @@ class SQLiteStorage(StorageAdapter):
     ) -> list[SpanModel]:
         return await asyncio.to_thread(self._query_spans_sync, trace_id, correlation_id, limit)
 
-    def _query_spans_sync(
-        self, trace_id: str | None, correlation_id: str | None, limit: int
-    ) -> list[SpanModel]:
+    def _query_spans_sync(self, trace_id: str | None, correlation_id: str | None, limit: int) -> list[SpanModel]:
         clauses: list[str] = []
         params: list[str] = []
         if trace_id is not None:

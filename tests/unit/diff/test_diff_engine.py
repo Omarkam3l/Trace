@@ -11,11 +11,37 @@ from traceforge.storage.records import NodeRecord, SessionRecord
 
 def test_execution_diff_engine_comparison():
     now = datetime.now(timezone.utc)
-    base_sess = SessionRecord(session_id="s1", started_at=now, duration_ms=100.0, status="completed", environment_os="win32", environment_python="3.13", profile_name="standard")
-    target_sess = SessionRecord(session_id="s2", started_at=now, duration_ms=150.0, status="completed", environment_os="win32", environment_python="3.13", profile_name="standard")
+    base_sess = SessionRecord(
+        session_id="s1",
+        started_at=now,
+        duration_ms=100.0,
+        status="completed",
+        environment_os="win32",
+        environment_python="3.13",
+        profile_name="standard",
+    )
+    target_sess = SessionRecord(
+        session_id="s2",
+        started_at=now,
+        duration_ms=150.0,
+        status="completed",
+        environment_os="win32",
+        environment_python="3.13",
+        profile_name="standard",
+    )
 
-    n1 = NodeRecord(node_id="n1", graph_id="g1", type="function", name="main", started_at=now, duration_ms=10.0, status="completed")
-    n2 = NodeRecord(node_id="n2", graph_id="g1", type="function", name="helper", started_at=now, duration_ms=30.0, status="completed")
+    n1 = NodeRecord(
+        node_id="n1", graph_id="g1", type="function", name="main", started_at=now, duration_ms=10.0, status="completed"
+    )
+    n2 = NodeRecord(
+        node_id="n2",
+        graph_id="g1",
+        type="function",
+        name="helper",
+        started_at=now,
+        duration_ms=30.0,
+        status="completed",
+    )
 
     baseline = ReplaySession(session=base_sess, nodes=[n1])
     target = ReplaySession(session=target_sess, nodes=[n1, n2])

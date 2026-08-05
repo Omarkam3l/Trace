@@ -10,7 +10,9 @@ def test_sqlite_transaction_commit_and_rollback():
     conn = driver.connection_manager.get_connection()
 
     driver.begin_transaction()
-    conn.execute("INSERT INTO sessions (session_id, started_at, status, environment_os, environment_python, profile_name, record_timestamp) VALUES ('s1', '2026-01-01', 'completed', 'win32', '3.13', 'std', '2026-01-01');")
+    conn.execute(
+        "INSERT INTO sessions (session_id, started_at, status, environment_os, environment_python, profile_name, record_timestamp) VALUES ('s1', '2026-01-01', 'completed', 'win32', '3.13', 'std', '2026-01-01');"
+    )
     driver.commit()
 
     cursor = conn.cursor()
@@ -19,7 +21,9 @@ def test_sqlite_transaction_commit_and_rollback():
 
     # Rollback verification
     driver.begin_transaction()
-    conn.execute("INSERT INTO sessions (session_id, started_at, status, environment_os, environment_python, profile_name, record_timestamp) VALUES ('s2', '2026-01-01', 'completed', 'win32', '3.13', 'std', '2026-01-01');")
+    conn.execute(
+        "INSERT INTO sessions (session_id, started_at, status, environment_os, environment_python, profile_name, record_timestamp) VALUES ('s2', '2026-01-01', 'completed', 'win32', '3.13', 'std', '2026-01-01');"
+    )
     driver.rollback()
 
     cursor.execute("SELECT COUNT(*) FROM sessions WHERE session_id = 's2';")

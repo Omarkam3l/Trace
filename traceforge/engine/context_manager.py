@@ -28,9 +28,7 @@ class ContextStack:
 
 
 _EMPTY_STACK = ContextStack()
-_current_recording_context: ContextVar[ContextStack] = ContextVar(
-    "traceforge_recording_context", default=_EMPTY_STACK
-)
+_current_recording_context: ContextVar[ContextStack] = ContextVar("traceforge_recording_context", default=_EMPTY_STACK)
 
 
 class RecordingContextScope:

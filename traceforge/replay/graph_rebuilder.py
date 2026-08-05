@@ -17,7 +17,9 @@ class GraphRebuilder:
     def __init__(self, query_engine: QueryEngine) -> None:
         self._query_engine = query_engine
 
-    def rebuild_activity_graphs(self, activity_id: str) -> tuple[list[GraphRecord], list[NodeRecord], list[RelationshipRecord]]:
+    def rebuild_activity_graphs(
+        self, activity_id: str
+    ) -> tuple[list[GraphRecord], list[NodeRecord], list[RelationshipRecord]]:
         """Reconstruct graphs, nodes, and relationships for an activity_id."""
         graphs = self._query_engine.graphs.list_by_activity(activity_id)
         all_nodes: list[NodeRecord] = []

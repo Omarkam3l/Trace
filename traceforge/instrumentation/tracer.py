@@ -78,12 +78,7 @@ class Tracer:
         if callable(name):
             return wrap_with_activity(self._service, fn=name)
         elif isinstance(name, str):
-            def decorator(fn: Callable[..., Any]) -> Callable[..., Any]:
-                return wrap_with_activity(self._service, fn=fn, activity_name=name)
-            # Support both decorator @trace.activity("name") and context manager with trace.activity("name")
-            cm = ActivityContextManager(service=self._service, name=name)
-            cm.__call__ = decorator  # type: ignore[attr-defined]
-            return cm
+            return ActivityContextManager(service=self._service, name=name)
         else:
             return ActivityContextManager(service=self._service, name="Activity")
 
@@ -112,10 +107,14 @@ class Tracer:
         if callable(fn_or_name):
             return wrap_with_activity(self._service, fn=fn_or_name)
         elif isinstance(fn_or_name, str):
+
             def decorator(fn: Callable[..., Any]) -> Callable[..., Any]:
                 return wrap_with_activity(self._service, fn=fn, activity_name=fn_or_name)
+
             return decorator
         else:
+
             def decorator(fn: Callable[..., Any]) -> Callable[..., Any]:
                 return wrap_with_activity(self._service, fn=fn)
+
             return decorator

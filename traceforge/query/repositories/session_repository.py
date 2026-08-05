@@ -24,10 +24,13 @@ class SessionRepository:
         with self._lock:
             try:
                 cursor = self._conn.cursor()
-                cursor.execute("""
+                cursor.execute(
+                    """
                     SELECT session_id, started_at, finished_at, duration_ms, status, environment_os, environment_python, profile_name, record_timestamp
                     FROM sessions WHERE session_id = ?;
-                """, (session_id,))
+                """,
+                    (session_id,),
+                )
                 row = cursor.fetchone()
                 if not row:
                     raise NotFoundError(f"Session with ID {session_id!r} not found")

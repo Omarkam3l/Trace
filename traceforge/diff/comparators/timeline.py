@@ -25,7 +25,10 @@ class TimelineDiffComparator:
         drift_count = 0
         min_len = min(len(baseline.timeline), len(target.timeline))
         for i in range(min_len):
-            if baseline.timeline[i].sequence != target.timeline[i].sequence or baseline.timeline[i].type != target.timeline[i].type:
+            if (
+                baseline.timeline[i].sequence != target.timeline[i].sequence
+                or baseline.timeline[i].type != target.timeline[i].type
+            ):
                 drift_count += 1
 
         drift_count += abs(len(baseline.timeline) - len(target.timeline))

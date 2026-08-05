@@ -8,6 +8,5 @@ from __future__ import annotations
 
 def _not_implemented() -> None:
     raise NotImplementedError(
-        "traceforge.ai.analyzer is reserved for a future release "
-        "and is not part of the current SDK-core milestone."
+        "traceforge.ai.analyzer is reserved for a future release and is not part of the current SDK-core milestone."
     )

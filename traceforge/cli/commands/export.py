@@ -13,7 +13,9 @@ from traceforge.storage.drivers.sqlite import SQLiteStorageDriver
 def register_parser(subparsers: argparse._SubParsersAction) -> None:
     parser = subparsers.add_parser("export", help="Export session or diff artifact to external format.")
     parser.add_argument("session_id", help="Session ID to export.")
-    parser.add_argument("--format", choices=["json", "mermaid", "html", "markdown"], default="json", help="Export format.")
+    parser.add_argument(
+        "--format", choices=["json", "mermaid", "html", "markdown"], default="json", help="Export format."
+    )
     parser.add_argument("--output", help="Output file path (prints to stdout if omitted).")
     parser.add_argument("--db", help="Database file path.")
     parser.set_defaults(func=execute)

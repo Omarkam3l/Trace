@@ -40,11 +40,7 @@ class PEP669Backend(InstrumentationBackend):
             tool_id = getattr(sys.monitoring, "PROFILER_ID", 2)
             sys.monitoring.use_tool_id(tool_id, "traceforge")
 
-            events = (
-                sys.monitoring.events.PY_START
-                | sys.monitoring.events.PY_RETURN
-                | sys.monitoring.events.RAISE
-            )
+            events = sys.monitoring.events.PY_START | sys.monitoring.events.PY_RETURN | sys.monitoring.events.RAISE
             sys.monitoring.set_events(tool_id, events)
 
             def py_start_func(code: CodeType, instruction_offset: int) -> Any:

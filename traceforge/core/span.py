@@ -109,6 +109,7 @@ class Span:
         tracer = self._tracer
         if tracer is None:
             from traceforge.core.context import ContextManager
+
             tracer = getattr(ContextManager, "_active_tracer", None)
             if tracer is None:
                 raise RuntimeError("No tracer available to start child span")
@@ -196,7 +197,7 @@ class Span:
         exc_type: type[BaseException] | None,
         exc: BaseException | None,
         tb: Any,
-    ) -> bool:
+    ) -> None:
         if exc is not None:
             self.record_exception(exc)
             self.set_status(SpanStatus.ERROR)
@@ -206,7 +207,6 @@ class Span:
             self._tracer._end_span(self, self._token, exc)
         else:
             self.finish()
-        return False
 
     async def __aenter__(self) -> Span:
         return self.__enter__()
@@ -216,8 +216,8 @@ class Span:
         exc_type: type[BaseException] | None,
         exc: BaseException | None,
         tb: Any,
-    ) -> bool:
-        return self.__exit__(exc_type, exc, tb)
+    ) -> None:
+        self.__exit__(exc_type, exc, tb)
 
     # -- lifecycle --------------------------------------------------------
     def snapshot(self) -> SpanModel:
@@ -247,6 +247,7 @@ class Span:
 
         if self._token is not None:
             from traceforge.core.context import ContextManager
+
             ContextManager.reset(self._token)
             self._token = None
 
@@ -259,6 +260,4 @@ class Span:
         if self._finished:
             from traceforge.api.exceptions import SpanNotActiveError
 
-            raise SpanNotActiveError(
-                f"span {self._model.id!r} ({self._model.name!r}) has already finished"
-            )
+            raise SpanNotActiveError(f"span {self._model.id!r} ({self._model.name!r}) has already finished")

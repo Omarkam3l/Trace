@@ -16,10 +16,12 @@ class TomlSource:
         try:
             if sys.version_info >= (3, 11):
                 import tomllib
+
                 with open(filepath, "rb") as f:
                     return tomllib.load(f)
             else:
                 import tomli
+
                 with open(filepath, "rb") as f:
                     return tomli.load(f)
         except ImportError:

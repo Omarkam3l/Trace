@@ -36,10 +36,7 @@ class ConsoleExporter:
         indent = "  " if span.parent_span_id else ""
         duration = f"{span.duration_ms:.2f}ms" if span.duration_ms is not None else "?"
         status = _STATUS_MARKS.get(span.status, span.status.value)
-        line = (
-            f"{indent}[{status}] {span.name} "
-            f"(trace={span.trace_id[:8]} span={span.id[:8]} duration={duration})"
-        )
+        line = f"{indent}[{status}] {span.name} (trace={span.trace_id[:8]} span={span.id[:8]} duration={duration})"
         if self._colorize and span.status is SpanStatus.ERROR:
             return f"\x1b[31m{line}\x1b[0m"
         return line

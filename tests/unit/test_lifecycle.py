@@ -23,10 +23,16 @@ def make_span_model() -> SpanModel:
 def test_register_and_notify():
     manager = LifecycleManager()
     events = []
-    manager.register(type("H", (), {
-        "on_span_start": lambda self, s: events.append(("start", s.id)),
-        "on_span_end": lambda self, s: events.append(("end", s.id)),
-    })())
+    manager.register(
+        type(
+            "H",
+            (),
+            {
+                "on_span_start": lambda self, s: events.append(("start", s.id)),
+                "on_span_end": lambda self, s: events.append(("end", s.id)),
+            },
+        )()
+    )
     span = make_span_model()
     manager.notify_start(span)
     manager.notify_end(span)

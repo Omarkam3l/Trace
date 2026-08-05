@@ -40,6 +40,7 @@ def execute(args: argparse.Namespace) -> int:
 
     try:
         import uvicorn
+
         uvicorn.run(app, host=config.server.host, port=config.server.port, log_level="info")
         return 0
     except ImportError:

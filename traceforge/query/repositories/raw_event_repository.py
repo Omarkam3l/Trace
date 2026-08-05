@@ -24,12 +24,15 @@ class RawEventRepository:
         with self._lock:
             try:
                 cursor = self._conn.cursor()
-                cursor.execute("""
+                cursor.execute(
+                    """
                     SELECT event_id, timestamp, sequence, type, source, payload_json, context_id, activity_hint, metadata_json, record_timestamp
                     FROM raw_events WHERE context_id = ? OR activity_hint = ?
                     ORDER BY timestamp ASC, sequence ASC, event_id ASC
                     LIMIT ? OFFSET ?;
-                """, (session_id, session_id, pag.limit, pag.offset))
+                """,
+                    (session_id, session_id, pag.limit, pag.offset),
+                )
                 return [self._row_to_record(row) for row in cursor.fetchall()]
             except sqlite3.Error as err:
                 raise RepositoryError(f"Failed to list raw events for session {session_id!r}: {err}") from err
@@ -40,12 +43,15 @@ class RawEventRepository:
         with self._lock:
             try:
                 cursor = self._conn.cursor()
-                cursor.execute("""
+                cursor.execute(
+                    """
                     SELECT event_id, timestamp, sequence, type, source, payload_json, context_id, activity_hint, metadata_json, record_timestamp
                     FROM raw_events WHERE activity_hint = ?
                     ORDER BY timestamp ASC, sequence ASC, event_id ASC
                     LIMIT ? OFFSET ?;
-                """, (activity_id, pag.limit, pag.offset))
+                """,
+                    (activity_id, pag.limit, pag.offset),
+                )
                 return [self._row_to_record(row) for row in cursor.fetchall()]
             except sqlite3.Error as err:
                 raise RepositoryError(f"Failed to list raw events for activity {activity_id!r}: {err}") from err
@@ -56,12 +62,15 @@ class RawEventRepository:
         with self._lock:
             try:
                 cursor = self._conn.cursor()
-                cursor.execute("""
+                cursor.execute(
+                    """
                     SELECT event_id, timestamp, sequence, type, source, payload_json, context_id, activity_hint, metadata_json, record_timestamp
                     FROM raw_events
                     ORDER BY timestamp ASC, sequence ASC, event_id ASC
                     LIMIT ? OFFSET ?;
-                """, (pag.limit, pag.offset))
+                """,
+                    (pag.limit, pag.offset),
+                )
                 return [self._row_to_record(row) for row in cursor.fetchall()]
             except sqlite3.Error as err:
                 raise RepositoryError(f"Failed to list raw events: {err}") from err

@@ -42,11 +42,7 @@ class PluginManager:
     def enable_plugin(self, name_or_plugin: str | Plugin, config: dict[str, Any] | None = None) -> bool:
         """Enable a registered plugin safely under failure isolation."""
         with self._lock:
-            plugin = (
-                self._registry.get(name_or_plugin)
-                if isinstance(name_or_plugin, str)
-                else name_or_plugin
-            )
+            plugin = self._registry.get(name_or_plugin) if isinstance(name_or_plugin, str) else name_or_plugin
             if plugin is None:
                 raise ValueError(f"Plugin {name_or_plugin!r} not found in registry")
 
@@ -66,11 +62,7 @@ class PluginManager:
     def disable_plugin(self, name_or_plugin: str | Plugin) -> bool:
         """Disable a registered plugin safely under failure isolation."""
         with self._lock:
-            plugin = (
-                self._registry.get(name_or_plugin)
-                if isinstance(name_or_plugin, str)
-                else name_or_plugin
-            )
+            plugin = self._registry.get(name_or_plugin) if isinstance(name_or_plugin, str) else name_or_plugin
             if plugin is None or not plugin.is_enabled:
                 return False
 

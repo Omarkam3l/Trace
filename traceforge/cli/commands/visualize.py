@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+from typing import Any
 
 from traceforge.configuration.loader import ConfigurationLoader
 from traceforge.service.service import TraceForgeApiService
@@ -12,7 +13,9 @@ from traceforge.storage.drivers.sqlite import SQLiteStorageDriver
 def register_parser(subparsers: argparse._SubParsersAction) -> None:
     parser = subparsers.add_parser("visualize", help="Generate frontend-ready visualization models.")
     parser.add_argument("session_id", help="Session ID to visualize.")
-    parser.add_argument("--type", choices=["graph", "timeline", "flamegraph"], default="graph", help="Visualization model type.")
+    parser.add_argument(
+        "--type", choices=["graph", "timeline", "flamegraph"], default="graph", help="Visualization model type."
+    )
     parser.add_argument("--db", help="Database file path.")
     parser.set_defaults(func=execute)
 
@@ -26,6 +29,7 @@ def execute(args: argparse.Namespace) -> int:
         conn = driver.connection_manager.get_connection()
         service = TraceForgeApiService(conn)
 
+        vm: Any
         if args.type == "graph":
             vm = service.get_graph_visualization(args.session_id)
         elif args.type == "timeline":

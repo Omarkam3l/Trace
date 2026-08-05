@@ -30,9 +30,7 @@ class ExecutionContext:
 
 _EMPTY_CONTEXT = ExecutionContext()
 
-_current_context: ContextVar[ExecutionContext] = ContextVar(
-    "traceforge_current_context", default=_EMPTY_CONTEXT
-)
+_current_context: ContextVar[ExecutionContext] = ContextVar("traceforge_current_context", default=_EMPTY_CONTEXT)
 
 
 class ContextManager:

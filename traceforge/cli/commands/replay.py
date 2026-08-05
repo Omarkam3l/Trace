@@ -26,6 +26,11 @@ def execute(args: argparse.Namespace) -> int:
         service = TraceForgeApiService(conn)
 
         session_replay = service.replay_session(args.session_id)
+        if session_replay.session is None:
+            print(f"[!] Session {args.session_id} not found.")
+            driver.close()
+            return 1
+
         print(f"=== Execution Replay: Session {args.session_id} ===")
         print(f"Status: {session_replay.session.status}")
         print(f"Started At: {session_replay.session.started_at}")

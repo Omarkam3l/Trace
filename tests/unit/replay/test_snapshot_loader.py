@@ -15,7 +15,14 @@ def test_snapshot_loader_retrieval():
     conn = driver.connection_manager.get_connection()
 
     now = datetime.now(timezone.utc)
-    s1 = SessionRecord(session_id="s1", started_at=now, status="completed", environment_os="win32", environment_python="3.13", profile_name="standard")
+    s1 = SessionRecord(
+        session_id="s1",
+        started_at=now,
+        status="completed",
+        environment_os="win32",
+        environment_python="3.13",
+        profile_name="standard",
+    )
     snap1 = SnapshotRecord(snapshot_id="snap1", session_id="s1", timestamp=now, nodes_count=5)
 
     driver.begin_transaction()

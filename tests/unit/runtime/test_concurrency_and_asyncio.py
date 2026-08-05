@@ -27,6 +27,7 @@ def test_multithreaded_function_observation():
     def thread_worker(worker_id: int):
         def inner_func():
             return worker_id * 10
+
         return inner_func()
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:

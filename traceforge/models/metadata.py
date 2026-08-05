@@ -39,10 +39,7 @@ def _sanitize_value(value: Any, *, _depth: int = 0) -> Any:
         return [_sanitize_value(v, _depth=_depth + 1) for v in list(value)[:_MAX_ATTRIBUTES]]
 
     if isinstance(value, dict):
-        return {
-            str(k): _sanitize_value(v, _depth=_depth + 1)
-            for k, v in list(value.items())[:_MAX_ATTRIBUTES]
-        }
+        return {str(k): _sanitize_value(v, _depth=_depth + 1) for k, v in list(value.items())[:_MAX_ATTRIBUTES]}
 
     try:
         text = repr(value)
@@ -79,7 +76,5 @@ class ExceptionInfo(BaseModel):
         return cls(
             type=type(exc).__qualname__,
             message=str(exc),
-            stacktrace="".join(
-                traceback.format_exception(type(exc), exc, exc.__traceback__)
-            ),
+            stacktrace="".join(traceback.format_exception(type(exc), exc, exc.__traceback__)),
         )

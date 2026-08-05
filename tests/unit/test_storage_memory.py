@@ -41,9 +41,7 @@ async def test_query_filters_by_trace_id():
 
 async def test_query_filters_by_correlation_id():
     storage = MemoryStorage()
-    await storage.write_spans(
-        [make_span(id="a", correlation_id="c1"), make_span(id="b", correlation_id="c2")]
-    )
+    await storage.write_spans([make_span(id="a", correlation_id="c1"), make_span(id="b", correlation_id="c2")])
     results = await storage.query_spans(correlation_id="c2")
     assert [s.id for s in results] == ["b"]
 

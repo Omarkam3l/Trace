@@ -60,8 +60,22 @@ def test_session_repository_append_only():
         status=NodeStatus.COMPLETED,
     )
     graph = ExecutionGraph(graph_id="g1", activity_id="act1", nodes={"n1": node}, relationships=[])
-    activity = Activity(activity_id="act1", session_id="sess1", name="Task", started_at=now, status=ActivityStatus.COMPLETED, graph=graph)
-    session = RecordingSession(session_id="sess1", started_at=now, status=SessionStatus.COMPLETED, environment=env, profile=prof, activities=[activity])
+    activity = Activity(
+        activity_id="act1",
+        session_id="sess1",
+        name="Task",
+        started_at=now,
+        status=ActivityStatus.COMPLETED,
+        graph=graph,
+    )
+    session = RecordingSession(
+        session_id="sess1",
+        started_at=now,
+        status=SessionStatus.COMPLETED,
+        environment=env,
+        profile=prof,
+        activities=[activity],
+    )
 
     s_rec = repo.append_session(session)
     assert isinstance(s_rec, SessionRecord)

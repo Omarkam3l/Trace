@@ -65,7 +65,7 @@ class SQLiteConnectionManager:
             cursor.execute("PRAGMA synchronous = NORMAL;")
             cursor.execute("PRAGMA temp_store = MEMORY;")
             cursor.execute("PRAGMA cache_size = -64000;")
-            
+
             # journal_mode = WAL (only if not :memory:)
             if self._db_path != ":memory:":
                 cursor.execute("PRAGMA journal_mode = WAL;")

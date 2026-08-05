@@ -57,9 +57,7 @@ def test_context_is_isolated_across_threads():
         results[name] = ContextManager.get_current().trace_id
         ContextManager.reset(token)
 
-    threads = [
-        threading.Thread(target=worker, args=(f"t{i}", f"trace-{i}")) for i in range(5)
-    ]
+    threads = [threading.Thread(target=worker, args=(f"t{i}", f"trace-{i}")) for i in range(5)]
     for t in threads:
         t.start()
     for t in threads:

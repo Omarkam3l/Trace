@@ -52,9 +52,7 @@ class RecorderWriter:
         self._stopped_cleanly = threading.Event()
 
     def start(self) -> None:
-        self._thread = threading.Thread(
-            target=self._run, name="traceforge-recorder-writer", daemon=True
-        )
+        self._thread = threading.Thread(target=self._run, name="traceforge-recorder-writer", daemon=True)
         self._thread.start()
 
     def stop(self, timeout: float | None) -> None:

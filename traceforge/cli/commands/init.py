@@ -8,7 +8,9 @@ import os
 
 def register_parser(subparsers: argparse._SubParsersAction) -> None:
     parser = subparsers.add_parser("init", help="Initialize a new TraceForge project workspace.")
-    parser.add_argument("directory", nargs="?", default=".", help="Target project directory (default: current directory).")
+    parser.add_argument(
+        "directory", nargs="?", default=".", help="Target project directory (default: current directory)."
+    )
     parser.set_defaults(func=execute)
 
 

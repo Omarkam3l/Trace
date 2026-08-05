@@ -17,7 +17,14 @@ def test_integration_health_and_metrics():
     conn = driver.connection_manager.get_connection()
 
     now = datetime.now(timezone.utc)
-    s1 = SessionRecord(session_id="s1", started_at=now, status="completed", environment_os="win32", environment_python="3.12", profile_name="standard")
+    s1 = SessionRecord(
+        session_id="s1",
+        started_at=now,
+        status="completed",
+        environment_os="win32",
+        environment_python="3.12",
+        profile_name="standard",
+    )
     driver.begin_transaction()
     driver.write_batch([s1])
     driver.commit()

@@ -53,16 +53,36 @@ def test_deterministic_dispatch_ordering():
     )
 
     graph = ExecutionGraph(graph_id="g1", activity_id="act1", nodes={"n1": node}, relationships=[])
-    activity = Activity(activity_id="act1", session_id="sess1", name="Act1", started_at=now, status=ActivityStatus.COMPLETED, graph=graph)
-    session = RecordingSession(session_id="sess1", started_at=now, status=SessionStatus.COMPLETED, environment=Environment(os="win32", python_version="3.13"), profile=RecordingProfile(), activities=[activity])
+    activity = Activity(
+        activity_id="act1",
+        session_id="sess1",
+        name="Act1",
+        started_at=now,
+        status=ActivityStatus.COMPLETED,
+        graph=graph,
+    )
+    session = RecordingSession(
+        session_id="sess1",
+        started_at=now,
+        status=SessionStatus.COMPLETED,
+        environment=Environment(os="win32", python_version="3.13"),
+        profile=RecordingProfile(),
+        activities=[activity],
+    )
 
     pipeline.publish_graph(graph)
     pipeline.publish_activity(activity)
     pipeline.publish_session(session)
 
     expected = [
-        "c1:graph:g1", "c2:graph:g1", "c3:graph:g1",
-        "c1:activity:act1", "c2:activity:act1", "c3:activity:act1",
-        "c1:session:sess1", "c2:session:sess1", "c3:session:sess1",
+        "c1:graph:g1",
+        "c2:graph:g1",
+        "c3:graph:g1",
+        "c1:activity:act1",
+        "c2:activity:act1",
+        "c3:activity:act1",
+        "c1:session:sess1",
+        "c2:session:sess1",
+        "c3:session:sess1",
     ]
     assert dispatch_log == expected

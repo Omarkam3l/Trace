@@ -12,7 +12,14 @@ from traceforge.visualization.config import VisualizationConfig
 
 def test_timeline_adapter():
     now = datetime.now(timezone.utc)
-    sess_rec = SessionRecord(session_id="s1", started_at=now, status="completed", environment_os="win32", environment_python="3.13", profile_name="standard")
+    sess_rec = SessionRecord(
+        session_id="s1",
+        started_at=now,
+        status="completed",
+        environment_os="win32",
+        environment_python="3.13",
+        profile_name="standard",
+    )
     evt = RawEventRecord(event_id="e1", timestamp=now, sequence=1, type="Start", source="worker_1")
 
     session = ReplaySession(session=sess_rec, timeline=[evt])

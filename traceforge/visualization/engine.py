@@ -42,7 +42,9 @@ class VisualizationEngine:
         with self._lock:
             return self._timeline_adapter.adapt(session, cfg)
 
-    def to_flamegraph_model(self, session: ReplaySession, config: VisualizationConfig | None = None) -> FlamegraphViewModel:
+    def to_flamegraph_model(
+        self, session: ReplaySession, config: VisualizationConfig | None = None
+    ) -> FlamegraphViewModel:
         """Convert a ReplaySession to a FlamegraphViewModel."""
         cfg = config or VisualizationConfig()
         with self._lock:

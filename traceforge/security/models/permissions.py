@@ -25,14 +25,18 @@ class Role(str, Enum):
 
 ROLE_PERMISSIONS: dict[Role, frozenset[Permission]] = {
     Role.ADMIN: frozenset(Permission),
-    Role.ANALYST: frozenset({
-        Permission.READ_SESSIONS,
-        Permission.READ_REPLAY,
-        Permission.READ_DIFF,
-        Permission.VIEW_VISUALIZATION,
-    }),
-    Role.VIEWER: frozenset({
-        Permission.READ_SESSIONS,
-        Permission.VIEW_VISUALIZATION,
-    }),
+    Role.ANALYST: frozenset(
+        {
+            Permission.READ_SESSIONS,
+            Permission.READ_REPLAY,
+            Permission.READ_DIFF,
+            Permission.VIEW_VISUALIZATION,
+        }
+    ),
+    Role.VIEWER: frozenset(
+        {
+            Permission.READ_SESSIONS,
+            Permission.VIEW_VISUALIZATION,
+        }
+    ),
 }

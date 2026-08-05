@@ -38,7 +38,5 @@ class TraceForgeSettings(BaseModel):
     @model_validator(mode="after")
     def _validate_storage_path(self) -> TraceForgeSettings:
         if self.storage_backend in ("jsonl", "sqlite") and not self.storage_path:
-            raise ValueError(
-                f"storage_path is required when storage_backend={self.storage_backend!r}"
-            )
+            raise ValueError(f"storage_path is required when storage_backend={self.storage_backend!r}")
         return self

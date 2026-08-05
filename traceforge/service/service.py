@@ -76,7 +76,9 @@ class TraceForgeApiService:
             except Exception as err:
                 raise ServiceExecutionError(f"Failed to get session {session_id!r}: {err}") from err
 
-    def list_sessions(self, filter: QueryFilter | None = None, pagination: Pagination | None = None) -> list[SessionRecord]:
+    def list_sessions(
+        self, filter: QueryFilter | None = None, pagination: Pagination | None = None
+    ) -> list[SessionRecord]:
         """List SessionRecords matching optional filter and pagination."""
         with self._lock:
             try:
@@ -94,7 +96,9 @@ class TraceForgeApiService:
             except Exception as err:
                 raise ServiceExecutionError(f"Failed to replay session {session_id!r}: {err}") from err
 
-    def compare_sessions(self, baseline_id: str, target_id: str, config: DiffConfig | None = None) -> ExecutionDiffReport:
+    def compare_sessions(
+        self, baseline_id: str, target_id: str, config: DiffConfig | None = None
+    ) -> ExecutionDiffReport:
         """Compare baseline and target sessions and produce an ExecutionDiffReport."""
         with self._lock:
             base_replay = self.replay_session(baseline_id)
@@ -102,7 +106,9 @@ class TraceForgeApiService:
             try:
                 return self._diff_engine.compare(base_replay, targ_replay, config=config)
             except Exception as err:
-                raise ServiceExecutionError(f"Failed to compare sessions {baseline_id!r} and {target_id!r}: {err}") from err
+                raise ServiceExecutionError(
+                    f"Failed to compare sessions {baseline_id!r} and {target_id!r}: {err}"
+                ) from err
 
     def export_session(self, session_id: str, config: ExportConfig | None = None) -> str:
         """Export a ReplaySession artifact to formatted string."""
@@ -120,7 +126,9 @@ class TraceForgeApiService:
             try:
                 return self._export_engine.export_diff_report(diff_report, config=config)
             except Exception as err:
-                raise ServiceExecutionError(f"Failed to export diff between {baseline_id!r} and {target_id!r}: {err}") from err
+                raise ServiceExecutionError(
+                    f"Failed to export diff between {baseline_id!r} and {target_id!r}: {err}"
+                ) from err
 
     def get_graph_visualization(self, session_id: str, config: VisualizationConfig | None = None) -> GraphViewModel:
         """Get Cytoscape/D3 GraphViewModel for a session."""
@@ -128,19 +136,25 @@ class TraceForgeApiService:
             session_replay = self.replay_session(session_id)
             return self._vis_engine.to_graph_model(session_replay, config=config)
 
-    def get_timeline_visualization(self, session_id: str, config: VisualizationConfig | None = None) -> TimelineViewModel:
+    def get_timeline_visualization(
+        self, session_id: str, config: VisualizationConfig | None = None
+    ) -> TimelineViewModel:
         """Get TimelineViewModel for a session."""
         with self._lock:
             session_replay = self.replay_session(session_id)
             return self._vis_engine.to_timeline_model(session_replay, config=config)
 
-    def get_flamegraph_visualization(self, session_id: str, config: VisualizationConfig | None = None) -> FlamegraphViewModel:
+    def get_flamegraph_visualization(
+        self, session_id: str, config: VisualizationConfig | None = None
+    ) -> FlamegraphViewModel:
         """Get FlamegraphViewModel for a session."""
         with self._lock:
             session_replay = self.replay_session(session_id)
             return self._vis_engine.to_flamegraph_model(session_replay, config=config)
 
-    def get_diff_visualization(self, baseline_id: str, target_id: str, config: VisualizationConfig | None = None) -> DiffViewModel:
+    def get_diff_visualization(
+        self, baseline_id: str, target_id: str, config: VisualizationConfig | None = None
+    ) -> DiffViewModel:
         """Get DiffViewModel for a session comparison."""
         with self._lock:
             diff_report = self.compare_sessions(baseline_id, target_id)

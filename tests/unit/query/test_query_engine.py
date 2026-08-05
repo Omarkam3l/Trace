@@ -15,11 +15,22 @@ def test_query_engine_facade_execution():
     conn = driver.connection_manager.get_connection()
 
     now = datetime.now(timezone.utc)
-    s1 = SessionRecord(session_id="s1", started_at=now, status="completed", environment_os="win32", environment_python="3.13", profile_name="standard")
-    a1 = ActivityRecord(activity_id="act1", session_id="s1", name="Checkout", started_at=now, status="completed", graph_id="g1")
+    s1 = SessionRecord(
+        session_id="s1",
+        started_at=now,
+        status="completed",
+        environment_os="win32",
+        environment_python="3.13",
+        profile_name="standard",
+    )
+    a1 = ActivityRecord(
+        activity_id="act1", session_id="s1", name="Checkout", started_at=now, status="completed", graph_id="g1"
+    )
     g1 = GraphRecord(graph_id="g1", activity_id="act1", node_ids=["n1"], relationship_ids=[])
     n1 = NodeRecord(node_id="n1", graph_id="g1", type="function", name="main", started_at=now, status="completed")
-    e1 = RawEventRecord(event_id="e1", timestamp=now, sequence=1, type="FunctionEntered", source="python_sdk", context_id="s1")
+    e1 = RawEventRecord(
+        event_id="e1", timestamp=now, sequence=1, type="FunctionEntered", source="python_sdk", context_id="s1"
+    )
 
     driver.begin_transaction()
     driver.write_batch([s1, a1, g1, n1, e1])

@@ -14,6 +14,7 @@ class YamlSource:
             return {}
         try:
             import yaml
+
             with open(filepath, "r", encoding="utf-8") as f:
                 content = yaml.safe_load(f)
                 return content if isinstance(content, dict) else {}

@@ -13,7 +13,14 @@ from traceforge.storage.records import SessionRecord
 
 def test_json_exporter():
     now = datetime.now(timezone.utc)
-    sess_rec = SessionRecord(session_id="s1", started_at=now, status="completed", environment_os="win32", environment_python="3.13", profile_name="standard")
+    sess_rec = SessionRecord(
+        session_id="s1",
+        started_at=now,
+        status="completed",
+        environment_os="win32",
+        environment_python="3.13",
+        profile_name="standard",
+    )
     session = ReplaySession(session=sess_rec)
 
     exporter = JsonExporter()

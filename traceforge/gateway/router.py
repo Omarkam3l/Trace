@@ -145,7 +145,9 @@ def get_timeline_visualization(session_id: str, service: TraceForgeApiService = 
 
 
 @router.get("/sessions/{session_id}/visualization/flamegraph")
-def get_flamegraph_visualization(session_id: str, service: TraceForgeApiService = Depends(get_service)) -> dict[str, Any]:
+def get_flamegraph_visualization(
+    session_id: str, service: TraceForgeApiService = Depends(get_service)
+) -> dict[str, Any]:
     """Get FlamegraphViewModel."""
     vm = service.get_flamegraph_visualization(session_id)
     return vm.model_dump(mode="json")

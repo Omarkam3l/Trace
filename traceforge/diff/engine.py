@@ -35,13 +35,19 @@ class ExecutionDiffEngine:
     ) -> ExecutionDiffReport:
         """Compare baseline and target ReplaySessions and generate an ExecutionDiffReport."""
         if not baseline.session or not target.session:
-            raise DiffValidationError("Baseline and target ReplaySessions must contain non-null SessionRecord instances")
+            raise DiffValidationError(
+                "Baseline and target ReplaySessions must contain non-null SessionRecord instances"
+            )
 
         cfg = config or DiffConfig()
         with self._lock:
             graph_diff = self._graph_comp.compare(baseline, target) if DiffCategory.GRAPH in cfg.categories else None
-            timeline_diff = self._timeline_comp.compare(baseline, target) if DiffCategory.TIMELINE in cfg.categories else None
-            perf_diff = self._perf_comp.compare(baseline, target, cfg) if DiffCategory.PERFORMANCE in cfg.categories else None
+            timeline_diff = (
+                self._timeline_comp.compare(baseline, target) if DiffCategory.TIMELINE in cfg.categories else None
+            )
+            perf_diff = (
+                self._perf_comp.compare(baseline, target, cfg) if DiffCategory.PERFORMANCE in cfg.categories else None
+            )
             exc_diff = self._exc_comp.compare(baseline, target) if DiffCategory.EXCEPTION in cfg.categories else None
             meta_diff = self._meta_comp.compare(baseline, target) if DiffCategory.METADATA in cfg.categories else None
 

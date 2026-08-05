@@ -23,10 +23,13 @@ class ActivityRepository:
         with self._lock:
             try:
                 cursor = self._conn.cursor()
-                cursor.execute("""
+                cursor.execute(
+                    """
                     SELECT activity_id, session_id, name, started_at, finished_at, duration_ms, status, graph_id, record_timestamp
                     FROM activities WHERE activity_id = ?;
-                """, (activity_id,))
+                """,
+                    (activity_id,),
+                )
                 row = cursor.fetchone()
                 if not row:
                     raise NotFoundError(f"Activity with ID {activity_id!r} not found")
@@ -40,12 +43,15 @@ class ActivityRepository:
         with self._lock:
             try:
                 cursor = self._conn.cursor()
-                cursor.execute("""
+                cursor.execute(
+                    """
                     SELECT activity_id, session_id, name, started_at, finished_at, duration_ms, status, graph_id, record_timestamp
                     FROM activities WHERE session_id = ?
                     ORDER BY started_at ASC, activity_id ASC
                     LIMIT ? OFFSET ?;
-                """, (session_id, pag.limit, pag.offset))
+                """,
+                    (session_id, pag.limit, pag.offset),
+                )
                 return [self._row_to_record(row) for row in cursor.fetchall()]
             except sqlite3.Error as err:
                 raise RepositoryError(f"Failed to list activities for session {session_id!r}: {err}") from err

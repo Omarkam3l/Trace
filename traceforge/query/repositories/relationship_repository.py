@@ -22,11 +22,14 @@ class RelationshipRepository:
         with self._lock:
             try:
                 cursor = self._conn.cursor()
-                cursor.execute("""
+                cursor.execute(
+                    """
                     SELECT relationship_id, graph_id, source_node_id, target_node_id, relationship_type, record_timestamp
                     FROM relationships WHERE graph_id = ?
                     ORDER BY relationship_id ASC;
-                """, (graph_id,))
+                """,
+                    (graph_id,),
+                )
                 return [self._row_to_record(row) for row in cursor.fetchall()]
             except sqlite3.Error as err:
                 raise RepositoryError(f"Failed to list relationships for graph {graph_id!r}: {err}") from err
@@ -36,11 +39,14 @@ class RelationshipRepository:
         with self._lock:
             try:
                 cursor = self._conn.cursor()
-                cursor.execute("""
+                cursor.execute(
+                    """
                     SELECT relationship_id, graph_id, source_node_id, target_node_id, relationship_type, record_timestamp
                     FROM relationships WHERE graph_id = ? AND target_node_id = ?
                     ORDER BY relationship_id ASC;
-                """, (graph_id, node_id))
+                """,
+                    (graph_id, node_id),
+                )
                 return [self._row_to_record(row) for row in cursor.fetchall()]
             except sqlite3.Error as err:
                 raise RepositoryError(f"Failed to list incoming relationships for node {node_id!r}: {err}") from err
@@ -50,11 +56,14 @@ class RelationshipRepository:
         with self._lock:
             try:
                 cursor = self._conn.cursor()
-                cursor.execute("""
+                cursor.execute(
+                    """
                     SELECT relationship_id, graph_id, source_node_id, target_node_id, relationship_type, record_timestamp
                     FROM relationships WHERE graph_id = ? AND source_node_id = ?
                     ORDER BY relationship_id ASC;
-                """, (graph_id, node_id))
+                """,
+                    (graph_id, node_id),
+                )
                 return [self._row_to_record(row) for row in cursor.fetchall()]
             except sqlite3.Error as err:
                 raise RepositoryError(f"Failed to list outgoing relationships for node {node_id!r}: {err}") from err

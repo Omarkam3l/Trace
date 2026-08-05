@@ -14,8 +14,12 @@ def test_raw_event_read_repository():
     conn = driver.connection_manager.get_connection()
 
     now = datetime.now(timezone.utc)
-    e1 = RawEventRecord(event_id="e1", timestamp=now, sequence=1, type="FunctionEntered", source="python_sdk", context_id="s1")
-    e2 = RawEventRecord(event_id="e2", timestamp=now, sequence=2, type="FunctionReturned", source="python_sdk", activity_hint="act1")
+    e1 = RawEventRecord(
+        event_id="e1", timestamp=now, sequence=1, type="FunctionEntered", source="python_sdk", context_id="s1"
+    )
+    e2 = RawEventRecord(
+        event_id="e2", timestamp=now, sequence=2, type="FunctionReturned", source="python_sdk", activity_hint="act1"
+    )
 
     driver.begin_transaction()
     driver.write_batch([e1, e2])

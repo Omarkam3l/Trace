@@ -21,6 +21,4 @@ def check_permission(user: User, permission: Permission) -> None:
         if permission in role_perms:
             return
 
-    raise PermissionDeniedError(
-        f"User {user.user_id!r} lacks permission {permission.value!r}"
-    )
+    raise PermissionDeniedError(f"User {user.user_id!r} lacks permission {permission.value!r}")

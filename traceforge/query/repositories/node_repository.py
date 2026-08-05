@@ -24,10 +24,13 @@ class NodeRepository:
         with self._lock:
             try:
                 cursor = self._conn.cursor()
-                cursor.execute("""
+                cursor.execute(
+                    """
                     SELECT node_id, graph_id, node_type, name, started_at, finished_at, duration_ms, status, parent_id, child_ids_json, inputs_json, outputs_json, metadata_json, tags_json, source, record_timestamp
                     FROM nodes WHERE node_id = ?;
-                """, (node_id,))
+                """,
+                    (node_id,),
+                )
                 row = cursor.fetchone()
                 if not row:
                     raise NotFoundError(f"Node with ID {node_id!r} not found")
@@ -41,12 +44,15 @@ class NodeRepository:
         with self._lock:
             try:
                 cursor = self._conn.cursor()
-                cursor.execute("""
+                cursor.execute(
+                    """
                     SELECT node_id, graph_id, node_type, name, started_at, finished_at, duration_ms, status, parent_id, child_ids_json, inputs_json, outputs_json, metadata_json, tags_json, source, record_timestamp
                     FROM nodes WHERE graph_id = ?
                     ORDER BY started_at ASC, node_id ASC
                     LIMIT ? OFFSET ?;
-                """, (graph_id, pag.limit, pag.offset))
+                """,
+                    (graph_id, pag.limit, pag.offset),
+                )
                 return [self._row_to_record(row) for row in cursor.fetchall()]
             except sqlite3.Error as err:
                 raise RepositoryError(f"Failed to list nodes for graph {graph_id!r}: {err}") from err
@@ -67,11 +73,14 @@ class NodeRepository:
             try:
                 placeholders = ",".join("?" for _ in node.child_ids)
                 cursor = self._conn.cursor()
-                cursor.execute(f"""
+                cursor.execute(
+                    f"""
                     SELECT node_id, graph_id, node_type, name, started_at, finished_at, duration_ms, status, parent_id, child_ids_json, inputs_json, outputs_json, metadata_json, tags_json, source, record_timestamp
                     FROM nodes WHERE node_id IN ({placeholders})
                     ORDER BY started_at ASC, node_id ASC;
-                """, node.child_ids)
+                """,
+                    node.child_ids,
+                )
                 return [self._row_to_record(row) for row in cursor.fetchall()]
             except sqlite3.Error as err:
                 raise RepositoryError(f"Failed to fetch children for node {node_id!r}: {err}") from err

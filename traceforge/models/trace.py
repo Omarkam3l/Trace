@@ -55,7 +55,7 @@ class TraceModel(BaseModel):
         root = next((s for s in ordered if s.is_root), ordered[0])
         end_times = [s.end_time for s in ordered if s.end_time is not None]
         end_time = max(end_times) if len(end_times) == len(ordered) else None
-        
+
         computed_duration: float | None = duration_ms
         if computed_duration is None and end_time is not None:
             computed_duration = max(0.0, (end_time - ordered[0].start_time).total_seconds() * 1000.0)
@@ -63,7 +63,7 @@ class TraceModel(BaseModel):
         # Build parent-child tree hierarchy among spans
         span_by_id: dict[str, SpanModel] = {}
         children_by_parent: dict[str, list[SpanModel]] = {}
-        
+
         for s in ordered:
             span_by_id[s.id] = s
             if s.parent_span_id:

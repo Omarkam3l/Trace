@@ -17,7 +17,12 @@ def test_node_factory_creation_and_mapping():
         timestamp=now,
         type="SQLQuery",
         source=SourceType.SQL_PLUGIN,
-        payload={"name": "SELECT users", "duration_ms": 15.2, "status": "completed", "inputs": {"query": "SELECT * FROM users"}},
+        payload={
+            "name": "SELECT users",
+            "duration_ms": 15.2,
+            "status": "completed",
+            "inputs": {"query": "SELECT * FROM users"},
+        },
         metadata={"db.system": "postgresql"},
     )
 

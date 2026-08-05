@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from collections.abc import Callable
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from traceforge.domain.environment import Environment
@@ -83,3 +84,8 @@ class ActivityContextManager:
 
     async def __aexit__(self, *exc_info: object) -> None:
         self.__exit__(*exc_info)
+
+    def __call__(self, fn: Callable[..., Any]) -> Callable[..., Any]:
+        from traceforge.instrumentation.decorators import wrap_with_activity
+
+        return wrap_with_activity(self._service, fn=fn, activity_name=self._name)

@@ -23,9 +23,7 @@ def extract_correlation_id(headers: Mapping[str, str]) -> str | None:
     return None
 
 
-def inject_correlation_id(
-    headers: MutableMapping[str, str], correlation_id: str | None = None
-) -> str:
+def inject_correlation_id(headers: MutableMapping[str, str], correlation_id: str | None = None) -> str:
     """Set the correlation ID header, generating one if not provided.
 
     Returns the correlation ID that was set.
