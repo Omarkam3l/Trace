@@ -57,6 +57,17 @@ export:
     else:
         print("  [*] Config file traceforge.yaml already exists. Skipping.")
 
+    env_example_path = os.path.join(target_dir, ".env.example")
+    if not os.path.exists(env_example_path):
+        with open(env_example_path, "w", encoding="utf-8") as f:
+            f.write("""# TraceForge Environment Variables
+TRACEFORGE_ENV=development
+TRACEFORGE_HOST=127.0.0.1
+TRACEFORGE_PORT=8000
+TRACEFORGE_JWT_SECRET=your-secure-jwt-secret-key-here
+""")
+        print("  [+] Created environment template: .env.example")
+
     print("\nProject initialization complete! Next steps:")
     print("  1. cd " + (args.directory if args.directory != "." else "."))
     print("  2. traceforge server")

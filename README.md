@@ -102,68 +102,83 @@ pip install ".[websocket,yaml]"
 
 ## 🚀 Quickstart
 
-### 1. Python SDK Usage
+### 1. Python SDK Usage (Span Tracing & Storage)
 
 ```python
+import asyncio
 import traceforge
 
-# Initialize Tracer & Recorder
-tracer = traceforge.Tracer("order-service")
+# Initialize storage, exporters, and recorder
+storage = traceforge.SQLiteStorage("traces.db")
 recorder = traceforge.Recorder(
-    storage=traceforge.MemoryStorage(),
+    storage=storage,
     exporters=[traceforge.ConsoleExporter()],
 ).start()
+
+# Setup Tracer
+tracer = traceforge.Tracer("order-service")
 tracer.add_hook(recorder)
 
 # Track execution with nested spans
 with tracer.start_span("process-order") as span:
     span.set_attribute("customer.id", "cust_99812")
-    
+
     with tracer.start_span("validate-inventory") as inv_span:
         inv_span.add_event("inventory-checked", payload={"sku": "ITEM-42", "qty": 1})
 
     with tracer.start_span("charge-card") as pay_span:
         pay_span.set_attribute("payment.method", "credit_card")
 
-# Stop recorder when done
+# Stop recorder to flush all spans to storage
 recorder.stop()
+
+# Query recorded spans back from storage
+spans = asyncio.run(storage.query_spans(limit=10))
+print(f"Recorded Spans: {len(spans)}")
 ```
 
 ### 2. Async Context & Decorators
 
 ```python
-from traceforge import traced, Tracer
+import asyncio
+from traceforge import traced, Tracer, configure
 
-tracer = Tracer()
+tracer = Tracer("async-service")
+configure(tracer)
 
 @traced(name="fetch-external-api")
 async def fetch_user_data(user_id: str):
     # Async span automatically created and context-propagated
     return {"user_id": user_id, "status": "active"}
 
-async with tracer.start_span("async-pipeline") as span:
-    data = await fetch_user_data("usr_100")
-    span.set_attribute("pipeline.complete", True)
+async def main():
+    async with tracer.start_span("async-pipeline") as span:
+        data = await fetch_user_data("usr_100")
+        span.set_attribute("pipeline.complete", True)
+
+asyncio.run(main())
 ```
 
-### 3. Execution Replay & Diff Analysis
+### 3. Platform Query Engine, Execution Replay & Diff Analysis
 
 ```python
 from traceforge.service.service import TraceForgeApiService
 from traceforge.storage.drivers.sqlite import SQLiteStorageDriver
 
-# Connect to database
+# Connect to TraceForge relational database (initialized via SQLiteStorageDriver or CLI)
 driver = SQLiteStorageDriver("traceforge.db")
-service = TraceForgeApiService(driver.connection_manager.get_connection())
+conn = driver.connection_manager.get_connection()
+
+# Query sessions via QueryEngine
+service = TraceForgeApiService(conn)
+sessions = service.query_engine.sessions.list()
+print(f"Total Sessions: {len(sessions)}")
 
 # Replay session execution graph
-session_replay = service.replay_session("sess_12345")
-print(f"Session Status: {session_replay.session.status}")
-print(f"Recorded Nodes: {len(session_replay.nodes)}")
-
-# Compute execution diff between two sessions
-diff_result = service.compare_sessions("sess_12345", "sess_67890")
-print(f"Duration Change: {diff_result.duration_delta_ms:.2f}ms")
+if sessions:
+    session_replay = service.replay_session(sessions[0].session_id)
+    print(f"Session Status: {session_replay.session.status}")
+    print(f"Recorded Nodes: {len(session_replay.nodes)}")
 ```
 
 ---
