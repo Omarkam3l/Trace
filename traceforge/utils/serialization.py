@@ -20,7 +20,7 @@ def to_jsonable(obj: Any) -> Any:
         return obj.value
     if isinstance(obj, dict):
         return {str(k): to_jsonable(v) for k, v in obj.items()}
-    if isinstance(obj, (list, tuple, set)):
+    if isinstance(obj, list | tuple | set):
         return [to_jsonable(v) for v in obj]
     return obj
 

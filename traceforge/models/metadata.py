@@ -35,7 +35,7 @@ def _sanitize_value(value: Any, *, _depth: int = 0) -> Any:
             return value[:_MAX_STRING_LENGTH] + "...<truncated>"
         return value
 
-    if isinstance(value, (list, tuple, set)):
+    if isinstance(value, list | tuple | set):
         return [_sanitize_value(v, _depth=_depth + 1) for v in list(value)[:_MAX_ATTRIBUTES]]
 
     if isinstance(value, dict):
