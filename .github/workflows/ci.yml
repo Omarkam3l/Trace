@@ -37,7 +37,7 @@ jobs:
 
       - name: Check Ruff Formatting
         run: |
-          ruff format --check
+          ruff format --check traceforge tests examples benchmarks
 
       - name: Run Pytest
         run: |
