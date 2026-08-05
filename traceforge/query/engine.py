@@ -55,26 +55,32 @@ class QueryEngine:
 
     @property
     def sessions(self) -> SessionRepository:
+        """SessionRepository for listing and fetching SessionRecords (e.g., ``qe.sessions.list()``)."""
         return self._session_repo
 
     @property
     def activities(self) -> ActivityRepository:
+        """ActivityRepository for fetching activity records (e.g., ``qe.activities.list_by_session(session_id)``)."""
         return self._activity_repo
 
     @property
     def graphs(self) -> GraphRepository:
+        """GraphRepository for fetching graph records (e.g., ``qe.graphs.get_by_activity(activity_id)``)."""
         return self._graph_repo
 
     @property
     def nodes(self) -> NodeRepository:
+        """NodeRepository for listing execution nodes (e.g., ``qe.nodes.list_by_graph(graph_id)``)."""
         return self._node_repo
 
     @property
     def relationships(self) -> RelationshipRepository:
+        """RelationshipRepository for listing graph edges (e.g., ``qe.relationships.list_by_graph(graph_id)``)."""
         return self._rel_repo
 
     @property
     def raw_events(self) -> RawEventRepository:
+        """RawEventRepository for querying unparsed raw event records."""
         return self._raw_event_repo
 
     def execute_session_query(self, query: SessionQuery) -> list[SessionRecord]:

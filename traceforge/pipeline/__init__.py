@@ -1,6 +1,7 @@
 """TraceForge Execution Pipeline (Phase 5.5)."""
 
 from traceforge.pipeline.consumer import ExecutionConsumer
+from traceforge.pipeline.consumers.sqlite_consumer import SQLiteIngestConsumer
 from traceforge.pipeline.dispatcher import PipelineDispatcher
 from traceforge.pipeline.exceptions import (
     ConsumerExecutionError,
@@ -19,4 +20,5 @@ __all__ = [
     "PipelineError",
     "PipelineStatistics",
     "PipelineStatsSnapshot",
+    "SQLiteIngestConsumer",
 ]

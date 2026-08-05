@@ -93,7 +93,7 @@ from traceforge.models import (
     SpanStatus,
     TraceModel,
 )
-from traceforge.pipeline import ExecutionConsumer, ExecutionPipeline
+from traceforge.pipeline import ExecutionConsumer, ExecutionPipeline, SQLiteIngestConsumer
 from traceforge.plugins import (
     Plugin,
     PluginContext,
@@ -208,6 +208,7 @@ __all__ = [
     "ReplayMode",
     "ReplaySession",
     "RuntimeConfig",
+    "SQLiteIngestConsumer",
     "SQLiteStorage",
     "ServiceConfig",
     "SessionQuery",
