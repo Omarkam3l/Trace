@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from traceforge.api.exceptions import ConfigurationFreezeError
@@ -76,7 +76,7 @@ class InstrumentationService:
 
         event = RawEvent(
             event_id=f"evt_{uuid.uuid4().hex[:16]}",
-            timestamp=datetime.now(timezone.utc),
+            timestamp=datetime.now(UTC),
             type="Custom",
             payload=payload_dict,
             metadata=dict(metadata or {}),

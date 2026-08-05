@@ -13,7 +13,7 @@ from traceforge.security.exceptions import AuthenticationError
 class AuthenticationMiddleware(BaseHTTPMiddleware):
     """Extracts Authorization header, validates credentials, attaches user to request state."""
 
-    def __init__(self, app, auth_provider: AuthProvider) -> None:  # noqa: ANN001
+    def __init__(self, app, auth_provider: AuthProvider) -> None:
         super().__init__(app)
         self._auth_provider = auth_provider
 

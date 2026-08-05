@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
+from typing import Self
 
 from traceforge.models.span import SpanModel
 
@@ -37,7 +38,7 @@ class StorageAdapter(ABC):
         """Release any underlying resources (file handles, connections)."""
         raise NotImplementedError
 
-    async def __aenter__(self) -> StorageAdapter:
+    async def __aenter__(self) -> Self:
         return self
 
     async def __aexit__(self, *exc_info: object) -> None:

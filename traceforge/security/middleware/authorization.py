@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from traceforge.security.exceptions import PermissionDeniedError
-from traceforge.security.models.permissions import Permission, ROLE_PERMISSIONS
+from traceforge.security.models.permissions import ROLE_PERMISSIONS, Permission
 from traceforge.security.models.user import User
 
 

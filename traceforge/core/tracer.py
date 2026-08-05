@@ -93,10 +93,10 @@ class Tracer:
             self._traces[trace_id] = trace
 
         # Register active tracer on context manager
-        setattr(ContextManager, "_active_tracer", self)
+        ContextManager._active_tracer = self
 
         # Start root span for trace
-        root_span, token = self._begin_span(
+        root_span, _token = self._begin_span(
             name=name,
             kind=SpanKind.INTERNAL,
             attributes=None,
@@ -235,7 +235,7 @@ class SpanContext:
     for ergonomics inside ``async def`` functions.
     """
 
-    __slots__ = ("_tracer", "_name", "_kind", "_attributes", "_span", "_token")
+    __slots__ = ("_attributes", "_kind", "_name", "_span", "_token", "_tracer")
 
     def __init__(
         self,

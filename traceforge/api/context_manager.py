@@ -34,4 +34,4 @@ def span(
     return get_tracer().start_span(name, kind=kind, attributes=attributes)
 
 
-__all__ = ["span", "Span"]
+__all__ = ["Span", "span"]

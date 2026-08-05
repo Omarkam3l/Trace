@@ -9,15 +9,12 @@ overall span count so the Tracer can answer cheap questions like
 from __future__ import annotations
 
 import threading
-
-from traceforge.models.span import SpanModel
-
-
 from datetime import datetime
 from typing import Any
 
 from traceforge.models.enums import EventLevel, SpanKind, SpanStatus
 from traceforge.models.metadata import Attributes
+from traceforge.models.span import SpanModel
 from traceforge.models.trace import TraceModel
 
 
@@ -25,21 +22,21 @@ class Trace:
     """Tracks bookkeeping for a single trace as spans are opened/closed."""
 
     __slots__ = (
-        "_id",
-        "_name",
-        "_correlation_id",
-        "_session_id",
-        "_root_span_id",
-        "_lock",
-        "_open_span_count",
-        "_tracer",
-        "_started_at",
-        "_finished_at",
-        "_duration_ms",
-        "_status",
-        "_spans",
         "_active_spans",
+        "_correlation_id",
+        "_duration_ms",
+        "_finished_at",
+        "_id",
+        "_lock",
+        "_name",
+        "_open_span_count",
+        "_root_span_id",
+        "_session_id",
+        "_spans",
         "_start_monotonic",
+        "_started_at",
+        "_status",
+        "_tracer",
     )
 
     def __init__(

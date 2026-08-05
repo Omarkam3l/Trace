@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import threading
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from traceforge.engine.raw_event import RawEvent
@@ -117,7 +117,7 @@ class PluginManager:
         try:
             event = RawEvent(
                 event_id=f"fail_{uuid.uuid4().hex[:16]}",
-                timestamp=datetime.now(timezone.utc),
+                timestamp=datetime.now(UTC),
                 type="PluginFailure",
                 payload={
                     "plugin_name": plugin_name,

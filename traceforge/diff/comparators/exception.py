@@ -18,8 +18,8 @@ class ExceptionDiffComparator:
         base_errs = {f"{n.name}:{n.status}" for n in baseline.nodes if n.status == "error"}
         target_errs = {f"{n.name}:{n.status}" for n in target.nodes if n.status == "error"}
 
-        added = sorted(list(target_errs - base_errs))
-        removed = sorted(list(base_errs - target_errs))
+        added = sorted(target_errs - base_errs)
+        removed = sorted(base_errs - target_errs)
 
         return ExceptionDiff(
             added_exceptions=added,

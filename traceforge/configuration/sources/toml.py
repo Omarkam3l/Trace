@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import os
-import sys
 from typing import Any
 
 
@@ -14,15 +13,9 @@ class TomlSource:
         if not os.path.exists(filepath):
             return {}
         try:
-            if sys.version_info >= (3, 11):
-                import tomllib
+            import tomllib
 
-                with open(filepath, "rb") as f:
-                    return tomllib.load(f)
-            else:
-                import tomli
-
-                with open(filepath, "rb") as f:
-                    return tomli.load(f)
+            with open(filepath, "rb") as f:
+                return tomllib.load(f)
         except ImportError:
             return {}

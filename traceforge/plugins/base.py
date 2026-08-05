@@ -21,7 +21,6 @@ class Plugin(abc.ABC):
     @abc.abstractmethod
     def metadata(self) -> PluginMetadata:
         """Return immutable plugin metadata."""
-        pass
 
     @property
     def is_enabled(self) -> bool:
@@ -31,12 +30,10 @@ class Plugin(abc.ABC):
     @abc.abstractmethod
     def enable(self, context: PluginContext) -> None:
         """Enable the plugin with the provided PluginContext."""
-        pass
 
     @abc.abstractmethod
     def disable(self) -> None:
         """Disable the plugin and restore original runtime state."""
-        pass
 
     def _set_enabled(self, enabled: bool, context: PluginContext | None = None) -> None:
         self._enabled = enabled

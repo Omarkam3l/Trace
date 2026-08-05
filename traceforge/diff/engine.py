@@ -3,16 +3,16 @@
 from __future__ import annotations
 
 import threading
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
-from traceforge.diff.config import DiffCategory, DiffConfig
-from traceforge.diff.exceptions import DiffValidationError
-from traceforge.diff.report import ExecutionDiffReport
 from traceforge.diff.comparators.exception import ExceptionDiffComparator
 from traceforge.diff.comparators.graph import GraphDiffComparator
 from traceforge.diff.comparators.metadata import MetadataDiffComparator
 from traceforge.diff.comparators.performance import PerformanceDiffComparator
 from traceforge.diff.comparators.timeline import TimelineDiffComparator
+from traceforge.diff.config import DiffCategory, DiffConfig
+from traceforge.diff.exceptions import DiffValidationError
+from traceforge.diff.report import ExecutionDiffReport
 from traceforge.replay.session import ReplaySession
 
 
@@ -54,7 +54,7 @@ class ExecutionDiffEngine:
             return ExecutionDiffReport(
                 baseline_session_id=baseline.session.session_id,
                 target_session_id=target.session.session_id,
-                timestamp=datetime.now(timezone.utc),
+                timestamp=datetime.now(UTC),
                 graph_diff=graph_diff,
                 timeline_diff=timeline_diff,
                 performance_diff=perf_diff,

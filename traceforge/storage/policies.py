@@ -16,7 +16,6 @@ class FlushPolicy(abc.ABC):
     @abc.abstractmethod
     def should_flush(self, buffer: BufferManager) -> bool:
         """Return True if the buffer should be flushed."""
-        pass
 
 
 class SizeFlushPolicy(FlushPolicy):

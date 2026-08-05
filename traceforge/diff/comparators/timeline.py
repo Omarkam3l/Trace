@@ -18,8 +18,8 @@ class TimelineDiffComparator:
         base_event_ids = {e.event_id for e in baseline.timeline}
         target_event_ids = {e.event_id for e in target.timeline}
 
-        added = sorted(list(target_event_ids - base_event_ids))
-        removed = sorted(list(base_event_ids - target_event_ids))
+        added = sorted(target_event_ids - base_event_ids)
+        removed = sorted(base_event_ids - target_event_ids)
 
         # Calculate sequence drift
         drift_count = 0

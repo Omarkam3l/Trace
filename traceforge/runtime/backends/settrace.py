@@ -5,7 +5,7 @@ from __future__ import annotations
 import sys
 import threading
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from types import FrameType
 from typing import Any
 
@@ -48,7 +48,7 @@ class SetTraceBackend(InstrumentationBackend):
         if not self._filter.should_trace(module_name, filename, func_name):
             return None
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
 
         if event == "call":
             payload: dict[str, Any] = {
@@ -81,7 +81,7 @@ class SetTraceBackend(InstrumentationBackend):
             self._emit_callback(evt)
 
         elif event == "exception":
-            exc_type, exc_val, exc_tb = arg
+            exc_type, exc_val, _exc_tb = arg
             evt = RawEvent(
                 event_id=f"evt_{uuid.uuid4().hex[:16]}",
                 timestamp=now,

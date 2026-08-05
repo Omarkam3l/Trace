@@ -40,14 +40,11 @@ class ExecutionConsumer(abc.ABC):
     @abc.abstractmethod
     def on_session_completed(self, session: RecordingSession) -> None:
         """Invoked when a RecordingSession completes."""
-        pass
 
     @abc.abstractmethod
     def on_activity_completed(self, activity: Activity) -> None:
         """Invoked when an Activity completes."""
-        pass
 
     @abc.abstractmethod
     def on_graph_completed(self, graph: ExecutionGraph) -> None:
         """Invoked when an ExecutionGraph completes."""
-        pass

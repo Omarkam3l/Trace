@@ -14,8 +14,8 @@ from traceforge.core.tracer import SpanContext, Tracer
 __all__ = [
     "Clock",
     "ContextManager",
-    "Exporter",
     "ExecutionContext",
+    "Exporter",
     "FrozenClock",
     "LifecycleManager",
     "Span",

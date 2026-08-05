@@ -14,6 +14,7 @@ if TYPE_CHECKING:
 
 
 import os
+
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 
@@ -37,7 +38,7 @@ def create_app(service: TraceForgeApiService) -> FastAPI:
     def index():
         index_path = os.path.join(static_dir, "index.html") if os.path.exists(static_dir) else None
         if index_path and os.path.exists(index_path):
-            with open(index_path, "r", encoding="utf-8") as f:
+            with open(index_path, encoding="utf-8") as f:
                 return f.read()
         return """<!DOCTYPE html>
 <html lang="en">

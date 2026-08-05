@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -18,4 +18,4 @@ class SnapshotRecord(BaseModel):
     active_activity_id: str | None = None
     nodes_count: int = 0
     relationships_count: int = 0
-    record_timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    record_timestamp: datetime = Field(default_factory=lambda: datetime.now(UTC))

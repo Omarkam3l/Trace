@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import threading
 from collections.abc import Sequence
+from typing import Self
 
 from traceforge.core.lifecycle import Exporter, SpanLifecycleHook
 from traceforge.models.span import SpanModel
@@ -48,7 +49,7 @@ class Recorder(SpanLifecycleHook):
         self._lock = threading.Lock()
         self._started = False
 
-    def start(self) -> Recorder:
+    def start(self) -> Self:
         with self._lock:
             if not self._started:
                 self._writer.start()
@@ -61,7 +62,7 @@ class Recorder(SpanLifecycleHook):
                 self._writer.stop(timeout)
                 self._started = False
 
-    def __enter__(self) -> Recorder:
+    def __enter__(self) -> Self:
         return self.start()
 
     def __exit__(self, *exc_info: object) -> None:

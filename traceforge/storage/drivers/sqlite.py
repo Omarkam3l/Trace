@@ -80,7 +80,6 @@ class SQLiteStorageDriver(StorageDriver):
 
     def flush(self) -> None:
         """Flush active database writes."""
-        pass
 
     def close(self) -> None:
         """Close SQLite database connection."""

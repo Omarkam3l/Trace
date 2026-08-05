@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-
 from traceforge.domain.enums import NodeStatus, NodeType, SourceType
 from traceforge.domain.metadata import Metadata
 from traceforge.domain.node import ExecutionNode

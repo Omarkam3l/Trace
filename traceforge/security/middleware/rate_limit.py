@@ -13,7 +13,7 @@ from starlette.responses import JSONResponse, Response
 class RateLimitMiddleware(BaseHTTPMiddleware):
     """Per-user sliding-window rate limiting middleware."""
 
-    def __init__(self, app, max_requests: int = 100, window_seconds: int = 60) -> None:  # noqa: ANN001
+    def __init__(self, app, max_requests: int = 100, window_seconds: int = 60) -> None:
         super().__init__(app)
         self._max_requests = max_requests
         self._window_seconds = window_seconds

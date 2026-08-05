@@ -90,7 +90,7 @@ class RecorderWriter:
         for exporter in self._exporters:
             try:
                 await exporter.shutdown()
-            except Exception:  # noqa: BLE001
+            except Exception:
                 _logger.exception("traceforge: exporter shutdown failed")
 
     async def _flush(self, batch: list[SpanModel]) -> None:
@@ -98,11 +98,11 @@ class RecorderWriter:
             return
         try:
             await self._storage.write_spans(batch)
-        except Exception:  # noqa: BLE001
+        except Exception:
             _logger.exception("traceforge: storage write failed for %d spans", len(batch))
 
         for exporter in self._exporters:
             try:
                 await exporter.export(batch)
-            except Exception:  # noqa: BLE001
+            except Exception:
                 _logger.exception("traceforge: exporter %r failed", exporter)

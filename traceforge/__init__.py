@@ -63,28 +63,6 @@ from traceforge.core import (
     Trace,
     Tracer,
 )
-from traceforge.exporters import ConsoleExporter, JSONExporter, OTLPExporter, WebSocketExporter
-from traceforge.models import (
-    Attributes,
-    EventLevel,
-    EventModel,
-    ExceptionInfo,
-    SpanKind,
-    SpanModel,
-    SpanStatus,
-    TraceModel,
-)
-from traceforge.recorder import Recorder
-from traceforge.storage import JSONLStorage, MemoryStorage, SQLiteStorage, StorageAdapter
-
-from traceforge.instrumentation import InstrumentationConfig, trace
-from traceforge.plugins import (
-    Plugin,
-    PluginContext,
-    PluginManager,
-    PluginMetadata,
-    PluginRegistry,
-)
 from traceforge.diff import (
     DiffCategory,
     DiffConfig,
@@ -100,20 +78,27 @@ from traceforge.export import (
     MarkdownExporter,
     MermaidExporter,
 )
-from traceforge.visualization import (
-    DiffViewModel,
-    FlamegraphViewModel,
-    GraphViewModel,
-    TimelineViewModel,
-    VisualizationConfig,
-    VisualizationEngine,
-)
+from traceforge.exporters import ConsoleExporter, JSONExporter, OTLPExporter, WebSocketExporter
 from traceforge.gateway import create_app
-from traceforge.service import (
-    ServiceConfig,
-    TraceForgeApiService,
+from traceforge.instrumentation import InstrumentationConfig, trace
+from traceforge.models import (
+    Attributes,
+    EventLevel,
+    EventModel,
+    ExceptionInfo,
+    SpanKind,
+    SpanModel,
+    SpanStatus,
+    TraceModel,
 )
 from traceforge.pipeline import ExecutionConsumer, ExecutionPipeline
+from traceforge.plugins import (
+    Plugin,
+    PluginContext,
+    PluginManager,
+    PluginMetadata,
+    PluginRegistry,
+)
 from traceforge.query import (
     ActivityQuery,
     GraphQuery,
@@ -125,6 +110,7 @@ from traceforge.query import (
     RelationshipQuery,
     SessionQuery,
 )
+from traceforge.recorder import Recorder
 from traceforge.replay import (
     ReplayConfig,
     ReplayEngine,
@@ -137,105 +123,117 @@ from traceforge.runtime import (
     PythonRuntimePlugin,
     RuntimeConfig,
 )
+from traceforge.service import (
+    ServiceConfig,
+    TraceForgeApiService,
+)
+from traceforge.storage import JSONLStorage, MemoryStorage, SQLiteStorage, StorageAdapter
+from traceforge.visualization import (
+    DiffViewModel,
+    FlamegraphViewModel,
+    GraphViewModel,
+    TimelineViewModel,
+    VisualizationConfig,
+    VisualizationEngine,
+)
 
 __all__ = [
-    "__version__",
-    # Phase 3 Instrumentation API
-    "InstrumentationConfig",
-    "Tracer",
-    "trace",
-    # Phase 4 Plugin SDK
-    "Plugin",
-    "PluginMetadata",
-    "PluginContext",
-    "PluginManager",
-    "PluginRegistry",
-    # Phase 5 Python Runtime Plugin
-    "PythonRuntimePlugin",
-    "RuntimeConfig",
-    "ProfileType",
-    "BackendType",
-    # Phase 5.5 Execution Pipeline
-    "ExecutionConsumer",
-    "ExecutionPipeline",
-    # Phase 7 Query Engine
-    "QueryEngine",
-    "QueryFilter",
-    "Pagination",
-    "SessionQuery",
     "ActivityQuery",
-    "GraphQuery",
-    "NodeQuery",
-    "RelationshipQuery",
-    "RawEventQuery",
-    # Phase 8 Replay Engine
-    "ReplayEngine",
-    "ReplayConfig",
-    "ReplayMode",
-    "ReplaySession",
-    # Phase 9 Execution Diff Engine
-    "ExecutionDiffEngine",
-    "ExecutionDiffReport",
-    "DiffConfig",
-    "DiffCategory",
-    # Phase 10 Export & Artifact System
-    "ExportEngine",
-    "ExportConfig",
-    "ExportFormat",
-    "JsonExporter",
-    "MermaidExporter",
-    "HtmlExporter",
-    "MarkdownExporter",
-    # Phase 11 Visualization Data Adapter Layer
-    "VisualizationEngine",
-    "VisualizationConfig",
-    "GraphViewModel",
-    "TimelineViewModel",
-    "FlamegraphViewModel",
-    "DiffViewModel",
-    # Phase 12 API Service Layer
-    "TraceForgeApiService",
-    "ServiceConfig",
-    # Phase 13 HTTP Gateway Layer
-    "create_app",
-    # core
-    "Clock",
-    "ContextManager",
-    "ExecutionContext",
-    "FrozenClock",
-    "Span",
-    "SpanContext",
-    "SystemClock",
-    "Trace",
     # models
     "Attributes",
+    "BackendType",
+    # core
+    "Clock",
+    # api / ergonomics
+    "ConfigurationError",
+    # exporters
+    "ConsoleExporter",
+    "ContextManager",
+    "DiffCategory",
+    "DiffConfig",
+    "DiffViewModel",
     "EventLevel",
     "EventModel",
     "ExceptionInfo",
-    "SpanKind",
-    "SpanModel",
-    "SpanStatus",
-    "TraceModel",
+    # Phase 5.5 Execution Pipeline
+    "ExecutionConsumer",
+    "ExecutionContext",
+    # Phase 9 Execution Diff Engine
+    "ExecutionDiffEngine",
+    "ExecutionDiffReport",
+    "ExecutionPipeline",
+    "ExportConfig",
+    # Phase 10 Export & Artifact System
+    "ExportEngine",
+    "ExportFormat",
+    "ExporterError",
+    "FlamegraphViewModel",
+    "FrozenClock",
+    "GraphQuery",
+    "GraphViewModel",
+    "HtmlExporter",
+    # Phase 3 Instrumentation API
+    "InstrumentationConfig",
+    "JSONExporter",
     # storage
     "JSONLStorage",
+    "JsonExporter",
+    "MarkdownExporter",
     "MemoryStorage",
-    "SQLiteStorage",
-    "StorageAdapter",
-    # exporters
-    "ConsoleExporter",
-    "JSONExporter",
+    "MermaidExporter",
+    "NodeQuery",
     "OTLPExporter",
-    "WebSocketExporter",
+    "Pagination",
+    # Phase 4 Plugin SDK
+    "Plugin",
+    "PluginContext",
+    "PluginManager",
+    "PluginMetadata",
+    "PluginRegistry",
+    "ProfileType",
+    # Phase 5 Python Runtime Plugin
+    "PythonRuntimePlugin",
+    # Phase 7 Query Engine
+    "QueryEngine",
+    "QueryFilter",
+    "RawEventQuery",
     # recorder
     "Recorder",
-    # api / ergonomics
-    "ConfigurationError",
-    "ExporterError",
+    "RelationshipQuery",
+    "ReplayConfig",
+    # Phase 8 Replay Engine
+    "ReplayEngine",
+    "ReplayMode",
+    "ReplaySession",
+    "RuntimeConfig",
+    "SQLiteStorage",
+    "ServiceConfig",
+    "SessionQuery",
+    "Span",
+    "SpanContext",
+    "SpanKind",
+    "SpanModel",
     "SpanNotActiveError",
+    "SpanStatus",
+    "StorageAdapter",
     "StorageError",
+    "SystemClock",
+    "TimelineViewModel",
+    "Trace",
+    # Phase 12 API Service Layer
+    "TraceForgeApiService",
     "TraceForgeError",
+    "TraceModel",
+    "Tracer",
     "TracerNotConfiguredError",
+    "VisualizationConfig",
+    # Phase 11 Visualization Data Adapter Layer
+    "VisualizationEngine",
+    "WebSocketExporter",
+    "__version__",
     "configure",
+    # Phase 13 HTTP Gateway Layer
+    "create_app",
     "current_correlation_id",
     "current_session_id",
     "current_span_id",
@@ -246,5 +244,6 @@ __all__ = [
     "reset_default_tracer",
     "set_correlation_id",
     "span",
+    "trace",
     "traced",
 ]

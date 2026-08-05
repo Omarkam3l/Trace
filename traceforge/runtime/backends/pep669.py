@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import sys
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from types import CodeType
 from typing import Any
 
@@ -50,7 +50,7 @@ class PEP669Backend(InstrumentationBackend):
                 if self._filter.should_trace(mod_name, code.co_filename, code.co_name):
                     evt = RawEvent(
                         event_id=f"evt_{uuid.uuid4().hex[:16]}",
-                        timestamp=datetime.now(timezone.utc),
+                        timestamp=datetime.now(UTC),
                         type="FunctionEntered",
                         source=SourceType.PYTHON_SDK,
                         payload={
@@ -68,7 +68,7 @@ class PEP669Backend(InstrumentationBackend):
                 if self._filter.should_trace(mod_name, code.co_filename, code.co_name):
                     evt = RawEvent(
                         event_id=f"evt_{uuid.uuid4().hex[:16]}",
-                        timestamp=datetime.now(timezone.utc),
+                        timestamp=datetime.now(UTC),
                         type="FunctionReturned",
                         source=SourceType.PYTHON_SDK,
                         payload={"name": code.co_name, "node_type": RuntimeNodeType.FUNCTION},

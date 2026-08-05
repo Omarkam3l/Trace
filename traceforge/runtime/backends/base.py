@@ -39,9 +39,7 @@ class InstrumentationBackend(abc.ABC):
     @abc.abstractmethod
     def start(self) -> None:
         """Start runtime observation."""
-        pass
 
     @abc.abstractmethod
     def stop(self) -> None:
         """Stop runtime observation."""
-        pass

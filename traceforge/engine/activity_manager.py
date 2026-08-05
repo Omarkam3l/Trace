@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import threading
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.domain.activity import Activity
 from traceforge.domain.enums import ActivityStatus
@@ -40,7 +40,7 @@ class ActivityManager:
     ) -> str:
         with self._lock:
             act_id = activity_id or f"act_{uuid.uuid4().hex[:16]}"
-            start_time = started_at or datetime.now(timezone.utc)
+            start_time = started_at or datetime.now(UTC)
             record = ActivityRecord(
                 activity_id=act_id,
                 session_id=session_id,
@@ -63,7 +63,7 @@ class ActivityManager:
                 raise RuntimeError("No active activity to finish")
 
             record = self._activities[target_id]
-            end_time = finished_at or datetime.now(timezone.utc)
+            end_time = finished_at or datetime.now(UTC)
             duration_ms = max(0.0, (end_time - record.started_at).total_seconds() * 1000.0)
 
             final_graph = record.graph_builder.build_final_graph()

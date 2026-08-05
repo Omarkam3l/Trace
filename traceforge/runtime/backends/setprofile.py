@@ -5,7 +5,7 @@ from __future__ import annotations
 import sys
 import threading
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from types import FrameType
 from typing import Any
 
@@ -49,7 +49,7 @@ class SetProfileBackend(InstrumentationBackend):
         if not self._filter.should_trace(module_name, filename, func_name):
             return
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
 
         if event == "call":
             evt = RawEvent(

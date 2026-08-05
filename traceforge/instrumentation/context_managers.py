@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Self
 
 if TYPE_CHECKING:
     from traceforge.domain.environment import Environment
@@ -27,7 +27,7 @@ class SessionContextManager:
         self._session_id = session_id
         self._session: RecordingSession | None = None
 
-    def __enter__(self) -> SessionContextManager:
+    def __enter__(self) -> Self:
         try:
             self._session = self._service.start_session(
                 name=self._name,
@@ -44,7 +44,7 @@ class SessionContextManager:
         except Exception:
             pass
 
-    async def __aenter__(self) -> SessionContextManager:
+    async def __aenter__(self) -> Self:
         return self.__enter__()
 
     async def __aexit__(self, *exc_info: object) -> None:
@@ -64,7 +64,7 @@ class ActivityContextManager:
         self._name = name
         self._activity_id = activity_id
 
-    def __enter__(self) -> ActivityContextManager:
+    def __enter__(self) -> Self:
         try:
             if self._service.is_recording():
                 self._service.start_activity(name=self._name, activity_id=self._activity_id)
@@ -79,7 +79,7 @@ class ActivityContextManager:
         except Exception:
             pass
 
-    async def __aenter__(self) -> ActivityContextManager:
+    async def __aenter__(self) -> Self:
         return self.__enter__()
 
     async def __aexit__(self, *exc_info: object) -> None:

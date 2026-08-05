@@ -21,8 +21,8 @@ class GraphDiffComparator:
         base_names = set(base_node_map.keys())
         target_names = set(target_node_map.keys())
 
-        added_nodes = sorted(list(target_names - base_names))
-        removed_nodes = sorted(list(base_names - target_names))
+        added_nodes = sorted(target_names - base_names)
+        removed_nodes = sorted(base_names - target_names)
         common_nodes = base_names & target_names
 
         modified_nodes: list[str] = []
@@ -35,8 +35,8 @@ class GraphDiffComparator:
         base_rel_signatures = {f"{r.source_node_id}->{r.target_node_id}:{r.type}" for r in baseline.relationships}
         target_rel_signatures = {f"{r.source_node_id}->{r.target_node_id}:{r.type}" for r in target.relationships}
 
-        added_rels = sorted(list(target_rel_signatures - base_rel_signatures))
-        removed_rels = sorted(list(base_rel_signatures - target_rel_signatures))
+        added_rels = sorted(target_rel_signatures - base_rel_signatures)
+        removed_rels = sorted(base_rel_signatures - target_rel_signatures)
 
         return NodeGraphDiff(
             added_nodes=added_nodes,

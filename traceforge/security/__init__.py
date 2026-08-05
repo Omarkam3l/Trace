@@ -12,9 +12,10 @@ from traceforge.security.exceptions import (
     SecurityError,
 )
 from traceforge.security.middleware import AuthenticationMiddleware, RateLimitMiddleware
-from traceforge.security.models import Permission, Role, ROLE_PERMISSIONS, TokenPayload, User
+from traceforge.security.models import ROLE_PERMISSIONS, Permission, Role, TokenPayload, User
 
 __all__ = [
+    "ROLE_PERMISSIONS",
     "ApiKeyProvider",
     "AuthProvider",
     "AuthenticationError",
@@ -24,7 +25,6 @@ __all__ = [
     "JwtProvider",
     "Permission",
     "PermissionDeniedError",
-    "ROLE_PERMISSIONS",
     "RateLimitExceededError",
     "RateLimitMiddleware",
     "Role",

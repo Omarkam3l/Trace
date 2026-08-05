@@ -11,11 +11,11 @@ from traceforge.api.exceptions import (
 )
 
 __all__ = [
-    "TraceForgeError",
-    "SpanNotActiveError",
-    "TracerNotConfiguredError",
-    "StorageError",
-    "ExporterError",
     "ConfigurationError",
     "ConfigurationFreezeError",
+    "ExporterError",
+    "SpanNotActiveError",
+    "StorageError",
+    "TraceForgeError",
+    "TracerNotConfiguredError",
 ]

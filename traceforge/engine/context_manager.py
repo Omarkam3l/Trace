@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from contextvars import ContextVar, Token
 from dataclasses import dataclass, field
+from typing import Self
 
 
 @dataclass(frozen=True, slots=True)
@@ -44,7 +45,7 @@ class RecordingContextScope:
     def context_id(self) -> str:
         return self._context_id
 
-    def __enter__(self) -> RecordingContextScope:
+    def __enter__(self) -> Self:
         stack = _current_recording_context.get()
         frame = ScopeFrame(context_id=self._context_id, parent_node_id=self._parent_node_id)
         self._token = _current_recording_context.set(stack.push(frame))
@@ -58,7 +59,7 @@ class RecordingContextScope:
                 pass
             self._token = None
 
-    async def __aenter__(self) -> RecordingContextScope:
+    async def __aenter__(self) -> Self:
         return self.__enter__()
 
     async def __aexit__(self, *exc_info: object) -> None:

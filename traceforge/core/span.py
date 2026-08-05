@@ -9,9 +9,9 @@ started) can't corrupt state.
 
 from __future__ import annotations
 
-from datetime import datetime
 import threading
-from typing import Any
+from datetime import datetime
+from typing import Any, Self
 
 from traceforge.core.clock import Clock
 from traceforge.core.ids import generate_event_id
@@ -24,7 +24,7 @@ from traceforge.models.span import SpanModel
 class Span:
     """A single, currently-open (or just-closed) unit of traced execution."""
 
-    __slots__ = ("_model", "_clock", "_start_monotonic", "_lock", "_finished", "_tracer", "_token", "_trace")
+    __slots__ = ("_clock", "_finished", "_lock", "_model", "_start_monotonic", "_token", "_trace", "_tracer")
 
     def __init__(
         self,
@@ -189,7 +189,7 @@ class Span:
         return self
 
     # -- context manager -------------------------------------------------
-    def __enter__(self) -> Span:
+    def __enter__(self) -> Self:
         return self
 
     def __exit__(
@@ -208,7 +208,7 @@ class Span:
         else:
             self.finish()
 
-    async def __aenter__(self) -> Span:
+    async def __aenter__(self) -> Self:
         return self.__enter__()
 
     async def __aexit__(

@@ -14,7 +14,7 @@ class JsonSource:
         if not os.path.exists(filepath):
             return {}
         try:
-            with open(filepath, "r", encoding="utf-8") as f:
+            with open(filepath, encoding="utf-8") as f:
                 content = json.load(f)
                 return content if isinstance(content, dict) else {}
         except Exception:

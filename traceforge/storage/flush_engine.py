@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import threading
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import TYPE_CHECKING
 
 from traceforge.storage.batch import Batch
@@ -62,7 +62,7 @@ class FlushEngine:
             if not drained:
                 return None
 
-            now = datetime.now(timezone.utc)
+            now = datetime.now(UTC)
             batch = Batch(
                 batch_id=f"batch_{uuid.uuid4().hex[:16]}",
                 created_at=now,

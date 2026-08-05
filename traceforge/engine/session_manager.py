@@ -5,7 +5,7 @@ from __future__ import annotations
 import sys
 import threading
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from traceforge.domain.activity import Activity
@@ -45,7 +45,7 @@ class SessionManager:
 
             sess_id = session_id or f"sess_{uuid.uuid4().hex[:16]}"
             self._current_session_id = sess_id
-            self._started_at = started_at or datetime.now(timezone.utc)
+            self._started_at = started_at or datetime.now(UTC)
             self._environment = environment or Environment(
                 os=sys.platform,
                 python_version=sys.version.split()[0],
@@ -68,7 +68,7 @@ class SessionManager:
             if self._status != SessionStatus.RECORDING or self._current_session_id is None:
                 raise RuntimeError("No active recording session to stop")
 
-            end_time = finished_at or datetime.now(timezone.utc)
+            end_time = finished_at or datetime.now(UTC)
             start_time = self._started_at or end_time
             duration_ms = max(0.0, (end_time - start_time).total_seconds() * 1000.0)
 

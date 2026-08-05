@@ -12,6 +12,7 @@ from __future__ import annotations
 
 from contextvars import ContextVar, Token
 from dataclasses import dataclass
+from typing import Any
 
 
 @dataclass(frozen=True, slots=True)
@@ -39,6 +40,8 @@ class ContextManager:
     Grouped as a class (rather than bare module functions) to give the
     context-variable operations a single, discoverable, mockable surface.
     """
+
+    _active_tracer: Any = None
 
     @staticmethod
     def get_current() -> ExecutionContext:
