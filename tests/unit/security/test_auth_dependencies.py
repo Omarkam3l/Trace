@@ -16,7 +16,7 @@ from traceforge.security.models.user import User
 
 
 def _make_app_and_client():
-    config = SecurityConfig(jwt_secret="dep-test-secret")
+    config = SecurityConfig(jwt_secret="dep-test-secret-must-be-at-least-32-chars")
     auth_provider = AuthProvider(config)
 
     app = FastAPI()

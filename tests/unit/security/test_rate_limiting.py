@@ -15,7 +15,7 @@ from traceforge.security.models.user import User
 
 
 def test_rate_limit_exceeded():
-    config = SecurityConfig(jwt_secret="rl-test-secret")
+    config = SecurityConfig(jwt_secret="rl-test-secret-must-be-at-least-32-chars")
     auth_provider = AuthProvider(config)
 
     app = FastAPI()

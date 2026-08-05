@@ -12,7 +12,7 @@ from traceforge.security.models.user import User
 
 
 def test_concurrent_jwt_operations():
-    config = SecurityConfig(jwt_secret="thread-test-secret")
+    config = SecurityConfig(jwt_secret="thread-test-secret-must-be-at-least-32-chars")
     provider = JwtProvider(config)
     user = User(user_id="u1", roles=[Role.ADMIN])
 

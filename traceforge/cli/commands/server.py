@@ -29,6 +29,11 @@ def execute(args: argparse.Namespace) -> int:
 
     config = ConfigurationLoader().load_config(config_path=args.config, cli_overrides=cli_overrides)
 
+    jwt_secret_env = config.security.jwt_secret
+    if jwt_secret_env == "traceforge-default-secret-change-in-production":
+        print("[!] SECURITY WARNING: Server is using the default JWT secret.")
+        print("    Set TRACEFORGE_JWT_SECRET environment variable for production deployments.")
+
     print("Starting TraceForge HTTP Gateway Server v1.0.0...")
     print(f"Binding to http://{config.server.host}:{config.server.port}")
     print(f"Database URI: {config.storage.database_uri}")

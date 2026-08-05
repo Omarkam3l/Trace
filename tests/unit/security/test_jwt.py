@@ -12,9 +12,11 @@ from traceforge.security.exceptions import InvalidTokenError
 from traceforge.security.models.permissions import Permission, Role
 from traceforge.security.models.user import User
 
+VALID_TEST_SECRET = "test-secret-key-must-be-at-least-32-chars-long"
+
 
 def test_jwt_create_and_validate():
-    config = SecurityConfig(jwt_secret="test-secret")
+    config = SecurityConfig(jwt_secret=VALID_TEST_SECRET)
     provider = JwtProvider(config)
     user = User(user_id="u1", roles=[Role.ADMIN], permissions=[Permission.READ_SESSIONS])
 
@@ -28,7 +30,7 @@ def test_jwt_create_and_validate():
 
 
 def test_jwt_token_to_user():
-    config = SecurityConfig(jwt_secret="test-secret")
+    config = SecurityConfig(jwt_secret=VALID_TEST_SECRET)
     provider = JwtProvider(config)
     user = User(user_id="u1", roles=[Role.ANALYST])
 
@@ -39,7 +41,7 @@ def test_jwt_token_to_user():
 
 
 def test_jwt_expired_token():
-    config = SecurityConfig(jwt_secret="test-secret", token_expiration_minutes=0)
+    config = SecurityConfig(jwt_secret=VALID_TEST_SECRET, token_expiration_minutes=0)
     provider = JwtProvider(config)
     user = User(user_id="u1")
 
@@ -51,8 +53,8 @@ def test_jwt_expired_token():
 
 
 def test_jwt_invalid_signature():
-    config_a = SecurityConfig(jwt_secret="secret-a")
-    config_b = SecurityConfig(jwt_secret="secret-b")
+    config_a = SecurityConfig(jwt_secret="secret-a-key-must-be-at-least-32-chars-long")
+    config_b = SecurityConfig(jwt_secret="secret-b-key-must-be-at-least-32-chars-long")
     provider_a = JwtProvider(config_a)
     provider_b = JwtProvider(config_b)
 
@@ -64,8 +66,13 @@ def test_jwt_invalid_signature():
 
 
 def test_jwt_invalid_token_string():
-    config = SecurityConfig(jwt_secret="test-secret")
+    config = SecurityConfig(jwt_secret=VALID_TEST_SECRET)
     provider = JwtProvider(config)
 
     with pytest.raises(InvalidTokenError):
         provider.validate_token("not.a.valid.token")
+
+
+def test_jwt_secret_length_validation():
+    with pytest.raises(ValueError, match="Insecure JWT secret key length"):
+        SecurityConfig(jwt_secret="too-short")

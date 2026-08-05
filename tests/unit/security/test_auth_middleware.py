@@ -14,7 +14,7 @@ from traceforge.security.models.user import User
 
 
 def _make_app():
-    config = SecurityConfig(jwt_secret="mw-test-secret")
+    config = SecurityConfig(jwt_secret="mw-test-secret-must-be-at-least-32-chars")
     auth_provider = AuthProvider(config)
     app = FastAPI()
     app.add_middleware(AuthenticationMiddleware, auth_provider=auth_provider)
