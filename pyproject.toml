@@ -3,8 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "traceforge"
+name = "traceforge-sdk"
 version = "1.0.0"
+
 description = "Framework-Agnostic Execution Replay & Analysis Platform: traces, spans, events, replay engine, diff analysis, exporters, and HTTP gateway."
 readme = "README.md"
 license = { text = "MIT" }
