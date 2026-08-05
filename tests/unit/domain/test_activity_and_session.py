@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.domain import (
     Activity,
@@ -19,7 +19,7 @@ from traceforge.domain import (
 
 
 def test_activity_and_recording_session_creation():
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     env = Environment(os="Windows 11", python_version="3.13.3", environment_name="testing")
     profile = RecordingProfile(name="forensic", sampling_rate=1.0)
 

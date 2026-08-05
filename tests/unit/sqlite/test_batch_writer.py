@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.storage.drivers.sqlite import SQLiteStorageDriver
 from traceforge.storage.records import ActivityRecord, SessionRecord
@@ -10,7 +10,7 @@ from traceforge.storage.records import ActivityRecord, SessionRecord
 
 def test_sqlite_batch_writer_records_insertion():
     driver = SQLiteStorageDriver(":memory:")
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
 
     s_rec = SessionRecord(
         session_id="s1",

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import concurrent.futures
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.diff.engine import ExecutionDiffEngine
 from traceforge.replay.session import ReplaySession
@@ -11,7 +11,7 @@ from traceforge.storage.records import NodeRecord, SessionRecord
 
 
 def test_concurrent_execution_diff_comparisons():
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     b_sess = SessionRecord(
         session_id="s1",
         started_at=now,

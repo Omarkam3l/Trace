@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pytest
 from pydantic import ValidationError
@@ -19,7 +19,7 @@ from traceforge.domain import (
 
 
 def test_execution_node_creation_and_immutability():
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     node = ExecutionNode(
         node_id="n1",
         graph_id="g1",

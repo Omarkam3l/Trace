@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import concurrent.futures
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.engine.raw_event import RawEvent
 from traceforge.engine.recorder import Recorder
@@ -30,7 +30,7 @@ class WorkerPlugin(Plugin):
 
     def emit_events(self, count: int) -> None:
         if self.is_enabled and self._context:
-            t0 = datetime.now(timezone.utc)
+            t0 = datetime.now(UTC)
             for i in range(count):
                 evt = RawEvent(
                     event_id=f"evt_w{self.worker_id}_{i}",

@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.query.filters import QueryFilter
 
 
 def test_query_filter_creation_and_immutability():
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     flt = QueryFilter(
         session_id="s1",
         status="completed",

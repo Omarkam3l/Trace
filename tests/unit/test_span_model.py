@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.models.enums import SpanKind, SpanStatus
 from traceforge.models.span import SpanModel
 
 
 def make_span(**overrides) -> SpanModel:
-    defaults = dict(id="s1", trace_id="t1", name="x", start_time=datetime.now(timezone.utc))
+    defaults = dict(id="s1", trace_id="t1", name="x", start_time=datetime.now(UTC))
     defaults.update(overrides)
     return SpanModel(**defaults)
 
@@ -30,7 +30,7 @@ def test_is_root_false_when_parent_present():
 
 
 def test_is_finished_true_once_end_time_set():
-    span = make_span(end_time=datetime.now(timezone.utc))
+    span = make_span(end_time=datetime.now(UTC))
     assert span.is_finished is True
 
 

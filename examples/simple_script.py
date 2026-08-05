@@ -2,6 +2,7 @@
 
 import traceforge
 
+
 def main():
     tracer = traceforge.Tracer("simple-script-service")
     storage = traceforge.MemoryStorage()

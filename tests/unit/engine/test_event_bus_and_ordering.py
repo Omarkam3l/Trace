@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.engine.event_bus import EventBus
 from traceforge.engine.raw_event import RawEvent
@@ -17,18 +17,18 @@ def test_event_bus_pub_sub_and_unsubscribe():
 
     unsub = bus.subscribe(handler)
 
-    e1 = RawEvent(event_id="e1", timestamp=datetime.now(timezone.utc), type="Custom")
+    e1 = RawEvent(event_id="e1", timestamp=datetime.now(UTC), type="Custom")
     bus.publish(e1)
     assert len(received) == 1
 
     unsub()
-    e2 = RawEvent(event_id="e2", timestamp=datetime.now(timezone.utc), type="Custom")
+    e2 = RawEvent(event_id="e2", timestamp=datetime.now(UTC), type="Custom")
     bus.publish(e2)
     assert len(received) == 1  # Unsubscribed handler received no more events
 
 
 def test_deterministic_event_ordering_sort_key():
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
 
     e1 = RawEvent(event_id="evt_a", timestamp=now, sequence=1, type="A")
     e2 = RawEvent(event_id="evt_b", timestamp=now, sequence=1, type="B")

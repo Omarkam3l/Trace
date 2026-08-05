@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import concurrent.futures
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.replay.session import ReplaySession
 from traceforge.storage.records import NodeRecord, SessionRecord
@@ -11,7 +11,7 @@ from traceforge.visualization.engine import VisualizationEngine
 
 
 def test_concurrent_visualization_engine_transformations():
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     sess_rec = SessionRecord(
         session_id="s1",
         started_at=now,

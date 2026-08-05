@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.storage.buffer import BufferManager
 from traceforge.storage.drivers.sqlite import SQLiteStorageDriver
@@ -15,7 +15,7 @@ def test_sqlite_driver_flush_engine_integration():
     buf = BufferManager()
     engine = FlushEngine(buffer=buf, driver=driver)
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     for i in range(10):
         rec = RawEventRecord(
             event_id=f"evt_{i}",

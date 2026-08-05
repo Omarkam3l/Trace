@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.engine.raw_event import RawEvent
 from traceforge.engine.recorder import Recorder
@@ -32,7 +32,7 @@ class EmissionTestPlugin(Plugin):
         if self.is_enabled and self._context:
             evt = RawEvent(
                 event_id="evt_plugin_1",
-                timestamp=datetime.now(timezone.utc),
+                timestamp=datetime.now(UTC),
                 type="HTTPRequest",
                 payload={"url": "https://api.traceforge.dev"},
             )

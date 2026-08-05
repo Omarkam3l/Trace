@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.domain import (
     Activity,
@@ -23,7 +23,7 @@ from traceforge.domain import (
 
 
 def test_recording_session_json_roundtrip():
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     env = Environment(os="Linux x86_64", python_version="3.12.0", variables={"STAGE": "prod"})
     profile = RecordingProfile(name="standard", max_payload_bytes=50000)
 

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pytest
 
@@ -18,7 +18,7 @@ def _make_node(node_id: str, graph_id: str = "g1") -> ExecutionNode:
         graph_id=graph_id,
         type=NodeType.FUNCTION_CALL,
         name=f"node_{node_id}",
-        started_at=datetime.now(timezone.utc),
+        started_at=datetime.now(UTC),
         status=NodeStatus.COMPLETED,
     )
 

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import io
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.exporters.console import ConsoleExporter
 from traceforge.exporters.json import JSONExporter
@@ -18,8 +18,8 @@ def make_span(**overrides) -> SpanModel:
         name="x",
         kind=SpanKind.INTERNAL,
         status=SpanStatus.OK,
-        start_time=datetime.now(timezone.utc),
-        end_time=datetime.now(timezone.utc),
+        start_time=datetime.now(UTC),
+        end_time=datetime.now(UTC),
         duration_ms=5.0,
     )
     defaults.update(overrides)
@@ -47,9 +47,9 @@ async def test_console_exporter_prints_in_start_time_execution_order():
     stream = io.StringIO()
     exporter = ConsoleExporter(stream=stream, colorize=False)
 
-    t0 = datetime(2026, 1, 1, 12, 0, 0, tzinfo=timezone.utc)
-    t1 = datetime(2026, 1, 1, 12, 0, 1, tzinfo=timezone.utc)
-    t2 = datetime(2026, 1, 1, 12, 0, 2, tzinfo=timezone.utc)
+    t0 = datetime(2026, 1, 1, 12, 0, 0, tzinfo=UTC)
+    t1 = datetime(2026, 1, 1, 12, 0, 1, tzinfo=UTC)
+    t2 = datetime(2026, 1, 1, 12, 0, 2, tzinfo=UTC)
 
     parent = make_span(id="p", trace_id="tr1", name="parent-span", start_time=t0, parent_span_id=None)
     child1 = make_span(id="c1", trace_id="tr1", name="child-span-1", start_time=t1, parent_span_id="p")

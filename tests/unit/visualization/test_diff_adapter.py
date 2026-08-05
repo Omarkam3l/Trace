@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.diff.report import ExecutionDiffReport, NodeGraphDiff
 from traceforge.visualization.adapters.diff_adapter import DiffAdapter
@@ -10,7 +10,7 @@ from traceforge.visualization.config import VisualizationConfig
 
 
 def test_diff_adapter():
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     report = ExecutionDiffReport(
         baseline_session_id="s1",
         target_session_id="s2",

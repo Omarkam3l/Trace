@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.query.engine import QueryEngine
 from traceforge.query.queries import ActivityQuery, GraphQuery, NodeQuery, RawEventQuery, SessionQuery
@@ -14,7 +14,7 @@ def test_query_engine_facade_execution():
     driver = SQLiteStorageDriver(":memory:")
     conn = driver.connection_manager.get_connection()
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     s1 = SessionRecord(
         session_id="s1",
         started_at=now,

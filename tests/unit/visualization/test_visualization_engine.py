@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.diff.report import ExecutionDiffReport, NodeGraphDiff
 from traceforge.replay.session import ReplaySession
@@ -11,7 +11,7 @@ from traceforge.visualization.engine import VisualizationEngine
 
 
 def test_visualization_engine_transformations():
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     sess_rec = SessionRecord(
         session_id="s1",
         started_at=now,

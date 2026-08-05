@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from traceforge.domain.activity import Activity
@@ -47,7 +47,7 @@ def test_session_repository_append_only():
     driver = InMemoryTestDriver()
     repo = SessionRepository(driver=driver)
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     env = Environment(os="win32", python_version="3.13")
     prof = RecordingProfile(name="standard")
 
@@ -96,7 +96,7 @@ def test_raw_event_repository_append_only():
     driver = InMemoryTestDriver()
     repo = RawEventRepository(driver=driver)
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     evt = RawEvent(event_id="e1", timestamp=now, sequence=1, type="HTTPRequest")
 
     records = repo.append_raw_events([evt])

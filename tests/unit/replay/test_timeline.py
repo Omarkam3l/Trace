@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.replay.timeline import TimelineBuilder
 from traceforge.storage.records import RawEventRecord
 
 
 def test_timeline_builder_deterministic_sorting():
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     e1 = RawEventRecord(event_id="b_evt", timestamp=now, sequence=2, type="FunctionReturned", source="python_sdk")
     e2 = RawEventRecord(event_id="a_evt", timestamp=now, sequence=1, type="FunctionEntered", source="python_sdk")
     e3 = RawEventRecord(event_id="c_evt", timestamp=now, sequence=1, type="FunctionEntered", source="python_sdk")

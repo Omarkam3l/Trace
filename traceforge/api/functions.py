@@ -11,9 +11,8 @@ nothing in ``traceforge.core`` depends on it.
 from __future__ import annotations
 
 import threading
-from typing import Any
 from contextvars import Token
-
+from typing import Any
 
 from traceforge.api.exceptions import TracerNotConfiguredError
 from traceforge.core.context import ContextManager, ExecutionContext

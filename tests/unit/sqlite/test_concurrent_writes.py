@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import concurrent.futures
 import tempfile
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from traceforge.storage.drivers.sqlite import SQLiteStorageDriver
@@ -16,7 +16,7 @@ def test_concurrent_sqlite_batch_writes():
         db_file = Path(tmpdir) / "concurrent.db"
         driver = SQLiteStorageDriver(db_file)
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
 
         def worker_write(worker_id: int):
             driver.begin_transaction()

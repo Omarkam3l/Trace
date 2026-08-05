@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from fastapi.testclient import TestClient
 
@@ -16,7 +16,7 @@ def test_integration_health_and_metrics():
     driver = SQLiteStorageDriver(":memory:")
     conn = driver.connection_manager.get_connection()
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     s1 = SessionRecord(
         session_id="s1",
         started_at=now,

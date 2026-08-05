@@ -2,13 +2,15 @@
 
 from __future__ import annotations
 
+from datetime import UTC
+
 from traceforge.core.lifecycle import LifecycleManager
 from traceforge.models.enums import SpanKind, SpanStatus
 from traceforge.models.span import SpanModel
 
 
 def make_span_model() -> SpanModel:
-    from datetime import datetime, timezone
+    from datetime import datetime
 
     return SpanModel(
         id="s1",
@@ -16,7 +18,7 @@ def make_span_model() -> SpanModel:
         name="x",
         kind=SpanKind.INTERNAL,
         status=SpanStatus.UNSET,
-        start_time=datetime.now(timezone.utc),
+        start_time=datetime.now(UTC),
     )
 
 

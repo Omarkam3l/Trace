@@ -2,16 +2,15 @@
 
 from __future__ import annotations
 
-
 from fastapi import Depends, FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.testclient import TestClient
 
+from traceforge.security.auth.provider import AuthProvider
 from traceforge.security.config import SecurityConfig
 from traceforge.security.dependencies import get_current_user, require_permission
 from traceforge.security.exceptions import PermissionDeniedError
 from traceforge.security.middleware.authentication import AuthenticationMiddleware
-from traceforge.security.auth.provider import AuthProvider
 from traceforge.security.models.permissions import Permission, Role
 from traceforge.security.models.user import User
 

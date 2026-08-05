@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from traceforge.security.models.permissions import Permission, Role, ROLE_PERMISSIONS
+from traceforge.security.models.permissions import ROLE_PERMISSIONS, Permission, Role
 
 
 def test_permission_enum_values():

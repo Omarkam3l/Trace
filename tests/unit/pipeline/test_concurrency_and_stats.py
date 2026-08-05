@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import concurrent.futures
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.domain.activity import Activity
 from traceforge.domain.enums import SessionStatus
@@ -35,7 +35,7 @@ def test_concurrent_pipeline_publication_and_stats():
     consumer = ThreadStatsConsumer("thread_consumer")
     pipeline.register_consumer(consumer)
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     session = RecordingSession(
         session_id="sess_thread",
         started_at=now,

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.replay.session import ReplaySession
 from traceforge.storage.records import NodeRecord, SessionRecord
@@ -11,7 +11,7 @@ from traceforge.visualization.config import VisualizationConfig
 
 
 def test_flamegraph_adapter():
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     sess_rec = SessionRecord(
         session_id="s1",
         started_at=now,

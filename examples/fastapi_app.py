@@ -1,6 +1,7 @@
 """FastAPI app instrumentation example using TraceForge."""
 
 from fastapi import FastAPI
+
 import traceforge
 
 app = FastAPI(title="Instrumented Service")

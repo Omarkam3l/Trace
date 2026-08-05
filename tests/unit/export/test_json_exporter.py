@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.export.config import ExportConfig
 from traceforge.export.exporters.json_exporter import JsonExporter
@@ -12,7 +12,7 @@ from traceforge.storage.records import SessionRecord
 
 
 def test_json_exporter():
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     sess_rec = SessionRecord(
         session_id="s1",
         started_at=now,

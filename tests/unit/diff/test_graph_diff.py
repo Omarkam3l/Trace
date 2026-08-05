@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.diff.comparators.graph import GraphDiffComparator
 from traceforge.replay.session import ReplaySession
@@ -10,7 +10,7 @@ from traceforge.storage.records import NodeRecord, RelationshipRecord, SessionRe
 
 
 def test_graph_diff_comparator():
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     b_sess = SessionRecord(
         session_id="s1",
         started_at=now,

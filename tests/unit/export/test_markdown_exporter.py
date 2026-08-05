@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.export.config import ExportConfig
 from traceforge.export.exporters.markdown_exporter import MarkdownExporter
@@ -11,7 +11,7 @@ from traceforge.storage.records import SessionRecord
 
 
 def test_markdown_exporter():
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     sess_rec = SessionRecord(
         session_id="s1",
         started_at=now,

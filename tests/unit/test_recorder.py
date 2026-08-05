@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import asyncio
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.models.enums import SpanKind, SpanStatus
 from traceforge.models.span import SpanModel
@@ -18,8 +18,8 @@ def make_span(**overrides) -> SpanModel:
         name="x",
         kind=SpanKind.INTERNAL,
         status=SpanStatus.OK,
-        start_time=datetime.now(timezone.utc),
-        end_time=datetime.now(timezone.utc),
+        start_time=datetime.now(UTC),
+        end_time=datetime.now(UTC),
         duration_ms=1.0,
     )
     defaults.update(overrides)

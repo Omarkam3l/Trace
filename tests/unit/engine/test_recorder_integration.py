@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import concurrent.futures
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pytest
 
@@ -41,7 +41,7 @@ def test_full_recording_session_and_activity_lifecycle(frozen_clock):
 
 def test_replay_determinism():
     """Verifies that the exact same ordered RawEvents generate identical Execution Graphs."""
-    t0 = datetime.now(timezone.utc)
+    t0 = datetime.now(UTC)
 
     raw_events = [
         RawEvent(
@@ -77,7 +77,7 @@ def test_concurrent_event_emission_and_thread_safety():
     recorder.start_session()
 
     def emit_worker(worker_index: int):
-        t0 = datetime.now(timezone.utc)
+        t0 = datetime.now(UTC)
         for i in range(10):
             evt = RawEvent(
                 event_id=f"evt_w{worker_index}_{i}",
@@ -103,7 +103,7 @@ async def test_async_event_emission():
     recorder.start_session()
 
     async def async_worker(name: str):
-        t0 = datetime.now(timezone.utc)
+        t0 = datetime.now(UTC)
         for i in range(5):
             evt = RawEvent(
                 event_id=f"async_{name}_{i}",
@@ -127,15 +127,15 @@ def test_malformed_event_resilience():
     recorder.start_session()
 
     # Normal event
-    recorder.emit(RawEvent(event_id="e1", timestamp=datetime.now(timezone.utc), type="HTTPRequest"))
+    recorder.emit(RawEvent(event_id="e1", timestamp=datetime.now(UTC), type="HTTPRequest"))
 
     # Malformed event with problematic payload
     recorder.emit(
-        RawEvent(event_id="e_bad", timestamp=datetime.now(timezone.utc), type="Custom", payload={"status": 99999})
+        RawEvent(event_id="e_bad", timestamp=datetime.now(UTC), type="Custom", payload={"status": 99999})
     )
 
     # Normal event after malformed event
-    recorder.emit(RawEvent(event_id="e2", timestamp=datetime.now(timezone.utc), type="SQLQuery"))
+    recorder.emit(RawEvent(event_id="e2", timestamp=datetime.now(UTC), type="SQLQuery"))
 
     session = recorder.stop_session()
     assert len(session.activities) >= 1

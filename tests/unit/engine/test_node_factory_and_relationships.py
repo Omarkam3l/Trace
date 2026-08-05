@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.domain.enums import NodeStatus, NodeType, RelationshipType, SourceType
 from traceforge.engine.node_factory import NodeFactory
@@ -11,7 +11,7 @@ from traceforge.engine.relationship_builder import RelationshipBuilder
 
 
 def test_node_factory_creation_and_mapping():
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     event = RawEvent(
         event_id="e10",
         timestamp=now,
@@ -41,7 +41,7 @@ def test_node_factory_creation_and_mapping():
 
 
 def test_node_factory_handles_malformed_raw_event_safely():
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     # Malformed payload with invalid status type
     event = RawEvent(
         event_id="e_malformed",

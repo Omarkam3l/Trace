@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.domain.activity import Activity
 from traceforge.domain.enums import ActivityStatus, NodeStatus, NodeType, SessionStatus
@@ -42,7 +42,7 @@ def test_deterministic_dispatch_ordering():
     pipeline.register_consumer(c2)
     pipeline.register_consumer(c3)
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     node = ExecutionNode(
         node_id="n1",
         graph_id="g1",

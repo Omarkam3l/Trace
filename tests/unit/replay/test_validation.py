@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pytest
 
@@ -14,7 +14,7 @@ from traceforge.storage.records import NodeRecord, RawEventRecord, RelationshipR
 
 
 def test_replay_validator_sequence_regression():
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     e1 = RawEventRecord(event_id="e1", timestamp=now, sequence=10, type="A", source="test")
     e2 = RawEventRecord(event_id="e2", timestamp=now, sequence=5, type="B", source="test")  # Sequence regression
 
@@ -31,7 +31,7 @@ def test_replay_validator_missing_relationship_nodes():
         graph_id="g1",
         type="function",
         name="main",
-        started_at=datetime.now(timezone.utc),
+        started_at=datetime.now(UTC),
         status="completed",
     )
     rel = RelationshipRecord(

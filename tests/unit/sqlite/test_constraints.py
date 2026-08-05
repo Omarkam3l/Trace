@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pytest
 
@@ -13,7 +13,7 @@ from traceforge.storage.records import ActivityRecord, SessionRecord
 
 def test_sqlite_primary_key_and_foreign_key_constraints():
     driver = SQLiteStorageDriver(":memory:")
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
 
     s_rec = SessionRecord(
         session_id="s1",

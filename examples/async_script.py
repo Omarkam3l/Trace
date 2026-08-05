@@ -1,7 +1,9 @@
 """Async script example using TraceForge SDK."""
 
 import asyncio
+
 import traceforge
+
 
 async def fetch_data(tracer):
     with tracer.start_span("fetch_remote"):

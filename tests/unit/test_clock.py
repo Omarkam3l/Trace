@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.core.clock import FrozenClock, SystemClock
 
@@ -20,7 +20,7 @@ def test_system_clock_monotonic_increases():
 
 
 def test_frozen_clock_does_not_advance_on_its_own():
-    clock = FrozenClock(start=datetime(2024, 6, 1, tzinfo=timezone.utc))
+    clock = FrozenClock(start=datetime(2024, 6, 1, tzinfo=UTC))
     assert clock.now() == clock.now()
     assert clock.monotonic() == 0.0
 

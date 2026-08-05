@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 import pytest
 
@@ -11,7 +11,7 @@ from traceforge.models.trace import TraceModel
 
 
 def _span(id, parent=None, start_offset=0, end_offset=None, correlation_id="c1"):
-    base = datetime(2024, 1, 1, tzinfo=timezone.utc)
+    base = datetime(2024, 1, 1, tzinfo=UTC)
     return SpanModel(
         id=id,
         trace_id="t1",

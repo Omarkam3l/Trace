@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pytest
 from pydantic import ValidationError
@@ -23,7 +23,7 @@ def _make_node(node_id: str, name: str = "node") -> ExecutionNode:
         graph_id="g1",
         type=NodeType.FUNCTION_CALL,
         name=name,
-        started_at=datetime.now(timezone.utc),
+        started_at=datetime.now(UTC),
         status=NodeStatus.COMPLETED,
     )
 

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.service.service import TraceForgeApiService
 from traceforge.storage.drivers.sqlite import SQLiteStorageDriver
@@ -13,7 +13,7 @@ def test_api_service_full_workflow():
     driver = SQLiteStorageDriver(":memory:")
     conn = driver.connection_manager.get_connection()
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     s1 = SessionRecord(
         session_id="s1",
         started_at=now,

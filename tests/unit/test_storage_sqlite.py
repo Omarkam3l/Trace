@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.models.enums import SpanKind, SpanStatus
 from traceforge.models.event import EventModel
@@ -17,11 +17,11 @@ def make_span(**overrides) -> SpanModel:
         name="x",
         kind=SpanKind.CLIENT,
         status=SpanStatus.OK,
-        start_time=datetime.now(timezone.utc),
-        end_time=datetime.now(timezone.utc),
+        start_time=datetime.now(UTC),
+        end_time=datetime.now(UTC),
         duration_ms=12.5,
         attributes={"a": 1},
-        events=[EventModel(id="e1", name="ev", timestamp=datetime.now(timezone.utc))],
+        events=[EventModel(id="e1", name="ev", timestamp=datetime.now(UTC))],
     )
     defaults.update(overrides)
     return SpanModel(**defaults)

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import concurrent.futures
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.export.engine import ExportEngine
 from traceforge.replay.session import ReplaySession
@@ -11,7 +11,7 @@ from traceforge.storage.records import SessionRecord
 
 
 def test_concurrent_export_engine_exports():
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     sess_rec = SessionRecord(
         session_id="s1",
         started_at=now,

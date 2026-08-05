@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from traceforge.domain.activity import Activity
 from traceforge.domain.enums import SessionStatus
@@ -49,7 +49,7 @@ def test_failure_isolation_between_consumers():
     pipeline.register_consumer(failing)
     pipeline.register_consumer(healthy)
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     session = RecordingSession(
         session_id="sess_fail_test",
         started_at=now,

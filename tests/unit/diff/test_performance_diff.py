@@ -2,16 +2,16 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
-from traceforge.diff.config import DiffConfig
 from traceforge.diff.comparators.performance import PerformanceDiffComparator
+from traceforge.diff.config import DiffConfig
 from traceforge.replay.session import ReplaySession
 from traceforge.storage.records import NodeRecord, SessionRecord
 
 
 def test_performance_diff_comparator():
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     b_sess = SessionRecord(
         session_id="s1",
         started_at=now,
