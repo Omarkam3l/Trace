@@ -8,7 +8,7 @@ import traceforge
 def test_public_api_version_export():
     assert hasattr(traceforge, "__version__")
     assert isinstance(traceforge.__version__, str)
-    assert traceforge.__version__ == "1.0.2"
+    assert traceforge.__version__ == "1.0.3"
 
 
 def test_public_api_core_imports():
