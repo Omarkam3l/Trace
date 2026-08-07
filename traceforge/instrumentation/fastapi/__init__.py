@@ -1,6 +1,10 @@
-"""Reserved for future fastapi instrumentation.
+"""FastAPI auto-instrumentation for TraceForge.
 
-Not implemented in the current SDK-core milestone. See
-traceforge/instrumentation/base.py for the Instrumentor interface this
-package will implement, and docs/roadmap.md for status.
+See traceforge.instrumentation.fastapi.instrumentor.FastAPIInstrumentor.
 """
+
+from __future__ import annotations
+
+from traceforge.instrumentation.fastapi.instrumentor import FastAPIInstrumentor
+
+__all__ = ["FastAPIInstrumentor"]
