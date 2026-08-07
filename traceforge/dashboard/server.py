@@ -1,13 +1,9 @@
-"""Reserved for a future release. Not implemented in the SDK-core milestone.
+"""Reserved for a future, standalone dashboard release. Not implemented in the SDK-core milestone.
 
-See traceforge/dashboard/__init__.py and docs/roadmap.md.
+See traceforge/dashboard/__init__.py for the full explanation -- and note
+that a working, lighter-weight dashboard already exists at GET /dashboard
+on the HTTP gateway (traceforge server), unrelated to this package. See
+docs/roadmap.md for the distinction.
 """
 
 from __future__ import annotations
-
-
-def _not_implemented() -> None:
-    raise NotImplementedError(
-        "traceforge.dashboard.server is reserved for a future release "
-        "and is not part of the current SDK-core milestone."
-    )
