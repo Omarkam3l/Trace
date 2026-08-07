@@ -83,7 +83,7 @@ from traceforge.export import (
 )
 from traceforge.exporters import ConsoleExporter, JSONExporter, OTLPExporter, WebSocketExporter
 from traceforge.gateway import create_app
-from traceforge.instrumentation import InstrumentationConfig, trace
+from traceforge.instrumentation import InstrumentationConfig, instrumentation_trace
 from traceforge.models import (
     Attributes,
     EventLevel,
@@ -249,6 +249,30 @@ __all__ = [
     "reset_default_tracer",
     "set_correlation_id",
     "span",
-    "trace",
+    "instrumentation_trace",
     "traced",
 ]
+
+
+def __getattr__(name: str) -> object:
+    # Backward-compatible deprecated alias: `traceforge.trace` used to be
+    # this module's name for what is now `traceforge.instrumentation_trace`.
+    # Renamed because it sat, unlabeled, next to `traceforge.Tracer`
+    # (a *different*, unrelated class returned by `traceforge.configure()`)
+    # and the two were easy to confuse. See
+    # traceforge/instrumentation/tracer.py's Tracer docstring for the full
+    # distinction.
+    if name == "trace":
+        import warnings
+
+        warnings.warn(
+            "traceforge.trace is deprecated and will be removed in a future "
+            "release. Use traceforge.instrumentation_trace instead. Also "
+            "double-check you want this session/activity-based Tracer and not "
+            "traceforge.Tracer (traceforge.configure()), which is a different, "
+            "unrelated class.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        return instrumentation_trace
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

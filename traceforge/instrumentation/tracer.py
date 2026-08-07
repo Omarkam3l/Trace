@@ -1,4 +1,21 @@
-"""Tracer public facade class."""
+"""Session/Activity-based instrumentation Tracer.
+
+.. warning::
+    This ``Tracer`` is unrelated to ``traceforge.Tracer``
+    (``traceforge.core.tracer.Tracer``), which is TraceForge's primary,
+    documented tracing API (``traceforge.configure()`` /
+    ``@traceforge.traced()`` / ``traceforge.span()``). They are two
+    different classes with the same name, built on different data models
+    (this one uses RecordingSession/Activity; the core one uses Span), and
+    they do not share data. If you're not intentionally using the
+    session/activity recording model, you almost certainly want
+    ``traceforge.Tracer``/``traceforge.configure()`` instead.
+
+    This class's default singleton (``instrumentation_trace``) also does not
+    persist anywhere by default -- it holds RecordingSession/Activity
+    objects in memory via an internal Recorder with no storage attached
+    until you wire one up yourself.
+"""
 
 from __future__ import annotations
 
