@@ -54,6 +54,7 @@ from traceforge.api import (
     span,
     traced,
 )
+from traceforge.bridge import SpanToSessionBridge
 from traceforge.core import (
     Clock,
     ContextManager,
@@ -218,6 +219,7 @@ __all__ = [
     "SpanModel",
     "SpanNotActiveError",
     "SpanStatus",
+    "SpanToSessionBridge",
     "StorageAdapter",
     "StorageError",
     "SystemClock",
