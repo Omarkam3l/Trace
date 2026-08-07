@@ -47,7 +47,12 @@ storage:
 
 security:
   enabled: false
-  jwt_secret: traceforge-default-secret-change-in-production
+  # Do NOT set jwt_secret here if this file will be committed to version
+  # control. Set the TRACEFORGE_JWT_SECRET environment variable instead
+  # (see .env.example) -- env vars override this file and won't leak into
+  # git history. `enabled: false` is fine for local development; flip to
+  # true and set TRACEFORGE_JWT_SECRET before deploying anywhere reachable
+  # by others.
 
 export:
   default_format: json

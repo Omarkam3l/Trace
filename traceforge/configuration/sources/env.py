@@ -13,6 +13,7 @@ class EnvSource:
         result: dict[str, Any] = {}
         server_dict: dict[str, Any] = {}
         storage_dict: dict[str, Any] = {}
+        security_dict: dict[str, Any] = {}
 
         if "TRACEFORGE_ENV" in os.environ:
             result["env"] = os.environ["TRACEFORGE_ENV"]
@@ -24,10 +25,20 @@ class EnvSource:
             server_dict["port"] = int(os.environ["TRACEFORGE_PORT"])
         if "TRACEFORGE_DB_URI" in os.environ:
             storage_dict["database_uri"] = os.environ["TRACEFORGE_DB_URI"]
+        if "TRACEFORGE_JWT_SECRET" in os.environ:
+            security_dict["jwt_secret"] = os.environ["TRACEFORGE_JWT_SECRET"]
+        if "TRACEFORGE_SECURITY_ENABLED" in os.environ:
+            security_dict["enabled"] = os.environ["TRACEFORGE_SECURITY_ENABLED"].strip().lower() not in (
+                "0",
+                "false",
+                "no",
+            )
 
         if server_dict:
             result["server"] = server_dict
         if storage_dict:
             result["storage"] = storage_dict
+        if security_dict:
+            result["security"] = security_dict
 
         return result
