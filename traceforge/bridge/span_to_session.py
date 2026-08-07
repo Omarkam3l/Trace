@@ -140,6 +140,13 @@ class SpanToSessionBridge:
 
         for span in spans_by_id.values():
             child_ids = [s.id for s in spans_by_id.values() if s.parent_span_id == span.id]
+            attrs = dict(span.attributes)
+            if span.exception is not None:
+                attrs["exception_type"] = span.exception.type
+                attrs["exception_message"] = span.exception.message
+                if span.exception.stacktrace is not None:
+                    attrs["exception_stacktrace"] = span.exception.stacktrace
+
             nodes[span.id] = ExecutionNode(
                 node_id=span.id,
                 graph_id=trace_id,
@@ -151,7 +158,7 @@ class SpanToSessionBridge:
                 status=_node_status_for(span),
                 parent_id=span.parent_span_id,
                 child_ids=child_ids,
-                metadata=Metadata(attributes=dict(span.attributes)),
+                metadata=Metadata(attributes=attrs),
                 source=SourceType.PYTHON_SDK,
             )
             if span.parent_span_id is not None:

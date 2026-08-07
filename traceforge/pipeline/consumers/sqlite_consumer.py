@@ -83,9 +83,21 @@ class SQLiteIngestConsumer(ExecutionConsumer):
 
         # 2. Node Records
         for node_id, node in graph.nodes.items():
-            inputs_str = json.dumps(node.inputs) if isinstance(node.inputs, dict) else str(node.inputs)
-            outputs_str = json.dumps(node.outputs) if isinstance(node.outputs, dict) else str(node.outputs)
-            metadata_str = json.dumps(node.metadata) if isinstance(node.metadata, dict) else str(node.metadata)
+            inputs_str = (
+                node.inputs.model_dump_json()
+                if hasattr(node.inputs, "model_dump_json")
+                else (json.dumps(node.inputs) if isinstance(node.inputs, dict) else str(node.inputs))
+            )
+            outputs_str = (
+                node.outputs.model_dump_json()
+                if hasattr(node.outputs, "model_dump_json")
+                else (json.dumps(node.outputs) if isinstance(node.outputs, dict) else str(node.outputs))
+            )
+            metadata_str = (
+                node.metadata.model_dump_json()
+                if hasattr(node.metadata, "model_dump_json")
+                else (json.dumps(node.metadata) if isinstance(node.metadata, dict) else str(node.metadata))
+            )
 
             node_rec = NodeRecord(
                 node_id=node.node_id,

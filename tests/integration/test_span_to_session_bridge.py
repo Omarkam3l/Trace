@@ -91,6 +91,18 @@ def test_exception_marks_session_and_activity_as_failed():
     sessions = qe.sessions.list()
     assert sessions[0].status == "failed"
 
+    activities = qe.activities.list_by_session(sessions[0].session_id)
+    nodes = qe.nodes.list_by_graph(activities[0].graph_id)
+    assert len(nodes) == 1
+    failed_node = nodes[0]
+    assert failed_node.status == "failed"
+    import json
+
+    metadata = json.loads(failed_node.metadata_json)
+    attrs = metadata.get("attributes", {})
+    assert attrs.get("exception_type") == "ValueError"
+    assert attrs.get("exception_message") == "boom"
+
 
 def test_recorded_session_is_replayable():
     """The actual point of the bridge: data recorded via the public SDK

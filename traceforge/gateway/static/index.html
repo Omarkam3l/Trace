@@ -129,6 +129,41 @@
 
         .status-dot { width: 8px; height: 8px; background-color: var(--success-green); border-radius: 50%; }
 
+        .live-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.15s ease;
+        }
+
+        .live-toggle.paused {
+            background: rgba(148, 163, 184, 0.1);
+            color: var(--text-secondary);
+            border-color: var(--card-border);
+        }
+
+        .live-pulse {
+            width: 7px;
+            height: 7px;
+            background-color: var(--success-green);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--success-green);
+        }
+
+        .live-toggle.paused .live-pulse {
+            background-color: var(--text-secondary);
+            box-shadow: none;
+        }
+
         .content-container {
             padding: 1.5rem 2rem;
             display: flex;
@@ -186,10 +221,44 @@
             align-items: center;
         }
 
+        /* Search and Filter Controls */
+        .filter-bar {
+            padding: 0.75rem 1.25rem;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(15, 23, 42, 0.4);
+        }
+
+        .filter-input {
+            flex: 1;
+            background-color: #0f172a;
+            border: 1px solid var(--card-border);
+            border-radius: 0.375rem;
+            padding: 0.4rem 0.75rem;
+            color: var(--text-primary);
+            font-size: 0.8rem;
+            outline: none;
+        }
+
+        .filter-input:focus { border-color: var(--accent-cyan); }
+
+        .filter-select {
+            background-color: #0f172a;
+            border: 1px solid var(--card-border);
+            border-radius: 0.375rem;
+            padding: 0.4rem 0.5rem;
+            color: var(--text-primary);
+            font-size: 0.8rem;
+            outline: none;
+            cursor: pointer;
+        }
+
         .session-list {
             overflow-y: auto;
             display: flex;
             flex-direction: column;
+            flex: 1;
         }
 
         .session-card {
@@ -218,6 +287,33 @@
             overflow-y: auto;
         }
 
+        .view-tabs {
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tab-btn {
+            padding: 0.4rem 0.85rem;
+            border-radius: 0.375rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .tab-btn:hover { color: var(--text-primary); background: var(--hover-bg); }
+        .tab-btn.active {
+            background: var(--card-bg);
+            color: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+        }
+
         .span-bar-card {
             background: #0f172a;
             border: 1px solid var(--card-border);
@@ -226,6 +322,11 @@
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
+        }
+
+        .span-bar-card.failed {
+            border-color: rgba(244, 63, 94, 0.4);
+            background: rgba(244, 63, 94, 0.05);
         }
 
         .span-header { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; }
@@ -244,6 +345,10 @@
             border-radius: 4px;
         }
 
+        .progress-fill.failed {
+            background: linear-gradient(90deg, var(--error-red), #e11d48);
+        }
+
         .event-badge {
             display: inline-block;
             font-size: 0.75rem;
@@ -256,14 +361,43 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
+        .event-badge.failed {
+            background: rgba(244, 63, 94, 0.15);
+            color: var(--error-red);
+        }
+
+        /* Error Details Box */
+        .error-banner {
+            background: rgba(244, 63, 94, 0.1);
+            border: 1px solid rgba(244, 63, 94, 0.3);
+            border-radius: 0.5rem;
+            padding: 0.85rem 1rem;
+            margin-top: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .error-title {
+            color: var(--error-red);
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
         .code-block {
             font-family: 'JetBrains Mono', monospace;
             background-color: #090d16;
-            padding: 1rem;
+            padding: 0.85rem;
             border-radius: 0.5rem;
-            font-size: 0.8rem;
-            color: #e2e8f0;
+            font-size: 0.75rem;
+            color: #f8fafc;
             overflow-x: auto;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            border: 1px solid var(--card-border);
         }
     </style>
 </head>
@@ -300,9 +434,15 @@
     <main>
         <header>
             <div class="header-title">Platform Dashboard</div>
-            <div class="status-badge">
-                <div class="status-dot"></div>
-                Gateway v1.0.0 Active
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div class="live-toggle" id="live-toggle-btn" onclick="togglePolling()">
+                    <div class="live-pulse"></div>
+                    <span id="live-toggle-text">Live (3s)</span>
+                </div>
+                <div class="status-badge">
+                    <div class="status-dot"></div>
+                    Gateway v1.0.0 Active
+                </div>
             </div>
         </header>
 
@@ -315,9 +455,9 @@
                     <span class="metric-sub">Active SQLite Driver</span>
                 </div>
                 <div class="metric-card">
-                    <span class="metric-label">Execution Status</span>
-                    <span class="metric-value" style="color: var(--success-green);">COMPLETED</span>
-                    <span class="metric-sub">Zero Failures</span>
+                    <span class="metric-label">Execution Health</span>
+                    <span class="metric-value" id="val-health" style="color: var(--success-green);">--</span>
+                    <span class="metric-sub" id="val-health-sub">Analyzing traces</span>
                 </div>
                 <div class="metric-card">
                     <span class="metric-label">Uptime</span>
@@ -339,6 +479,16 @@
                         <span>Recorded Sessions</span>
                         <span style="font-size: 0.75rem; color: var(--text-secondary);" id="session-count-tag">0 Sessions</span>
                     </div>
+
+                    <div class="filter-bar">
+                        <input type="text" id="search-input" class="filter-input" placeholder="Search by ID or name..." oninput="applyFilters()">
+                        <select id="status-filter" class="filter-select" onchange="applyFilters()">
+                            <option value="all">All</option>
+                            <option value="completed">Completed</option>
+                            <option value="failed">Failed</option>
+                        </select>
+                    </div>
+
                     <div class="session-list" id="sessions-container">
                         <div style="padding: 1.5rem; text-align: center; color: var(--text-secondary);">Loading sessions...</div>
                     </div>
@@ -352,7 +502,7 @@
                     </div>
                     <div class="details-pane" id="details-container">
                         <div style="text-align: center; padding: 3rem; color: var(--text-secondary);">
-                            Select a recorded execution session from the left pane to view full span tree hierarchy, timelines, and events.
+                            Select a recorded execution session from the left pane to view full span tree hierarchy, flamegraphs, and failure diagnostics.
                         </div>
                     </div>
                 </div>
@@ -362,8 +512,14 @@
 
     <script>
         let allSessions = [];
+        let selectedSessionId = null;
+        let activeViewTab = 'tree'; // 'tree' or 'flamegraph'
+        let isPolling = true;
+        let pollingTimer = null;
+        let currentReplayData = null;
+        let currentFlamegraphData = null;
 
-        function loadDashboardData() {
+        function loadDashboardData(silent = false) {
             // 1. Fetch Metrics & Status
             fetch('/api/v1/metrics')
                 .then(r => r.json())
@@ -379,76 +535,174 @@
                 .then(sessions => {
                     allSessions = sessions;
                     document.getElementById('val-sessions').innerText = sessions.length;
-                    document.getElementById('session-count-tag').innerText = sessions.length + ' Sessions';
-                    renderSessionList(sessions);
+                    
+                    const failedCount = sessions.filter(s => s.status === 'failed').length;
+                    const healthVal = document.getElementById('val-health');
+                    const healthSub = document.getElementById('val-health-sub');
+                    if (failedCount > 0) {
+                        healthVal.innerText = `${failedCount} FAILED`;
+                        healthVal.style.color = 'var(--error-red)';
+                        healthSub.innerText = `${sessions.length - failedCount} Completed`;
+                    } else {
+                        healthVal.innerText = '100% HEALTHY';
+                        healthVal.style.color = 'var(--success-green)';
+                        healthSub.innerText = 'Zero Failures';
+                    }
 
-                    if (sessions.length > 0) {
+                    applyFilters(silent);
+
+                    if (sessions.length > 0 && !selectedSessionId) {
                         selectSession(sessions[0].session_id);
                     }
                 })
                 .catch(err => {
-                    document.getElementById('sessions-container').innerHTML =
-                        '<div style="padding: 1.5rem; color: var(--error-red);">No recorded sessions found in database. Run a trace to populate data.</div>';
+                    if (!silent) {
+                        document.getElementById('sessions-container').innerHTML =
+                            '<div style="padding: 1.5rem; color: var(--error-red);">No recorded sessions found in database. Run a trace to populate data.</div>';
+                    }
                 });
         }
 
-        function renderSessionList(sessions) {
+        function togglePolling() {
+            isPolling = !isPolling;
+            const btn = document.getElementById('live-toggle-btn');
+            const text = document.getElementById('live-toggle-text');
+            if (isPolling) {
+                btn.classList.remove('paused');
+                text.innerText = 'Live (3s)';
+                startPolling();
+            } else {
+                btn.classList.add('paused');
+                text.innerText = 'Paused';
+                stopPolling();
+            }
+        }
+
+        function startPolling() {
+            stopPolling();
+            pollingTimer = setInterval(() => {
+                if (isPolling) {
+                    loadDashboardData(true);
+                    if (selectedSessionId) {
+                        fetchSessionDetails(selectedSessionId, true);
+                    }
+                }
+            }, 3000);
+        }
+
+        function stopPolling() {
+            if (pollingTimer) {
+                clearInterval(pollingTimer);
+                pollingTimer = null;
+            }
+        }
+
+        function applyFilters(silent = false) {
+            const searchQuery = (document.getElementById('search-input').value || '').toLowerCase().trim();
+            const statusFilter = document.getElementById('status-filter').value;
+
+            const filtered = allSessions.filter(s => {
+                const matchesSearch = !searchQuery ||
+                    (s.session_id && s.session_id.toLowerCase().includes(searchQuery)) ||
+                    (s.name && s.name.toLowerCase().includes(searchQuery));
+                
+                const matchesStatus = statusFilter === 'all' ||
+                    (s.status && s.status.toLowerCase() === statusFilter);
+
+                return matchesSearch && matchesStatus;
+            });
+
+            document.getElementById('session-count-tag').innerText = `${filtered.length} of ${allSessions.length} Sessions`;
+            renderSessionList(filtered, silent);
+        }
+
+        function renderSessionList(sessions, silent = false) {
             const container = document.getElementById('sessions-container');
+            const currentScroll = container.scrollTop;
+
             if (!sessions || sessions.length === 0) {
-                container.innerHTML = '<div style="padding: 1.5rem; text-align: center; color: var(--text-secondary);">No sessions recorded.</div>';
+                container.innerHTML = '<div style="padding: 1.5rem; text-align: center; color: var(--text-secondary);">No matching sessions found.</div>';
                 return;
             }
 
-            container.innerHTML = sessions.map((s, idx) => `
-                <div class="session-card ${idx === 0 ? 'selected' : ''}" onclick="selectSession('${s.session_id}')" id="card-${s.session_id}">
-                    <div class="session-title">⚡ ${s.name || s.session_id}</div>
-                    <div class="session-meta">
-                        <span>ID: ${s.session_id.substring(0, 14)}...</span>
-                        <span style="color: var(--success-green); font-weight: 600;">${s.status}</span>
+            container.innerHTML = sessions.map(s => {
+                const isSelected = s.session_id === selectedSessionId;
+                const isFailed = s.status === 'failed';
+                const statusColor = isFailed ? 'var(--error-red)' : 'var(--success-green)';
+                return `
+                    <div class="session-card ${isSelected ? 'selected' : ''}" onclick="selectSession('${s.session_id}')" id="card-${s.session_id}">
+                        <div class="session-title">⚡ ${s.name || s.session_id}</div>
+                        <div class="session-meta">
+                            <span>ID: ${s.session_id.substring(0, 14)}...</span>
+                            <span style="color: ${statusColor}; font-weight: 600;">${s.status}</span>
+                        </div>
+                        <div class="session-meta">
+                            <span>Duration: ${s.duration_ms ? s.duration_ms.toFixed(2) + 'ms' : 'N/A'}</span>
+                            <span>${s.environment_os || 'OS'}</span>
+                        </div>
                     </div>
-                    <div class="session-meta">
-                        <span>Duration: ${s.duration_ms ? s.duration_ms.toFixed(2) + 'ms' : 'N/A'}</span>
-                        <span>${s.environment_os || 'OS'}</span>
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
+
+            container.scrollTop = currentScroll;
         }
 
         function selectSession(sessionId) {
+            selectedSessionId = sessionId;
             document.querySelectorAll('.session-card').forEach(c => c.classList.remove('selected'));
             const card = document.getElementById('card-' + sessionId);
             if (card) card.classList.add('selected');
 
             document.getElementById('detail-title').innerText = 'Session: ' + sessionId;
 
-            // Fetch Replay
-            fetch(`/api/v1/sessions/${sessionId}/replay`)
-                .then(r => r.json())
-                .then(data => {
-                    renderSessionDetails(data);
-                })
-                .catch(err => {
-                    document.getElementById('details-container').innerHTML = `
-                        <div class="code-block">
-                            // Session Replay Summary for ${sessionId}
-                            Status: ACTIVE / RECORDED
-                            Nodes Captured: Replay ready
-                        </div>
-                    `;
-                });
+            fetchSessionDetails(sessionId, false);
         }
 
-        function renderSessionDetails(replay) {
+        function fetchSessionDetails(sessionId, silent = false) {
+            // Fetch Replay and Flamegraph concurrently
+            Promise.all([
+                fetch(`/api/v1/sessions/${sessionId}/replay`).then(r => r.json()),
+                fetch(`/api/v1/sessions/${sessionId}/visualization/flamegraph`).then(r => r.json()).catch(() => ({ root: null }))
+            ]).then(([replay, flamegraph]) => {
+                currentReplayData = replay;
+                currentFlamegraphData = flamegraph;
+                renderSessionDetails();
+            }).catch(err => {
+                if (!silent) {
+                    document.getElementById('details-container').innerHTML = `
+                        <div class="code-block">
+                            // Failed to load details for session ${sessionId}
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        function switchViewTab(tab) {
+            activeViewTab = tab;
+            renderSessionDetails();
+        }
+
+        function renderSessionDetails() {
+            if (!currentReplayData) return;
+
             const container = document.getElementById('details-container');
-            const session = replay.session || {};
-            const nodes = replay.nodes || [];
-            const timeline = replay.timeline || [];
+            const session = currentReplayData.session || {};
+            const nodes = currentReplayData.nodes || [];
+            const timeline = currentReplayData.timeline || [];
+            const isFailed = session.status === 'failed';
+
+            const statusBadge = document.getElementById('detail-status-badge');
+            statusBadge.innerText = session.status || 'OK';
+            statusBadge.style.backgroundColor = isFailed ? 'rgba(244, 63, 94, 0.15)' : 'rgba(74, 222, 128, 0.1)';
+            statusBadge.style.color = isFailed ? 'var(--error-red)' : 'var(--success-green)';
+            statusBadge.style.borderColor = isFailed ? 'rgba(244, 63, 94, 0.3)' : 'rgba(74, 222, 128, 0.2)';
 
             let html = `
                 <div class="metric-card" style="background-color: #0f172a;">
                     <div class="session-meta">
                         <span><strong>Session ID:</strong> ${session.session_id || 'N/A'}</span>
-                        <span><strong>Status:</strong> <span style="color: var(--success-green);">${session.status || 'OK'}</span></span>
+                        <span><strong>Status:</strong> <span style="color: ${isFailed ? 'var(--error-red)' : 'var(--success-green)'};">${session.status || 'OK'}</span></span>
                     </div>
                     <div class="session-meta" style="margin-top: 0.5rem;">
                         <span><strong>Started:</strong> ${session.started_at || 'N/A'}</span>
@@ -456,43 +710,151 @@
                     </div>
                 </div>
 
-                <h4 style="color: var(--accent-cyan); margin-top: 0.5rem;">Execution Tree & Spans (${nodes.length} Nodes)</h4>
+                <div class="view-tabs">
+                    <button class="tab-btn ${activeViewTab === 'tree' ? 'active' : ''}" onclick="switchViewTab('tree')">
+                        🌳 Execution Tree & Spans (${nodes.length})
+                    </button>
+                    <button class="tab-btn ${activeViewTab === 'flamegraph' ? 'active' : ''}" onclick="switchViewTab('flamegraph')">
+                        🔥 Flamegraph View
+                    </button>
+                </div>
             `;
+
+            if (activeViewTab === 'flamegraph') {
+                html += renderFlamegraphView(currentFlamegraphData ? currentFlamegraphData.root : null);
+            } else {
+                html += renderExecutionTree(nodes, timeline);
+            }
+
+            container.innerHTML = html;
+        }
+
+        function renderExecutionTree(nodes, timeline) {
+            let html = '';
 
             if (nodes.length === 0) {
                 html += '<div style="color: var(--text-secondary);">No nodes in execution graph.</div>';
             } else {
                 nodes.forEach(node => {
+                    const nodeFailed = node.status === 'failed';
+
+                    let excType = null;
+                    let excMsg = null;
+                    let excStack = null;
+
+                    if (node.metadata_json) {
+                        try {
+                            const parsedMeta = JSON.parse(node.metadata_json);
+                            const attrs = parsedMeta.attributes || {};
+                            excType = attrs.exception_type;
+                            excMsg = attrs.exception_message;
+                            excStack = attrs.exception_stacktrace;
+                        } catch (e) {}
+                    }
+
                     html += `
-                        <div class="span-bar-card">
+                        <div class="span-bar-card ${nodeFailed ? 'failed' : ''}">
                             <div class="span-header">
-                                <span>🔹 ${node.name || node.node_id}</span>
-                                <span style="color: var(--accent-cyan);">${node.duration_ms ? node.duration_ms.toFixed(2) + 'ms' : '0.42ms'}</span>
+                                <span>${nodeFailed ? '❌' : '🔹'} ${node.name || node.node_id}</span>
+                                <span style="color: ${nodeFailed ? 'var(--error-red)' : 'var(--accent-cyan)'};">
+                                    ${node.duration_ms ? node.duration_ms.toFixed(2) + 'ms' : '0.42ms'}
+                                </span>
                             </div>
                             <div class="progress-bg">
-                                <div class="progress-fill" style="width: ${Math.min(100, Math.max(15, (node.duration_ms || 1) * 10))}%"></div>
+                                <div class="progress-fill ${nodeFailed ? 'failed' : ''}" style="width: ${Math.min(100, Math.max(15, (node.duration_ms || 1) * 10))}%"></div>
                             </div>
                             <div>
-                                <span class="event-badge">Status: ${node.status || 'OK'}</span>
+                                <span class="event-badge ${nodeFailed ? 'failed' : ''}">Status: ${node.status || 'OK'}</span>
                                 <span class="event-badge">Parent: ${node.parent_id || 'Root'}</span>
                             </div>
+
+                            ${(nodeFailed || excMsg) ? `
+                                <div class="error-banner">
+                                    <div class="error-title">
+                                        <span>⚠️ ${excType || 'Error'}:</span>
+                                        <span>${excMsg || 'Execution Failed'}</span>
+                                    </div>
+                                    ${excStack ? `
+                                        <details style="margin-top: 0.3rem;">
+                                            <summary style="cursor: pointer; color: var(--text-secondary); font-size: 0.75rem; font-weight: 500;">
+                                                View Stacktrace
+                                            </summary>
+                                            <pre class="code-block" style="margin-top: 0.5rem; color: #f43f5e;">${excStack}</pre>
+                                        </details>
+                                    ` : ''}
+                                </div>
+                            ` : ''}
                         </div>
                     `;
                 });
             }
 
             if (timeline.length > 0) {
-                html += '<h4 style="color: var(--accent-cyan); margin-top: 0.5rem;">Structured Timeline Events</h4><div>';
+                html += '<h4 style="color: var(--accent-cyan); margin-top: 0.75rem;">Structured Timeline Events</h4><div>';
                 timeline.forEach(evt => {
                     html += `<span class="event-badge">📌 ${evt.name || evt.type} (${evt.timestamp || 'now'})</span>`;
                 });
                 html += '</div>';
             }
 
-            container.innerHTML = html;
+            return html;
         }
 
-        window.onload = loadDashboardData;
+        function renderFlamegraphView(rootSpan) {
+            if (!rootSpan) {
+                return '<div style="color: var(--text-secondary); padding: 1.5rem; text-align: center;">No flamegraph data available for this session.</div>';
+            }
+
+            const totalDuration = rootSpan.value || 1;
+            const levels = [];
+
+            function traverse(node, depth, leftOffsetPct, widthPct) {
+                if (!levels[depth]) levels[depth] = [];
+                levels[depth].push({
+                    name: node.name,
+                    value: node.value,
+                    leftPct: leftOffsetPct,
+                    widthPct: widthPct
+                });
+
+                let currentLeft = leftOffsetPct;
+                const children = node.children || [];
+                const nodeVal = node.value || 1;
+                children.forEach(child => {
+                    const childWidth = (child.value / nodeVal) * widthPct;
+                    traverse(child, depth + 1, currentLeft, childWidth);
+                    currentLeft += childWidth;
+                });
+            }
+
+            traverse(rootSpan, 0, 0, 100);
+
+            const colors = ['#38bdf8', '#818cf8', '#3b82f6', '#0284c7', '#6366f1', '#06b6d4'];
+            let html = '<div style="display: flex; flex-direction: column; gap: 6px; padding: 1rem; background: #090d16; border-radius: 0.5rem; border: 1px solid var(--card-border); overflow-x: auto;">';
+
+            levels.forEach((level, depth) => {
+                html += `<div style="position: relative; height: 32px; width: 100%; min-width: 500px; background: rgba(255,255,255,0.02); border-radius: 4px;">`;
+                level.forEach((block, idx) => {
+                    const color = colors[(depth + idx) % colors.length];
+                    const displayWidth = Math.max(block.widthPct, 0.5);
+                    html += `
+                        <div title="${block.name}: ${block.value.toFixed(2)} ms" 
+                             style="position: absolute; left: ${block.leftPct}%; width: ${displayWidth}%; height: 100%; background: ${color}; border-radius: 4px; border: 1px solid rgba(0,0,0,0.3); color: #0f172a; font-weight: 600; font-size: 0.75rem; padding: 6px 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; box-shadow: 0 1px 3px rgba(0,0,0,0.3);">
+                            ${block.name} (${block.value.toFixed(2)}ms)
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            });
+
+            html += '</div>';
+            return html;
+        }
+
+        window.onload = function() {
+            loadDashboardData(false);
+            startPolling();
+        };
     </script>
 </body>
 </html>
