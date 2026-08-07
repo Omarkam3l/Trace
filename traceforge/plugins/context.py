@@ -18,6 +18,26 @@ class PluginContext:
         config: dict[str, Any] | None = None,
         logger: Any = None,
     ) -> None:
+        if not hasattr(recorder, "emit"):
+            # traceforge has two unrelated classes both named "Recorder":
+            #   - traceforge.Recorder (public, documented in the README) --
+            #     hooks into Tracer via on_span_start/on_span_end, has no
+            #     .emit(). This is what most users reach for.
+            #   - traceforge.engine.recorder.Recorder (internal, used by the
+            #     plugin system) -- has .emit(raw_event) and is what
+            #     PluginContext actually needs.
+            # Passing the public one here used to fail three calls later,
+            # deep inside a plugin, with a bare
+            # "AttributeError: 'Recorder' object has no attribute 'emit'".
+            # Fail here instead, with enough context to fix it immediately.
+            raise TypeError(
+                f"PluginContext requires a recorder with an .emit() method, "
+                f"but got {type(recorder).__module__}.{type(recorder).__qualname__}, "
+                "which has none. If you constructed this with `traceforge.Recorder(...)`, "
+                "that is the public span-recording Recorder and is not compatible with "
+                "the plugin system. Use `traceforge.engine.recorder.Recorder` instead "
+                "when wiring up PluginContext/PluginManager."
+            )
         self._recorder = recorder
         self._config = dict(config or {})
         self._logger = logger

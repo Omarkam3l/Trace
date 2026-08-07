@@ -18,6 +18,19 @@ class PluginManager:
     """Orchestrates plugin registration, lifecycle, and failure isolation."""
 
     def __init__(self, recorder: Recorder) -> None:
+        if not hasattr(recorder, "emit"):
+            # Same public-vs-internal Recorder mismatch as PluginContext (see
+            # traceforge/plugins/context.py). Left unguarded, this doesn't
+            # even crash here -- it silently breaks failure reporting later,
+            # since _emit_plugin_failure swallows all exceptions from
+            # self._recorder.emit(...) by design (failure-isolation
+            # guarantee). Fail loudly now instead of silently later.
+            raise TypeError(
+                f"PluginManager requires a recorder with an .emit() method, "
+                f"but got {type(recorder).__module__}.{type(recorder).__qualname__}, "
+                "which has none. Use `traceforge.engine.recorder.Recorder`, not the "
+                "public `traceforge.Recorder`, when constructing a PluginManager."
+            )
         self._recorder = recorder
         self._registry = PluginRegistry()
         self._lock = threading.RLock()
